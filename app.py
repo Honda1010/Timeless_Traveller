@@ -65,6 +65,7 @@ app.config['MAIL_PASSWORD'] = 'your-email-password'
 mail = Mail(app)
 
 @app.route("/")
+login_required()
 def homepage(): #main-page
     return render_template("home.html", pagetitle="Homepage") # Loading the HTML page
 
@@ -84,6 +85,75 @@ def login():
             flash('Invalid email or password')
     
     return render_template("login.html", pagetitle="login") # Loading the HTML page
+
+global reset_pass_email
+@app.route("/forget_password",methods=['POST','GET'])
+def forget_pass():
+        if request.method=="POST":
+            email_req=request.form.get('email_address')
+            email_found=User.query.filter_by(email_address=email_req).first()
+
+            if email_found:
+                reset_pass_email=email_req
+                return redirect(url_for('code'))
+
+            else:
+                flash('Invalid email')
+
+        return render_template("forget_password.html",pagetitle="Forget Password")
+
+global vref_codes=[]
+global flag
+global rand_code_global
+
+def generate_code()
+    rand_code=random.randint(100000,900000)
+    while rand_code in vref_codes:
+        rand_code=random.randint(100000,900000)
+    vref_codes.append(rand_code)
+    rand_code_global=rand_code
+
+@app.route("/code",methods=['POST','GET'])
+def verify_code():
+    flag=1
+    send_email_smtplib(rand_code_global,flag,reset_pass_email)
+    if 'attempts' not in session:
+        session['attempts']=0
+
+    if request.method=="POST":
+        code_req=request.form.get('code')
+        code_found=User.query.filter_by(verification_token=code_req).first()
+
+        if code_found:
+            session['attempts']=0
+            return redirect(url_for('reset_password'))
+
+        else:
+            flash('try again')
+            send_email_smtplib(vref_codes,flag)
+            session['attempts']+=1
+
+            if session['attempts']==3
+            flag=0
+                flash('Invalid code')
+
+    return render_template("login.html",pagetitle="Login")
+
+
+@app.route("/reset_password",methods=['POST','GET'])
+def update_pass():
+    if request.method=="POST":
+        new_pass=request.form.get('new_pass')
+        verf_pass=request.form.get('verf_pass')
+    
+    if new_pass=verf_pass:
+        User.password=new_pass
+
+    else
+        flash('Unmatched password')
+        retrun redirect(url_for('reset_password'))    
+
+    return render_template("login.html",pagetitle="Login")
 
 
 @app.route("/registration", methods=['POST', 'GET'])

@@ -133,6 +133,7 @@ def verify_code():
         session['attempts']=0
 
     if request.method=="POST":
+        
         code_req=request.form.get('code')
         code_found=User.query.filter_by(verification_token=code_req).first()
 

@@ -36,7 +36,7 @@ login_manager.login_view='login' #specify the name of the view function (or the 
 def load_user(user_id):
     user=user.query.get(str(user_id))
     return user
-
+##
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -77,7 +77,6 @@ app.config['MAIL_PASSWORD'] = 'your-email-password'
 mail = Mail(app)
 
 @app.route("/")
-login_required()
 def homepage(): #main-page
     return render_template("home.html", pagetitle="Homepage") # Loading the HTML page
 
@@ -114,11 +113,14 @@ def forget_pass():
 
         return render_template("forget_password.html",pagetitle="Forget Password")
 
-global vref_codes=[]
-global flag
-global rand_code_global
+flag=False
+rand_code_global=0
 
-def generate_code()
+def generate_code():
+
+    global flag
+    global rand_code_global
+    vref_codes=[]
     rand_code=random.randint(100000,900000)
     while rand_code in vref_codes:
         rand_code=random.randint(100000,900000)
@@ -127,6 +129,9 @@ def generate_code()
 
 @app.route("/code",methods=['POST','GET'])
 def verify_code():
+    global flag
+    global rand_code_global
+
     flag=1
     send_email_smtplib(rand_code_global,flag,reset_pass_email)
     if 'attempts' not in session:
@@ -146,8 +151,8 @@ def verify_code():
             send_email_smtplib(vref_codes,flag)
             session['attempts']+=1
 
-            if session['attempts']==3
-            flag=0
+            if session['attempts']==3:
+                flag=0
                 flash('Invalid code')
 
     return render_template("login.html",pagetitle="Login")
@@ -155,16 +160,18 @@ def verify_code():
 
 @app.route("/reset_password",methods=['POST','GET'])
 def update_pass():
+    verf_pass=""
+    new_pass=""
     if request.method=="POST":
         new_pass=request.form.get('new_pass')
         verf_pass=request.form.get('verf_pass')
     
-    if new_pass=verf_pass:
+    if new_pass == verf_pass:
         User.password=new_pass
 
-    else
+    else:
         flash('Unmatched password')
-        retrun redirect(url_for('reset_password'))    
+        redirect(url_for('reset_password'))    
 
     return render_template("login.html",pagetitle="Login")
 

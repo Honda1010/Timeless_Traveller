@@ -36,7 +36,7 @@ login_manager.login_view='login' #specify the name of the view function (or the 
 def load_user(user_id):
     user=user.query.get(str(user_id))
     return user
-
+##
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

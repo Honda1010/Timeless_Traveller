@@ -97,9 +97,10 @@ def login():
     
     return render_template("login.html", pagetitle="login") # Loading the HTML page
 
-global reset_pass_email
+reset_pass_email=""
 @app.route("/forget_password",methods=['POST','GET'])
 def forget_pass():
+        global reset_pass_email
         if request.method=="POST":
             email_req=request.form.get('email_address')
             email_found=User.query.filter_by(email_address=email_req).first()

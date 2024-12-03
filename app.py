@@ -5,6 +5,11 @@ from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import  login_user, logout_user,login_manager, LoginManager 
 from flask_login import login_required, current_user
 from flask_mail import Mail, Message
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import hashlib
+import time
 from werkzeug.security import generate_password_hash
 from email_validator import validate_email, EmailNotValidError
 import secrets
@@ -40,7 +45,7 @@ def load_user(user_id):
 
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/tl_traveller' # username: root, password: blank, database_name: hms
+app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/tl-traveller' # username: root, password: blank, database_name: hms
 db=SQLAlchemy(app) #creating object(Database) of class SQLALCHEMY
 migrate = Migrate(app, db)
 # flask db init
@@ -223,5 +228,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    #db.create_all()  # Ensure the database is set up
-    app.run(debug=True, port=5000)  
+    # db.create_all()  # Ensure the database is set up
+    app.run(debug=True, port=5000)

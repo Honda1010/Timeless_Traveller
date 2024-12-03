@@ -20,15 +20,15 @@
                 <p class="text-zinc-50 text-lg">Welcome to Timeless Traveller</p>
                 <!-- <p class="text-zinc-50 text-lg inline-block">Your gateway to unforgettable adventure</p> -->
                 <!-- Form container -->
-                <form action="" class="space-y-5" method="post">
+                <form action="login" class="space-y-5" method="post">
                     <!-- Email field -->
                     <div class="relative">
                         <div
                             class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
-                        <input type="email" placeholder="Email Address"
-                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 ">
+                        <input type="email" placeholder="Email Address" name="email"
+                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 " required>
                     </div>
                     <!-- Password field -->
                     <div class="relative">
@@ -36,11 +36,11 @@
                             class="absolute top-1 left-1  bg-white-medium flex p-2 rounded-full items-center justify-center">
                             <i class="fa-solid fa-lock"></i>
                         </div>
-                        <input type="password" placeholder="Password "
-                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 ">
+                        <input type="password" placeholder="Password " name="password"
+                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 " required>
                     </div>
                     <!-- login button -->
-                    <button
+                    <button type="submit"
                         class="bg-gradient-to-r from-white to-sunset font-semibold w-80 rounded-full py-2 hover:bg-gradient-to-r hover:from-white-medium hover:to-red-600">login
                     </button>
             </div>
@@ -59,6 +59,17 @@
         </div>
     </section>
     <script src="../script/main.js"></script>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
 </body>
 
 </html>

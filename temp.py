@@ -18,7 +18,6 @@ import smtplib
 from email.message import EmailMessage
 # import secrets
 import string
-from flask_migrate import Migrate
 # import json
 ##
 ###############------------##################
@@ -37,15 +36,8 @@ def load_user(user_id):
     user=user.query.get(str(user_id))
     return user
 
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/hnn' # username: root, password: blank, database_name: hms
-db=SQLAlchemy(app) #creating object(Database) of class SQLALCHEMY
-migrate = Migrate(app, db)
-# flask db init
-# flask db migrate -m "Initial migration."
-# flask db upgrade
+app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/tl_traveller' # username: root, password: blank, database_name: hms
+db=SQLAlchemy(app)
 
 ##---------------------------------------------##
 #ORM : Tables
@@ -63,10 +55,6 @@ class User(UserMixin,db.Model):
     def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
                       #and that it's consistent with how your application retrieves users in the user loader callback.
         return str(self.user_id)
-
-with app.app_context():
-    db.create_all()
-
 ##----------------------------------------------##
 
 app.config['MAIL_SERVER'] = 'smtp.example.com'

@@ -118,6 +118,7 @@ rand_code_global=0
 
 def generate_code():
 
+
     global flag
     global rand_code_global
     vref_codes=[]

@@ -118,12 +118,12 @@ def verify_account(token):
             user.verified = True
             user.verification_token = token
             db.session.commit()
-            return "Your account has been successfully verified!"
+            return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Your account has been successfully verified", redirect_message = url_for("home"))
         else:
             del tokens[token]  # Token expired, remove it
-            return "Token expired."
+            return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Token Expired!", redirect_message = url_for("login"))
     else:
-        return "Invalid or expired token."
+        return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Invalid or expired Token!", redirect_message = url_for("login"))
 
 @app.route("/registration", methods=['POST', 'GET'])
 def registration():
@@ -165,7 +165,7 @@ def registration():
 def home(): #main-page
     return redirect(url_for('login')) # Loading the HTML page
 
-@app.route("/",methods=['POST','GET'])
+@app.route("/login",methods=['POST','GET'])
 def login():
     if request.method=="POST":
         email_ret=request.form.get('email_address')

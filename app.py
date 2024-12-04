@@ -37,6 +37,7 @@ login_manager.login_view='login' #specify the name of the view function (or the 
                                  # ,to access a route or a resource that requires the user to be logged in.. 
                                  # ,Flask-Login automatically redirects the user to the URL associated with the view function specified in login_manager.login_view.
 
+
 @login_manager.user_loader
 def load_user(user_id):
     user=user.query.get(str(user_id))

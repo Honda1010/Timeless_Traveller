@@ -37,6 +37,7 @@ login_manager.login_view='login' #specify the name of the view function (or the 
                                  # ,to access a route or a resource that requires the user to be logged in.. 
                                  # ,Flask-Login automatically redirects the user to the URL associated with the view function specified in login_manager.login_view.
 
+
 @login_manager.user_loader
 def load_user(user_id):
     user=user.query.get(str(user_id))
@@ -69,8 +70,8 @@ class User(UserMixin,db.Model):
                       #and that it's consistent with how your application retrieves users in the user loader callback.
         return str(self.user_id)
 
-with app.app_context():
-    db.create_all()
+# with app.app_context():
+#     db.create_all()
 
 ##----------------------------------------------##
 
@@ -82,11 +83,11 @@ app.config['MAIL_PASSWORD'] = 'your-email-password'
 mail = Mail(app)
 
 @app.route("/")
-def homepage(): #main-page
-    return render_template("home.html", pagetitle="Homepage") # Loading the HTML page
+# def home(): #main-page
+#     return render_template("login.html", pagetitle="Homepage") # Loading the HTML page
 
 
-@app.route("/login",methods=['POST','GET'])
+# @app.route("/login",methods=['POST','GET'])
 def login():
     if request.method=="POST":
         email_ret=request.form.get('email_address')

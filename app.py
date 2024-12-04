@@ -187,6 +187,7 @@ def login():
         
     return render_template("login.html", pagetitle="login") # Loading the HTML page
 
+
 reset_pass_email=""
 @app.route("/forget_password",methods=['POST','GET'])
 def forget_pass():

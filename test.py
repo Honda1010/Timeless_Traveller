@@ -35,4 +35,4 @@ def send_email(x, verify, recipient_email):
     except Exception as e:
         print(f"Failed to send email: {str(e)}")
 
-send_email("1234", False, "youssifmo0310@gmail.com")
+send_email("1234", True, "youssifmo0310@gmail.com")

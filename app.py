@@ -39,18 +39,19 @@ login_manager.login_view='login' #specify the name of the view function (or the 
 
 @login_manager.user_loader
 def load_user(user_id):
-    user=user.query.get(str(user_id))
+    user=User.query.get(str(user_id))
     return user
 ##
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'
+##
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/tl-traveller' # username: root, password: blank, database_name: hms
+app.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/tl_traveller' # username: root, password: blank, database_name: hms
 db=SQLAlchemy(app) #creating object(Database) of class SQLALCHEMY
 migrate = Migrate(app, db)
 # flask db init
 # flask db migrate -m "Initial migration."
 # flask db upgrade
+
 
 ##---------------------------------------------##
 #ORM : Tables
@@ -62,7 +63,7 @@ class User(UserMixin,db.Model):
     email_address=db.Column(db.String(50), unique=True)
     password=db.Column(db.String(50))
     phone=db.column(db.String(50))
-    verified = db.Column(db.Boolean, default=False)  # Email verification status
+    verified = db.Column(db.Integer, default=0)  # Email verification status
     verification_token = db.Column(db.String(64), default=lambda: secrets.token_hex(32))
 
     def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
@@ -74,32 +75,116 @@ class User(UserMixin,db.Model):
 
 ##----------------------------------------------##
 
-app.config['MAIL_SERVER'] = 'smtp.example.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'youssifmo0310@gmail.com@example.com'
-app.config['MAIL_PASSWORD'] = 'your-email-password'
-mail = Mail(app)
+tokens = {}
+
+def generate_token(user_email): 
+    global tokens
+    token = hashlib.md5((user_email + str(time.time())).encode()).hexdigest() #unique token for each user hashed
+    tokens[token] = {"email": user_email, "timestamp": time.time()} #store tokens in a map
+    return token
+
+def send_email(x, verify, recipient_email):
+    sender_email = "moustafaalaa30@gmail.com"
+    sender_password = "ycdknfumtdszsgzn"   
+    if verify == True:
+        subject = "Account Verification"
+        token = generate_token(recipient_email)
+        verification_url = f"http://127.0.0.1:5000/verify/{token}"
+        body = f"Please click the following link to verify your account:\n\n{verification_url}"
+    else:
+        subject = "Password Reset"
+        body = f"Please use the following code:\n\n{str(x)}"
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = recipient_email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
+    try:
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()  
+            server.login(sender_email, sender_password)
+            server.send_message(msg)  
+            flash('Email sent successfully!')
+    except Exception as e:
+        flash(f'Failed to send email: {str(e)}')
+
+@app.route('/verify/<token>')
+def verify_account(token):
+    global tokens
+    token_data = tokens.get(token)
+    if token_data:
+        if time.time() - token_data["timestamp"] < 3600:
+            user = User.query.filter_by(email_address = tokens[token]["email"]).first()
+            user.verified = True
+            user.verification_token = token
+            db.session.commit()
+            return "Your account has been successfully verified!"
+        else:
+            del tokens[token]  # Token expired, remove it
+            return "Token expired."
+    else:
+        return "Invalid or expired token."
+
+@app.route("/registration", methods=['POST', 'GET'])
+def registration():
+    if request.method == "POST":
+        first_name = request.form.get('first_name')
+        second_name = request.form.get('second_name')
+        phone_number = request.form.get('phone_number')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        # Email validation
+        try:
+            valid = validate_email(email)
+            email = valid.email  
+        except EmailNotValidError as e:
+            flash(f"Invalid email: {str(e)}", "error")
+            return redirect(url_for('registration'))
+        user_exist = User.query.filter_by(email_address=email).first()
+        if user_exist is None:
+            hashed_password =password #generate_password_hash(password, method='sha256')
+            new_user = User(
+                first_name=first_name,
+                second_name=second_name,
+                phone=phone_number,
+                email_address=email,
+                password=hashed_password,
+                verified = False,
+                verification_token = 0
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            send_email(1,True,email)
+            flash("Registration successful. Please log in.", "success")
+            return redirect(url_for('login'))
+        else:
+            flash("Email already exists. Please log in.", "error")
+    return render_template("registration.html", pagetitle="Registration")
 
 @app.route("/")
-# def home(): #main-page
-#     return render_template("login.html", pagetitle="Homepage") # Loading the HTML page
+def home(): #main-page
+    return redirect(url_for('login')) # Loading the HTML page
 
-
-# @app.route("/login",methods=['POST','GET'])
+@app.route("/",methods=['POST','GET'])
 def login():
     if request.method=="POST":
         email_ret=request.form.get('email_address')
         pass_ret=request.form.get('password')
         email_found=User.query.filter_by(email_address=email_ret).first()
-
+        
         if email_found and email_found.password==pass_ret:
-            login_user(email_found)
-            return redirect(url_for('/'))
+            if email_found.verified==0:
+                send_email(123,True,email_ret)
+                flash('unverified email an verification email will be sent')
+
+            else:
+                login_user(email_found)
+                return redirect(url_for('registration'))
+                
 
         else:
             flash('Invalid email or password')
-    
+        
     return render_template("login.html", pagetitle="login") # Loading the HTML page
 
 reset_pass_email=""
@@ -123,8 +208,6 @@ flag=False
 rand_code_global=0
 
 def generate_code():
-
-
     global flag
     global rand_code_global
     vref_codes=[]
@@ -140,7 +223,7 @@ def verify_code():
     global rand_code_global
 
     flag=1
-    send_email_smtplib(rand_code_global,flag,reset_pass_email)
+    send_email(rand_code_global,flag,reset_pass_email)
     if 'attempts' not in session:
         session['attempts']=0
 
@@ -155,7 +238,7 @@ def verify_code():
 
         else:
             flash('try again')
-            send_email_smtplib(vref_codes,flag)
+            send_email(rand_code_global, flag, reset_pass_email)
             session['attempts']+=1
 
             if session['attempts']==3:
@@ -181,45 +264,6 @@ def update_pass():
         redirect(url_for('reset_password'))    
 
     return render_template("login.html",pagetitle="Login")
-
-
-@app.route("/registration", methods=['POST', 'GET'])
-def registration():
-    if request.method == "POST":
-        first_name = request.form.get('first_name')
-        second_name = request.form.get('second_name')
-        phone_number = request.form.get('phone_number')
-        email = request.form.get('email').lower()  # Normalize email
-        password = request.form.get('password')
-
-        # Email validation
-        try:
-            valid = validate_email(email)
-            email = valid.email  
-        except EmailNotValidError as e:
-            flash(f"Invalid email: {str(e)}", "error")
-            return redirect(url_for('registration'))
-
-        user_exist = User.query.filter_by(email_address=email).first()
-        if user_exist is None:
-            hashed_password = password #generate_password_hash(password, method='sha256')
-            new_user = User(
-                first_name=first_name,
-                second_name=second_name,
-                phone=phone_number,
-                email_address=email,
-                password=hashed_password
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            send_verification_email(new_user)
-            flash("Registration successful. Please log in.", "success")
-            return redirect(url_for('login'))
-        else:
-            flash("Email already exists. Please log in.", "error")
-            return redirect(url_for('login'))
-
-    return render_template("registration.html", pagetitle="Registration")
     
 @app.route('/logout')
 def logout():

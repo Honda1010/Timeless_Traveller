@@ -160,9 +160,10 @@ def registration():
             flash("Email already exists. Please log in.", "error")
     return render_template("registration.html", pagetitle="Registration")
 
-@app.route("/")
+# @app.route("/")
 # def home(): #main-page
 #     return render_template("login.html", pagetitle="Homepage") # Loading the HTML page
+
 
 @app.route("/login",methods=['POST','GET'])
 def login():

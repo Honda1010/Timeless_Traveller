@@ -165,7 +165,7 @@ def registration():
 # def home(): #main-page
 #     return render_template("login.html", pagetitle="Homepage") # Loading the HTML page
 
-@app.route("/login",methods=['POST','GET'])
+@app.route("/",methods=['POST','GET'])
 def login():
     if request.method=="POST":
         email_ret=request.form.get('email_address')

@@ -28,7 +28,8 @@
                             <i class="fa-solid fa-envelope"></i>
                         </div>
                         <input type="email" placeholder="Email Address" name="email"
-                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 " required>
+                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                            required>
                     </div>
                     <!-- Password field -->
                     <div class="relative">
@@ -37,7 +38,8 @@
                             <i class="fa-solid fa-lock"></i>
                         </div>
                         <input type="password" placeholder="Password " name="password"
-                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 " required>
+                            class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                            required>
                     </div>
                     <!-- login button -->
                     <button type="submit"
@@ -61,13 +63,13 @@
     <script src="../script/main.js"></script>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+    {% if messages %}
+    <ul>
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     {% endwith %}
 
 </body>

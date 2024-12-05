@@ -77,6 +77,19 @@ class User(UserMixin,db.Model):
 
 tokens = {}
 
+rand_code_global=0
+
+def generate_code():
+    global flag
+    global rand_code_global
+    vref_codes=[]
+    rand_code=random.randint(100000,900000)
+    while rand_code in vref_codes:
+        rand_code=random.randint(100000,900000)
+    vref_codes.append(rand_code)
+    rand_code_global=rand_code
+    return rand_code_global
+
 def generate_token(user_email): 
     global tokens
     token = hashlib.md5((user_email + str(time.time())).encode()).hexdigest() #unique token for each user hashed
@@ -189,82 +202,74 @@ def login():
 
 
 reset_pass_email=""
-@app.route("/forget_password",methods=['POST','GET'])
+@app.route("/Find_Email.html",methods=['POST','GET'])
 def forget_pass():
         global reset_pass_email
+        global rand_code_global
         if request.method=="POST":
             email_req=request.form.get('email_address')
             email_found=User.query.filter_by(email_address=email_req).first()
+            rand_code_global=generate_code()
 
             if email_found:
                 reset_pass_email=email_req
-                return redirect(url_for('code'))
+                send_email(rand_code_global,False,reset_pass_email)
+                return render_template("Verify_Code.html",pagetitle="Forget Password")
 
             else:
                 flash('Invalid email')
 
-        return render_template("forget_password.html",pagetitle="Forget Password")
+        return render_template("Find_Email.html",pagetitle="Forget Password")
 
-flag=False
-rand_code_global=0
-
-def generate_code():
-    global flag
-    global rand_code_global
-    vref_codes=[]
-    rand_code=random.randint(100000,900000)
-    while rand_code in vref_codes:
-        rand_code=random.randint(100000,900000)
-    vref_codes.append(rand_code)
-    rand_code_global=rand_code
-
-@app.route("/code",methods=['POST','GET'])
+attempts=0
+@app.route("/verify_code",methods=['POST','GET'])
 def verify_code():
     global flag
     global rand_code_global
-
-    flag=1
-    send_email(rand_code_global,flag,reset_pass_email)
-    if 'attempts' not in session:
-        session['attempts']=0
+    global attempts
 
     if request.method=="POST":
         
         code_req=request.form.get('code')
-        code_found=User.query.filter_by(verification_token=code_req).first()
 
-        if code_found:
-            session['attempts']=0
-            return redirect(url_for('reset_password'))
-
+        if rand_code_global==int(code_req):
+            attempts=0
+            return render_template("Change_Password.html",pagetitle="Forget Password")
         else:
-            flash('try again')
-            send_email(rand_code_global, flag, reset_pass_email)
-            session['attempts']+=1
-
-            if session['attempts']==3:
-                flag=0
+            if attempts>=2:
+                attempts=0
                 flash('Invalid code')
 
-    return render_template("login.html",pagetitle="Login")
+            else:    
+                flash('try again')
+                rand_code_global=generate_code()
+                send_email(rand_code_global,False, reset_pass_email)
+                attepmts+=1
+                return render_template("Verify_Code.html",pagetitle="Forget Password")
+
+    return render_template("login.html")
 
 
-@app.route("/reset_password",methods=['POST','GET'])
+@app.route("/update_pass",methods=['POST','GET'])
 def update_pass():
     verf_pass=""
     new_pass=""
+    global reset_pass_email
+
     if request.method=="POST":
         new_pass=request.form.get('new_pass')
         verf_pass=request.form.get('verf_pass')
+        email_found=User.query.filter_by(email_address=reset_pass_email).first()
     
     if new_pass == verf_pass:
-        User.password=new_pass
+        email_found.password=new_pass
+        db.session.commit()
+        return render_template("login.html",pagetitle="Login")
 
     else:
         flash('Unmatched password')
-        redirect(url_for('reset_password'))    
 
-    return render_template("login.html",pagetitle="Login")
+    return render_template("Change_Password.html",pagetitle="Login")
     
 @app.route('/logout')
 def logout():

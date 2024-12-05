@@ -10,20 +10,125 @@
     <title>Timeless Traveller</title>
 </head>
 
-<body class="h-screen">
-    <header>
-        <!-- container -->
-        <div class="mx-auto bg-blue-600 max-w-7xl  ">
-            <nav class="flex">
-                <!-- logo -->
-                <div>
-                    <img src="" alt="logo">
-                </div>
+<body class="bg-white text-gray-800 flex flex-col">
 
-            </nav>
+    <!-- Header -->
+    <header class=" flex items-center justify-between  px-10 border-b">
+        <div>
+            <img src="../static/Images/logo-removebg-preview.png" alt="logo" class="font-bold text-xl w-16">
+            <!-- <h1 class="font-bold text-xl text-sunset">Timeless Traveller</h1> -->
+        </div>
+        <nav class=" hidden  md:static md:flex space-x-8">
+            <a href="#Features" class="text-sm font-medium text-gray-600 hover:text-gray-800">Features</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">FAQ</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">Contact Us</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+            <a href="#" class="hidden md:block text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a>
+            <a href="#" class="text-white bg-sunset hover:bg-orange-600 text-sm font-medium px-4 py-2 rounded-lg">Get
+                Started</a>
+            <div class="md:hidden text-2xl" id="bar_xmark_toggle">
+                <div id="bar_icon">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div id="xmark_icon">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
         </div>
     </header>
+    <div id="mobile-menu" class="hidden">
+        <div
+            class=" md:hidden flex flex-col space-y-4 bg-white px-6 py-4 absolute items-center left-0 w-full border-b shadow-lg z-50">
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">Features</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">FAQ</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">Contact us</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <section class="container mx-auto grid md:grid-cols-2 items-center py-20 px-5 md:px-10 gap-10" id="Hero">
+        <!-- Left Content -->
+        <div>
+            <h2 class="text-4xl font-bold leading-snug md:leading-tight">
+                Transform your <br /> business with our <span class="text-orange-500">SaaS platform</span>
+            </h2>
+            <p class="text-gray-600 mt-4 leading-relaxed">
+                Say goodbye to the stress of managing multiple apps and programs. Our all-in-one solution makes it easy
+                to get everything done in one place.
+            </p>
+            <div class="mt-6 space-x-4">
+                <a href="#"
+                    class="text-white bg-orange-500 hover:bg-orange-600 text-sm font-medium px-6 py-3 rounded-lg">Get
+                    Started</a>
+            </div>
+        </div>
 
+        <!-- Right Content -->
+        <div class="relative">
+            <!-- Image Wrapper -->
+            <div class="rounded-2xl overflow-hidden shadow-lg">
+                <img src="../static/Images/Desktop-Egypt-Pictures.jpg" alt="Team Collaboration" class="w-full">
+            </div>
+        </div>
+    </section>
+    <!-- Features Section -->
+    <section class="py-12 bg-gray-50" id="Features">
+        <div class="container mx-auto px-5 md:px-10">
+            <!-- Section Header -->
+            <div class="text-center mb-8 space-y-2">
+                <span
+                    class="inline-flex items-center px-3 py-1 text-sm font-medium text-sunset rounded-full bg-orange-100">
+                    Features
+                </span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+                    Efficiency and productivity made easy <br />
+                    with these features
+                </h2>
+            </div>
+            <!-- Feature Cards Wrapper -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800">Smart Automation</h3>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Our software comes equipped with advanced automation tools that
+                        streamline your processes and reduce the time and effort required to
+                        complete routine tasks.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800">Real-time Analytics</h3>
+                    <p class="mt-2 text-sm text-gray-600">
+                        With our powerful analytics tools, you can get real-time views of
+                        your data and make data-driven decisions that drive growth and
+                        profitability.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800">Seamless Collaboration</h3>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Collaboration is key to success in today’s fast-paced business world,
+                        and our software makes it easy to work together with your team,
+                        partners, and clients.
+                    </p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800">Team Collaboration</h3>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Collaboration with your team members and clients in real-time, share
+                        files and feedback, and keep everyone on the same page with our
+                        intuitive collaboration tools.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../script/main.js"></script>
 </body>
 
 </html>

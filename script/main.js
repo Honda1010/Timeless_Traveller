@@ -1,10 +1,12 @@
-let register_button = document.getElementById('Register_button');
-let back_to_login = document.getElementById('back_to_login');
 
-register_button.addEventListener('click', function () {
-    window.location.href = '../templates/Registration.html'; 
+const bar_xmark_toggle = document.getElementById('bar_xmark_toggle');
+const BarIcon = document.getElementById('bar_icon');
+const XamrkIcon = document.getElementById('xmark_icon');
+const menuToggle = document.getElementById('mobile-menu');
+XamrkIcon.classList.add('hidden');
+bar_xmark_toggle.addEventListener('click', function() {
+    menuToggle.classList.toggle('hidden');
+    BarIcon.classList.toggle('hidden');
+    XamrkIcon.classList.toggle('hidden');
 });
 
-back_to_login.addEventListener('click',function(event){
-    window.location.href = '../templates/login.html'; 
-});

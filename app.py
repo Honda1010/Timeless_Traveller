@@ -249,6 +249,7 @@ def verify_code():
     return render_template("login.html",pagetitle="Login")
 
 
+
 @app.route("/reset_password",methods=['POST','GET'])
 def update_pass():
     verf_pass=""

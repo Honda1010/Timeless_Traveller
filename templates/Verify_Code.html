@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <title>Timeless Traveller</title>
+</head>
+
+<body class="bg-gradient-to-r from-sand via-desert to-sunset flex items-center justify-center h-screen">
+    <!-- main container -->
+    <section class="md:max-w-3xl w-96 bg-black-dark items-center p-5 rounded-2xl h-auto">
+        <!-- field container -->
+        <div class="grid justify-center items-center" >
+            <div class="max-w space-y-4 justify-center items-center" >
+                <h1 class="font-bold text-3xl">Code Verification</h1>
+                <hr>
+                <p class="text-zinc-50 text-xl">Please enter the code sent to your Email address.</p>
+                <hr>
+                <!-- Form container -->
+                <form action="verify_code" class="space-y-5" method="post">
+                    <!-- Password field -->
+                    <input type="text" placeholder="Enter verification code" name="code"
+                    class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 " required>
+                    <!-- Verify button -->
+                     <div class="flex justify-center">
+                        <button type="submit"
+                            class="bg-gradient-to-r from-white to-sunset font-semibold w-full rounded-xl py-2 hover:bg-gradient-to-r hover:from-white-medium hover:to-red-600">Verify
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </section>
+    <script src="../script/main.js"></script>
+</body>
+
+</html>

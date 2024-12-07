@@ -48,7 +48,7 @@
         </div>
     </div>
     <!-- Hero Section -->
-    <section class="container mx-auto grid md:grid-cols-2 items-center py-20 px-5 md:px-10 gap-10" id="Hero">
+    <section class="mx-auto grid md:grid-cols-2 items-center py-20 px-5 md:px-10 gap-10" id="Hero">
         <!-- Left Content -->
         <div>
             <h2 class="text-4xl font-bold leading-snug md:leading-tight">
@@ -75,7 +75,8 @@
     </section>
     <!-- Features Section -->
     <section class="py-12 bg-gray-50" id="Features">
-        <div class="container mx-auto px-5 md:px-10">
+        <!-- Container -->
+        <div class="mx-auto px-5 md:px-10">
             <!-- Section Header -->
             <div class="text-center mb-8 space-y-2">
                 <span
@@ -88,9 +89,9 @@
                 </h2>
             </div>
             <!-- Feature Cards Wrapper -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 w-full">
                 <!-- Card 1 -->
-                <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="bg-white rounded-lg shadow-md p-6 w-full">
                     <h3 class="text-lg font-semibold text-gray-800">Historic Insights</h3>
                     <p class="mt-2 text-sm text-gray-600">
                         Discover the rich history behind your current location. 
@@ -130,7 +131,8 @@
 
     <!-- FAQs section -->
     <section class="py-12" id="FAQs">
-        <div class="container mx-auto px-5 md:px-10">
+        <!-- Container -->
+        <div class=" w-full mx-auto px-5 md:px-10">
             <div class="text-center mb-8 space-y-2">
                 <span
                     class="inline-flex items-center px-3 py-1 text-sm font-medium text-sunset rounded-full bg-orange-100">
@@ -143,18 +145,18 @@
             <div class="flex flex-wrap justify-center gap-4 w-full ">
                 <!-- Card 1 -->
                 <div class="flex flex-wrap justify-center space-y-4 w-full">
-                    <div class="relative w-full max-w-xl md:max-w-7xl flex flex-wrap justify-center">
+                    <div class="relative w-full flex flex-wrap justify-center">
                         <button onclick="toggle(1)" class="border-solid border-[1px] border-gray-300 min-w-full w-full mx-28 rounded-lg shadow-md p-6 hover:bg-orange-100 ">
                             <span class="text-xl font-medium flex justify-start">What is Timeless Traveller? </span>
                         </button>
-                        <div class="absolute bottom-7 right-1 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
+                        <div class="absolute bottom-7 right-2 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
                             <i class="fa-solid fa-arrow-down-long" id="down_1"></i>
                             <div class="hidden" id="up_1">
                                 <i class="fa-solid fa-arrow-up-long"></i>
                             </div>
                         </div>
                     </div>
-                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full max-w-7xl shadow-md" id="p_1">
+                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_1">
                         <p>
                             Timeless Traveller is a travel assistant website designed to enrich your travel experience.<br> 
                             It provides historical insights about your current location, recommends top restaurants, hotels,<br> 
@@ -165,18 +167,18 @@
 
                 <!-- Card 2 -->
                 <div class="flex flex-wrap justify-center space-y-4 w-full">
-                    <div class="relative w-full max-w-xl md:max-w-7xl flex flex-wrap justify-center">
+                    <div class="relative w-full flex flex-wrap justify-center">
                         <button onclick="toggle(2)" class="border-solid border-[1px] border-gray-300 min-w-full w-full mx-28 rounded-lg shadow-md p-6 hover:bg-orange-100 ">
                             <span class="text-xl font-medium flex justify-start">How do I sign up for Timeless Traveller? </span>
                         </button>
-                        <div class="absolute bottom-11 right-1 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
+                        <div class="absolute bottom-11 right-2 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
                             <i class="fa-solid fa-arrow-down-long" id="down_2"></i>
                             <div class="hidden" id="up_2">
                                 <i class="fa-solid fa-arrow-up-long"></i>
                             </div>
                         </div>
                     </div>
-                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full max-w-7xl  shadow-md" id="p_2">
+                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_2">
                         <p>Signing up for Timeless Traveller is easy! Simply visit our website and click the "Sign Up" button. <br> 
                             You'll be prompted to enter your name, email address, and create a password. <br>
                             Once you've completed the registration process, <br>
@@ -187,18 +189,18 @@
 
                 <!-- Card 3 -->
                 <div class="flex flex-wrap justify-center space-y-4 w-full">
-                    <div class="relative w-full max-w-xl md:max-w-7xl flex flex-wrap justify-center">
+                    <div class="relative w-full flex flex-wrap justify-center">
                         <button onclick="toggle(3)" class="border-solid border-[1px] border-gray-300 min-w-full w-full rounded-lg shadow-md p-6 hover:bg-orange-100 ">
                             <span class="text-xl font-medium flex justify-start">Is Timeless Traveller available offline? </span>
                         </button>
-                        <div class="absolute bottom-11 right-1 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
+                        <div class="absolute bottom-11 right-2 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
                             <i class="fa-solid fa-arrow-down-long" id="down_3"></i>
                             <div class="hidden" id="up_3">
                                 <i class="fa-solid fa-arrow-up-long"></i>
                             </div>
                         </div>
                     </div>
-                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full max-w-7xl  shadow-md" id="p_3">
+                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_3">
                         <p>
                             Currently, Timeless Traveller requires an internet connection to provide accurate location-based services and updated recommendations.
                             However, we are working on adding offline features in the future.
@@ -207,18 +209,18 @@
                 </div>
                 <!-- Card 4 -->
                 <div class="flex flex-wrap justify-center space-y-4 w-full">
-                    <div class="relative w-full max-w-xl md:max-w-7xl flex flex-wrap justify-center">
+                    <div class="relative w-full flex flex-wrap justify-center">
                         <button onclick="toggle(4)" class="border-solid border-[1px] border-gray-300 min-w-full w-full mx-28 rounded-lg shadow-md p-6 hover:bg-orange-100 ">
                             <span class="text-xl font-medium flex justify-start">How can I report an issue or provide feedback? </span>
                         </button>
-                        <div class="absolute bottom-11 right-1 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
+                        <div class="absolute bottom-11 right-2 sm:bottom-7 sm:right-4 flex items-center justify-end text-2xl">
                             <i class="fa-solid fa-arrow-down-long" id="down_4"></i>
                             <div class="hidden" id="up_4">
                                 <i class="fa-solid fa-arrow-up-long"></i>
                             </div>
                         </div>
                     </div>
-                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full max-w-7xl shadow-md" id="p_4">
+                    <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_4">
                         <p>
                             You can report issues or share feedback using the contact form on the website.<br>
                             Your input is valuable and helps us improve the platform for all users.
@@ -229,53 +231,55 @@
     </section>
 
     <!-- Contact us section -->
-    <section id="Contact_us" class="py-10 md:max-w-7xl max-w-80 mx-auto flex justify-center items-center">
+    <section id="Contact_us" class="py-10 mx-auto flex justify-center w-full">
         <!-- Container -->
-        <div class="container mx-auto px-5 pb-5 w-full justify-center md:px-10 bg-gray-50 rounded-3xl border-solid border-[1px] border-gray-300">
-            <!-- Header -->
-             <div>
-                <div class="text-5xl font-bold pt-10">
-                    Contact Us
+        <div class="mx-auto px-5 md:px-10 w-full">
+            <div class="px-6 pb-5 justify-center w-full bg-gray-50 rounded-3xl border-solid border-[1px] border-gray-300">
+                <!-- Header -->
+                <div>
+                    <div class="text-5xl font-bold pt-10 flex justify-start">
+                        Contact Us
+                    </div>
+                    <p class="mt-3 flex justify-start">
+                        If you have any questions or comments about our product, <br>
+                        please don't hesitate to reach out to us. We're always here to help!
+                    </p>
                 </div>
-                <p class="mt-3">
-                    If you have any questions or comments about our product, <br>
-                    please don't hesitate to reach out to us. We're always here to help!
-                </p>
-            </div>
 
-              <div class="grid md:grid-flow-col md:grid-cols-2 mt-16 gap-y-5">
-                <!-- Right Section -->
-                <div class="space-y-5">
-                    <div>
-                        <p class="text-gray-700 text-lg">Call us</p>
-                        <p class="mt-1 font-semibold text-base">+20 (065)-350-1187</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-700 text-lg">Write us</p>
-                        <p class="mt-1 font-semibold text-base">tfrotimeless@gmail.com</p>
-                    </div>
-                </div>
-                <!-- Left Section -->
-                <div class="space-y-5">
-                    <div>
-                        <p class="text-gray-700 text-lg">Visit us</p>
-                        <p class="mt-1 font-semibold text-base">Helwan Share3 El koleya Mabna Kahraba Modarag 2 insha2alla m3ada youm el hd bnb2a fy 504 </p>
-                    </div>
-                    <div>
-                        <p class="text-gray-700 text-lg">Follow us</p>
-                        <div class="mt-3 text-orange-500 text-xl space-x-1">
-                            <a href="https://github.com/Honda1010/Timeless_Traveller" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-github"></i></a>
-                            <a href="#" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-linkedin-in"></i></a>
-                            <a href="https://www.instagram.com/leomessi/" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="https://www.facebook.com/momosalah/" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-facebook"></i></a>     
+                <div class="grid md:grid-flow-col md:grid-cols-2 mt-16 gap-y-5">
+                    <!-- Right Section -->
+                    <div class="space-y-5">
+                        <div>
+                            <p class="text-gray-700 text-lg">Call us</p>
+                            <p class="mt-1 font-semibold text-base">+20 (065)-350-1187</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 text-lg">Write us</p>
+                            <p class="mt-1 font-semibold text-base">tfrotimeless@gmail.com</p>
                         </div>
                     </div>
-              </div>
+                    <!-- Left Section -->
+                    <div class="space-y-5">
+                        <div>
+                            <p class="text-gray-700 text-lg">Visit us</p>
+                            <p class="mt-1 font-semibold text-base">Helwan Share3 El koleya Mabna Kahraba Modarag 2 insha2alla m3ada youm el hd bnb2a fy 504 </p>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 text-lg">Follow us</p>
+                            <div class="mt-3 text-orange-500 text-xl space-x-1">
+                                <a href="https://github.com/Honda1010/Timeless_Traveller" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-github"></i></a>
+                                <a href="#" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/leomessi/" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://www.facebook.com/momosalah/" target="_blank" class="bg-orange-100 rounded-lg py-2 px-3"><i class="fa-brands fa-facebook"></i></a>     
+                            </div>
+                        </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- Footer Section -->
     <footer class="my-10">
-        <div class="md:mx-28 mx-12">
+        <div class="mx-12 md:mx-16">
             <div class="flex md:justify-between md:flex-row-reverse flex-col space-y-2 ">
                 <ul class="flex flex-row space-x-5 text-sm">
                     <li><a href="#">Terms & Conditions</a></li>

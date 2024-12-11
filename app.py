@@ -36,7 +36,7 @@ login_manager=LoginManager(app) #idetifies the app that loginManager start to se
 login_manager.login_view='login' #specify the name of the view function (or the endpoint) that handles user logins. When an unauthorized user attempts..
                                  # ,to access a route or a resource that requires the user to be logged in.. 
                                  # ,Flask-Login automatically redirects the user to the URL associated with the view function specified in login_manager.login_view.
-
+##
 @login_manager.user_loader
 def load_user(user_id):
     user=User.query.get(str(user_id))

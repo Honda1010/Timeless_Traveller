@@ -14,9 +14,9 @@
 <body class="bg-white text-gray-800 flex flex-col">
 
     <!-- Header -->
-    <header class=" flex items-center justify-between  px-10 border-b">
+    <header class=" bg-white fixed w-screen flex items-center justify-between px-10 border-b ">
         <div>
-            <img src="../static/Images/Logo_no_bg.png" alt="logo" class="font-bold text-xl w-[75px]">
+            <a href="home.html"><img src="../static/Images/Logo_no_bg.png" alt="logo" class="font-bold text-xl w-[75px]"></a>
             <!-- <h1 class="font-bold text-xl text-sunset">Timeless Traveller</h1> -->
         </div>
         <nav class=" hidden  md:static md:flex space-x-8">
@@ -48,7 +48,7 @@
         </div>
     </div>
     <!-- Hero Section -->
-    <section class="mx-auto grid md:grid-cols-2 items-center py-20 px-5 md:px-10 gap-10" id="Hero">
+    <section class="mx-auto grid md:grid-cols-2 items-center py-20 px-5 md:px-10 gap-10 mt-14" id="Hero">
         <!-- Left Content -->
         <div>
             <h2 class="text-4xl font-bold leading-snug md:leading-tight">
@@ -66,7 +66,7 @@
         </div>
 
         <!-- Right Content -->
-        <div class="relative">
+        <div class="">
             <!-- Image Wrapper -->
             <div class="rounded-2xl overflow-hidden shadow-lg">
                 <img src="../static/Images/The_Pyramids_Egypt.jpg" alt="Team Collaboration" class="w-full">
@@ -148,10 +148,7 @@
                     <div class=" w-full flex flex-wrap justify-center">
                         <button onclick="toggle(1)" class="flex border-solid border-[1px] border-gray-300 min-w-full w-full mx-28 rounded-lg shadow-md p-6 hover:bg-orange-100 justify-between items-center ">
                             <span class="text-xl font-medium flex justify-start">What is Timeless Traveller? </span>
-                                <i class="fa-solid fa-arrow-down-long text-2xl" id="down_1"></i>
-                                <div class="hidden text-2xl" id="up_1">
-                                    <i class="fa-solid fa-arrow-up-long"></i>
-                                </div>
+                                <i class="fa-solid fa-arrow-down-long transition-transform duration-300 text-2xl" id="arrow_icon_1"></i>
                         </button>
                     </div>
                     <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_1">
@@ -168,10 +165,7 @@
                     <div class=" w-full flex flex-wrap justify-center">
                         <button onclick="toggle(2)" class="flex border-solid border-[1px] border-gray-300 min-w-full w-full mx-28 rounded-lg shadow-md p-6 hover:bg-orange-100 justify-between items-center ">
                             <span class="text-xl font-medium flex justify-start">How do I sign up for Timeless Traveller?</span>
-                                <i class="fa-solid fa-arrow-down-long text-2xl" id="down_2"></i>
-                                <div class="hidden text-2xl" id="up_2">
-                                    <i class="fa-solid fa-arrow-up-long"></i>
-                                </div>
+                                <i class="fa-solid fa-arrow-down-long transition-transform duration-300 text-2xl" id="arrow_icon_2"></i>
                         </button>
                     </div>
                     <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_2">
@@ -188,10 +182,7 @@
                     <div class=" w-full flex flex-wrap justify-center">
                         <button onclick="toggle(3)" class="flex border-solid border-[1px] border-gray-300 min-w-full w-full mx-28 rounded-lg shadow-md p-6 hover:bg-orange-100 justify-between items-center ">
                             <span class="text-xl font-medium flex justify-start">Is Timeless Traveller available offline?</span>
-                                <i class="fa-solid fa-arrow-down-long text-2xl" id="down_3"></i>
-                                <div class="hidden text-2xl" id="up_3">
-                                    <i class="fa-solid fa-arrow-up-long"></i>
-                                </div>
+                                <i class="fa-solid fa-arrow-down-long transition-transform duration-300 text-2xl" id="arrow_icon_3"></i>
                         </button>
                     </div>
                     <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_3">
@@ -206,10 +197,7 @@
                     <div class=" w-full flex flex-wrap justify-center">
                         <button onclick="toggle(4)" class="flex border-solid border-[1px] border-gray-300 min-w-full w-full mx-28 rounded-lg shadow-md p-6 hover:bg-orange-100 justify-between items-center ">
                             <span class="text-xl font-medium flex justify-start">How can I report an issue or provide feedback?</span>
-                                <i class="fa-solid fa-arrow-down-long text-2xl" id="down_4"></i>
-                                <div class="hidden text-2xl" id="up_4">
-                                    <i class="fa-solid fa-arrow-up-long"></i>
-                                </div>
+                                <i class="fa-solid fa-arrow-down-long transition-transform duration-300 text-2xl" id="arrow_icon_4"></i>
                         </button>
                     </div>
                     <div class=" hidden bg-gray-50 border-solid border-[1px] p-7 border-gray-300 rounded-xl w-full shadow-md" id="p_4">

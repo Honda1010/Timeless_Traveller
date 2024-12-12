@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+    <title>Timeless Traveller</title>
+    <link rel="icon" href="../static/Images/Logo_Edited_with_bg.png" class="text-lg">
+
+</head>
+
+<body class="bg-gradient-to-r from-sand via-desert to-sunset flex items-center justify-center h-screen">
+    <!-- Main container -->
+    <section class="md:max-w-4xl bg-black-dark md:grid md:grid-cols-2 items-center gap-16 p-5 rounded-2xl h-auto">
+        <!-- Image (left side) -->
+        <div class="hidden md:block md:h-full md:w-full">
+            <img src="../static/Images/Pyramids.jpg" alt="Pyramids image" class="rounded-xl h-full w-full">
+        </div>
+        <!-- right side container -->
+        <div class="max-w-80 grid gap-5">
+            <h1 class="font-bold text-5xl">Sign up</h1>
+            <p class="text-zinc-50 text-lg">Become a Timeless Traveller and unlock journeys that transcend time!</p>
+            <!-- Form container -->
+            <form action="registration" class="space-y-5" method="post">
+                <!-- First name & Last name -->
+                <div class="flex flex-row gap-x-2 md:grid md:grid-cols-2 md:gap-x-3">
+                    <input type="text" placeholder="First name" name="first_name"
+                        class="max-w-40 min-w-36 bg-white-light py-2 px-7 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                    <input type="text" placeholder="Second name" name="second_name"
+                        class="max-w-40 min-w-36 bg-white-light py-2 px-7 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Phone number field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <input type="text" placeholder="Phone number" name="phone_number"
+                        class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Comapny Nmae field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <input type="text" placeholder="Company Name" name="Company_name"
+                        class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Language Fields -->
+                <div class="flex flex-row gap-x-2 md:grid md:grid-cols-2 md:gap-x-3">
+                    <input type="text" placeholder="First Language" name="first_lang"
+                        class="max-w-40 min-w-36 bg-white-light py-2 px-7 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                    <input type="text" placeholder="Second Language" name="second_lang"
+                        class="max-w-40 min-w-36 bg-white-light py-2 px-7 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Language & City Fields -->
+                <div class="flex flex-row gap-x-2 md:grid md:grid-cols-2 md:gap-x-3">
+                    <input type="text" placeholder="Third Language" name="third_lang"
+                        class="max-w-40 min-w-36 bg-white-light py-2 px-7 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                    <input type="text" placeholder="City" name="City"
+                        class="max-w-40 min-w-36 bg-white-light py-2 px-7 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Email field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <input type="email" placeholder="Email Address" name="email"
+                        class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Password field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1  bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <input type="password" placeholder="Password " name="password"
+                        class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Sign up button -->
+                <button type="submit"
+                    class="bg-gradient-to-r from-white to-sunset font-semibold w-80 rounded-full py-2 hover:bg-gradient-to-r hover:from-white-medium hover:to-red-600"
+                    type="submit">Sign
+                    up</button>
+            </form>
+            <!-- <form action="login" method="GET">
+                <button type="submit" id="back_to_login"
+                    class="bg-gradient-to-r from-white to-sunset font-semibold w-80 rounded-full py-2 hover:bg-gradient-to-r hover:from-white-medium hover:to-red-600"
+                    type="submit">Login</button>
+            </form> -->
+        </div>
+
+    </section>
+    <!-- {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul>
+        {% for category, message in messages %}
+        Swal.fire({
+        title: "{{ category|capitalize }}",
+        text: "{{ message }}",
+        icon: "{{ 'success' if category == 'success' else 'error' }}"
+        });
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %} -->
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../script/main.js"></script>
+</body>
+
+</html>

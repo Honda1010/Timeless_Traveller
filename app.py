@@ -75,6 +75,7 @@ class User(UserMixin,db.Model):
 
 ##----------------------------------------------##
 
+
 tokens = {}
 
 rand_code_global=0

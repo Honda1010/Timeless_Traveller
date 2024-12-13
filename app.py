@@ -121,6 +121,11 @@ def send_email(x, verify, recipient_email):
     except Exception as e:
         flash(f'Failed to send email: {str(e)}')
 
+
+
+
+
+####################################################################################################
 @app.route('/verify/<token>')
 def verify_account(token):
     global tokens
@@ -176,7 +181,15 @@ def registration():
 
 @app.route("/")
 def home(): #main-page
-    return redirect(url_for('login')) # Loading the HTML page
+
+    return render_template("home.html",pagetitle="TimelessTraveller") # Loading the HTML page
+
+@login_required
+@app.route("/choose_feature")
+def choose_feature(): #main-page
+
+    return render_template("feature.html",pagetitle="TimelessTraveller") # Loading the GET Started Button
+
 
 @app.route("/login",methods=['POST','GET'])
 def login():
@@ -184,6 +197,7 @@ def login():
         email_ret=request.form.get('email_address')
         pass_ret=request.form.get('password')
         email_found=User.query.filter_by(email_address=email_ret).first()
+        # next_page=request.args.get('next')
         
         if email_found and email_found.password==pass_ret:
             if email_found.verified==0:
@@ -191,6 +205,8 @@ def login():
                 flash('unverified email an verification email will be sent')
 
             else:
+                # if next_page:
+                #   return redirect(url_for(next_page))
                 login_user(email_found)
                 return redirect(url_for('registration'))
                 

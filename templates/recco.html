@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ pagetitle }}</title>
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+        }
+
+        /* Container styling for both home and feature pages */
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styles */
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Paragraph and text styling */
+        p {
+            font-size: 1.1em;
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        /* Button styling */
+        button {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Dropdown menu styles */
+        select {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            background-color: #ecf0f1;
+        }
+
+        /* Link styling */
+        a {
+            font-size: 16px;
+            color: #3498db;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Timeless Traveller</h1>
+        <p>Choose a feature to enhance your travel experience:</p>
+
+        <form action="/feature" method="POST">
+            <select name="feature" id="feature">
+                <option value="historic_insights">Historic Insights</option>
+                <option value="curated_recommendations">Curated Recommendations</option>
+                <option value="smart_navigation">Smart Navigation</option>
+                <option value="all_in_one_travel">All-in-One Travel Companion</option>
+            </select>
+
+            <button type="submit">Explore</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -24,7 +24,7 @@
             <h1 class="font-bold text-5xl">Sign up</h1>
             <p class="text-zinc-50 text-lg">Become a Timeless Traveller and unlock journeys that transcend time!</p>
             <!-- Form container -->
-            <form action="registration" class="space-y-5" method="post">
+            <form action="register_tourist" class="space-y-5" method="post">
                 <!-- First name & Last name -->
                 <div class="flex flex-row gap-x-2 md:grid md:grid-cols-2 md:gap-x-3">
                     <input type="text" placeholder="First name" name="first_name"
@@ -90,7 +90,7 @@
                     type="submit">Sign
                     up
                 </button>
-                <p class="flex justify-center mt-1"> Already have an account?<a href="#" class="text-[#56daf1] underline pl-1">Log In</a></p>
+                <p class="flex justify-center mt-1"> Already have an account?<a href="{{ url_for('login')}}" class="text-[#56daf1] underline pl-1">Log In</a></p>
             </form>
             <!-- <form action="login" method="GET">
                 <button type="submit" id="back_to_login"

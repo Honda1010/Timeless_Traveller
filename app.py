@@ -60,7 +60,7 @@ migrate = Migrate(app, db)
 # flask db migrate -m "Initial migration."
 # flask db upgrade
 
-
+#
 ##---------------------------------------------##
 #ORM : Tables
 class TourGuide(db.Model):

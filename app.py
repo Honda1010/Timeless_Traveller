@@ -296,7 +296,7 @@ def register_tourist():
                 first_name=first_name,
                 second_name=second_name,
                 phone=phone,
-                email_address=email,
+                email=email,
                 password=hashed_password,
                 nationality=nationality,
                 passport=passport,

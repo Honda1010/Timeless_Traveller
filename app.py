@@ -80,10 +80,14 @@ class TourGuide(db.Model):
     verified = db.Column(db.Integer, nullable=True)
     verification_token = db.Column(db.String(64), nullable=False)
 
+    @property
+    def is_active(self):
+        return True
+        
     def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
                       #and that it's consistent with how your application retrieves users in the user loader callback.
         return str(self.tourguide_id)
-
+        
     def __repr__(self):
         return f"<TourGuide {self.first_name} {self.second_name}>"
 
@@ -342,7 +346,7 @@ def register_tourguide():
                 first_name=first_name,
                 second_name=second_name,
                 phone=phone,
-                email_address=email,
+                email=email,
                 password=hashed_password,
                 company_name=company_name,
                 first_lang=first_lang,

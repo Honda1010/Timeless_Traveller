@@ -36,11 +36,19 @@ login_manager=LoginManager(app) #idetifies the app that loginManager start to se
 login_manager.login_view='login' #specify the name of the view function (or the endpoint) that handles user logins. When an unauthorized user attempts..
                                  # ,to access a route or a resource that requires the user to be logged in.. 
                                  # ,Flask-Login automatically redirects the user to the URL associated with the view function specified in login_manager.login_view.
-##
+
+#use current_user to get the currently logged in user\
+
 @login_manager.user_loader
 def load_user(user_id):
-    user=User.query.get(str(user_id))
-    return user
+    tourist_id=user_id
+    tourguide_id=user_id
+    tourist = Tourist.query.get(int(tourist_id))
+    if tourist:
+        return tourist
+    tourguide = TourGuide.query.get(int(tourguide_id))
+    return tourguide if tourguide else None
+
 ##
 ##
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'
@@ -55,20 +63,68 @@ migrate = Migrate(app, db)
 
 ##---------------------------------------------##
 #ORM : Tables
+class TourGuide(db.Model):
+    __tablename__ = 'tourguide'
 
-class User(UserMixin,db.Model):
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True) #Defining Attributes
-    first_name=db.Column(db.String(50))
-    second_name=db.Column(db.String(50))
-    email_address=db.Column(db.String(50), unique=True)
-    password=db.Column(db.String(50))
-    phone=db.column(db.String(50))
-    verified = db.Column(db.Integer, default=0)  # Email verification status
-    verification_token = db.Column(db.String(64), default=lambda: secrets.token_hex(32))
+    tourguide_id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    first_name = db.Column(db.String(50), nullable=False)
+    second_name = db.Column(db.String(50), nullable=False)
+    phone = db.Column(db.String(15), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    company_name = db.Column(db.String(100), nullable=True)
+    first_lang = db.Column(db.String(50), nullable=True)
+    second_lang = db.Column(db.String(50), nullable=True)
+    third_lang = db.Column(db.String(50), nullable=True)
+    city = db.Column(db.String(100), nullable=True)
+    verified = db.Column(db.Integer, nullable=True)
+    verification_token = db.Column(db.String(64), nullable=False)
 
     def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
                       #and that it's consistent with how your application retrieves users in the user loader callback.
-        return str(self.user_id)
+        return str(self.tourguide_id)
+
+    def __repr__(self):
+        return f"<TourGuide {self.first_name} {self.second_name}>"
+
+
+
+class Tourist(db.Model):
+    __tablename__ = 'tourist'
+
+    tourist_id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(50), nullable=False)
+    second_name = db.Column(db.String(50), nullable=False)
+    phone = db.Column(db.String(20), nullable=False, unique=True)  # Unique phone number
+    email = db.Column(db.String(100), unique=True, nullable=False)  # Unique email
+    password = db.Column(db.String(100), nullable=False)  # Hashed password
+    nationality= db.Column(db.String(50), nullable=False)
+    passport=db.Column(db.String(50), nullable=False) 
+    verified = db.Column(db.Boolean, default=False)  # Verified flag
+    verification_token = db.Column(db.Integer, default=0)  # Token for email verification
+
+
+    def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
+                      #and that it's consistent with how your application retrieves users in the user loader callback.
+        return str(self.tourist_id)
+
+    def __repr__(self):
+        return f"<Tourist {self.first_name} {self.second_name}>"
+
+
+# class User(UserMixin,db.Model):
+#     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True) #Defining Attributes
+#     first_name=db.Column(db.String(50))
+#     second_name=db.Column(db.String(50))
+#     email_address=db.Column(db.String(50), unique=True)
+#     password=db.Column(db.String(50))
+#     phone=db.column(db.String(50))
+#     verified = db.Column(db.Integer, default=0)  # Email verification status
+#     verification_token = db.Column(db.String(64), default=lambda: secrets.token_hex(32))
+
+#     def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
+#                       #and that it's consistent with how your application retrieves users in the user loader callback.
+#         return str(self.user_id)
 
 # with app.app_context():
 #     db.create_all()
@@ -122,13 +178,49 @@ def send_email(x, verify, recipient_email):
     except Exception as e:
         flash(f'Failed to send email: {str(e)}')
 
+
+
+
+
+####################################################################################################
+@app.route("/")
+def home(): #main-page
+
+    return render_template("home.html",pagetitle="TimelessTraveller") # Loading the HTML page
+
+@app.route("/choose_feature")
+def choose_feature(): #main-page
+
+    return render_template("feature.html",pagetitle="TimelessTraveller") # Loading the GET Started Button
+
+
+@app.route("/select")
+def select(): 
+
+    return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
+
+@app.route("/tourist_dashboard")
+def tourist_dashboard(): 
+
+    return render_template("tourist_dashboard.html",pagetitle="TimelessTraveller") 
+
+@app.route("/tourguide_dashboard")
+def tourguide_dashboard(): 
+
+    return render_template("tourguide_dashboard.html",pagetitle="TimelessTraveller") 
+
+
+
 @app.route('/verify/<token>')
 def verify_account(token):
     global tokens
     token_data = tokens.get(token)
     if token_data:
         if time.time() - token_data["timestamp"] < 3600:
-            user = User.query.filter_by(email_address = tokens[token]["email"]).first()
+            user = Tourist.query.filter_by(email= tokens[token]["email"]).first() ##EDITTT DONE CHECK
+            if not user:
+                user = TourGuide.query.filter_by(email = tokens[token]["email"]).first() ##EDITTT DONE CHECK
+
             user.verified = True
             user.verification_token = token
             db.session.commit()
@@ -139,30 +231,75 @@ def verify_account(token):
     else:
         return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Invalid or expired Token!", redirect_message = url_for("login"))
 
-@app.route("/registration", methods=['POST', 'GET'])
-def registration():
+# def registration():
+#     if request.method == "POST":
+#         first_name = request.form.get('first_name')
+#         second_name = request.form.get('second_name')
+#         phone_number = request.form.get('phone_number')
+#         email = request.form.get('email')
+#         password = request.form.get('password')
+#         # Email validation
+#         try:
+#             valid = validate_email(email)
+#             email = valid.email  
+#         except EmailNotValidError as e:
+#             flash(f"Invalid email: {str(e)}", "error")
+#             return redirect(url_for('registration'))
+#         user_exist = User.query.filter_by(email_address=email).first()
+#         if user_exist is None:
+#             hashed_password =password #generate_password_hash(password, method='sha256')
+#             new_user = User(
+#                 first_name=first_name,
+#                 second_name=second_name,
+#                 phone=phone_number,
+#                 email_address=email,
+#                 password=hashed_password,
+#                 verified = False,
+#                 verification_token = 0
+#             )
+#             db.session.add(new_user)
+#             db.session.commit()
+#             send_email(1,True,email)
+#             flash("Registration successful. Please log in.", "success")
+#             return redirect(url_for('login'))
+#         else:
+#             flash("Email already exists. Please log in.", "error")
+#     return render_template("registration.html", pagetitle="Registration")
+
+
+
+
+
+@app.route("/register_tourist", methods=['POST', 'GET'])
+def register_tourist():
     if request.method == "POST":
         first_name = request.form.get('first_name')
         second_name = request.form.get('second_name')
-        phone_number = request.form.get('phone_number')
+        phone = request.form.get('phone_number')
         email = request.form.get('email')
         password = request.form.get('password')
+        nationality= request.form.get('Nationality')
+        passport= request.form.get('Passport')
+
+    
         # Email validation
         try:
             valid = validate_email(email)
             email = valid.email  
         except EmailNotValidError as e:
             flash(f"Invalid email: {str(e)}", "error")
-            return redirect(url_for('registration'))
-        user_exist = User.query.filter_by(email_address=email).first()
+            return redirect(url_for('register_tourist'))
+        user_exist = Tourist.query.filter_by(email=email).first()
         if user_exist is None:
             hashed_password =password #generate_password_hash(password, method='sha256')
-            new_user = User(
+            new_user = Tourist(
                 first_name=first_name,
                 second_name=second_name,
-                phone=phone_number,
+                phone=phone,
                 email_address=email,
                 password=hashed_password,
+                nationality=nationality,
+                passport=passport,
                 verified = False,
                 verification_token = 0
             )
@@ -173,33 +310,122 @@ def registration():
             return redirect(url_for('login'))
         else:
             flash("Email already exists. Please log in.", "error")
-    return render_template("registration.html", pagetitle="Registration")
+    return render_template('Registration_Tourist.html', pagetitle="Registration")
 
-@app.route("/")
-def home(): #main-page
-    return redirect(url_for('login')) # Loading the HTML page
 
-@app.route("/login",methods=['POST','GET'])
-def login():
-    if request.method=="POST":
-        email_ret=request.form.get('email_address')
-        pass_ret=request.form.get('password')
-        email_found=User.query.filter_by(email_address=email_ret).first()
+
+@app.route("/register_tourguide", methods=['POST', 'GET'])
+def register_tourguide():
+    if request.method == "POST":
+        first_name = request.form.get('first_name')
+        second_name = request.form.get('second_name')
+        phone = request.form.get('phone_number')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        company_name= request.form.get('Company_name')
+        first_lang= request.form.get('first_lang')
+        second_lang=request.form.get('second_lang')
+        third_lang=request.form.get('third_lang')
+        city=request.form.get('City')
+
+        # Email validation
+        try:
+            valid = validate_email(email)
+            email = valid.email  
+        except EmailNotValidError as e:
+            flash(f"Invalid email: {str(e)}", "error")
+            return redirect(url_for('register_tourguide'))
+        user_exist = TourGuide.query.filter_by(email=email).first()
+        if user_exist is None:
+            hashed_password =password #generate_password_hash(password, method='sha256')
+            new_user = TourGuide(
+                first_name=first_name,
+                second_name=second_name,
+                phone=phone,
+                email_address=email,
+                password=hashed_password,
+                company_name=company_name,
+                first_lang=first_lang,
+                second_lang=second_lang,
+                third_lang=third_lang,
+                city=city, 
+                verified = False,
+                verification_token = 0
+            )
+            db.session.add(new_user)
+            db.session.commit()
+            send_email(1,True,email)
+            flash("Registration successful. Please log in.", "success")
+            return redirect(url_for('login'))
+        else:
+            flash("Email already exists. Please log in.", "error")
+
+    return render_template('Registration_TourGuide.html', pagetitle="Registration")
+
+
+
+
+
+# @app.route("/login",methods=['POST','GET'])
+# def login():
+#     if request.method=="POST":
+#         email_ret=request.form.get('email_address')
+#         pass_ret=request.form.get('password')
+#         email_found=User.query.filter_by(email_address=email_ret).first()
+#         # next_page=request.args.get('next')
         
-        if email_found and email_found.password==pass_ret:
-            if email_found.verified==0:
-                send_email(123,True,email_ret)
-                flash('unverified email an verification email will be sent')
+#         if email_found and email_found.password==pass_ret:
+#             if email_found.verified==0:
+#                 send_email(123,True,email_ret)
+#                 flash('unverified email a verification email will be sent')
 
-            else:
-                login_user(email_found)
-                return redirect(url_for('registration'))
+#             else:
+#                 # if next_page:
+#                 #   return redirect(url_for(next_page))
+#                 login_user(email_found)
+#                 return redirect(url_for('registration'))
                 
 
-        else:
-            flash('Invalid email or password')
+#         else:
+#             flash('Invalid email or password')
         
-    return render_template("login.html", pagetitle="login") # Loading the HTML page
+#     return render_template("login.html", pagetitle="login") # Loading the HTML page
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form.get('email_address')
+        password = request.form.get('password')
+        
+        tourist = Tourist.query.filter_by(email=email).first()
+        if tourist and tourist.password == password:
+            if tourist.verified==0:
+                send_email(123,True,email)
+                flash('unverified email a verification email will be sent')
+
+            else:
+                # if next_page:
+                #   return redirect(url_for(next_page))
+                login_user(tourist)
+                return redirect(url_for('tourist_dashboard'))
+
+        tourguide = TourGuide.query.filter_by(email=email).first()
+        if tourguide and tourguide.password == password:
+            if tourguide.verified==0:
+                send_email(123,True,email)
+                flash('unverified email a verification email will be sent')
+
+            else:
+                # if next_page:
+                #   return redirect(url_for(next_page))
+                login_user(tourguide)
+                return redirect(url_for('tourguide_dashboard'))
+        
+        if not tourguide and not tourist:
+
+            flash("Invalid credentials")
+
+    return render_template('login.html')
 
 
 reset_pass_email=""
@@ -209,7 +435,9 @@ def forget_pass():
         global rand_code_global
         if request.method=="POST":
             email_req=request.form.get('email_address')
-            email_found=User.query.filter_by(email_address=email_req).first()
+            email_found=Tourist.query.filter_by(email=email_req).first()##EDITTT DONE CHECK
+            if not email_found:
+                email_found=TourGuide.query.filter_by(email=email_req).first()##EDITTT DONE CHECK
             rand_code_global=generate_code()
 
             if email_found:
@@ -260,8 +488,10 @@ def update_pass():
     if request.method=="POST":
         new_pass=request.form.get('new_pass')
         verf_pass=request.form.get('verf_pass')
-        email_found=User.query.filter_by(email_address=reset_pass_email).first()
-    
+        email_found=Tourist.query.filter_by(email=reset_pass_email).first()
+        if  not email_found:  
+            email_found=TourGuide.query.filter_by(email=reset_pass_email).first()
+
     if new_pass == verf_pass:
         email_found.password=new_pass
         db.session.commit()
@@ -271,7 +501,12 @@ def update_pass():
         flash('Unmatched password')
 
     return render_template("Change_Password.html",pagetitle="Login")
-    
+
+
+
+
+
+
 @app.route('/logout')
 def logout():
     logout_user()

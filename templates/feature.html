@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        #place_info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        #place_info h2 {
+            color: #4CAF50;
+        }
+        #place_info img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        #place_info p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Discover Historical Places</h1>
+    <button onclick="getHistoricalInfo()">Get Historical Info</button>
+
+    <div id="place_info"></div>
+
+    <script>
+        function getHistoricalInfo() {
+            // Example coordinates for Cairo
+            let lat = 30.033;
+            let lon = 31.233;
+
+            fetch(`/get_historical_info?lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    const placeInfoDiv = document.getElementById('place_info');
+                    const placeName = data.place_name;
+                    const description = data.description;
+                    const image = data.image;
+
+                    placeInfoDiv.innerHTML = `
+                        <h2>${placeName}</h2>
+                        <p>${description}</p>
+                        ${image ? `<img src="${image}" alt="Image of ${placeName}">` : ''}
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error fetching historical info:', error);
+                });
+        }
+    </script>
+</body>
+</html>

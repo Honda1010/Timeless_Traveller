@@ -82,8 +82,8 @@ class TourGuide(db.Model):
 
     @property
     def is_active(self):
-        return True
-        
+        return True  
+
     def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
                       #and that it's consistent with how your application retrieves users in the user loader callback.
         return str(self.tourguide_id)
@@ -93,7 +93,7 @@ class TourGuide(db.Model):
 
 
 
-class Tourist(db.Model):
+class Tourist(db.Model, UserMixin):  # Inherit from UserMixin
     __tablename__ = 'tourist'
 
     tourist_id = db.Column(db.Integer, primary_key=True)
@@ -102,11 +102,15 @@ class Tourist(db.Model):
     phone = db.Column(db.String(20), nullable=False, unique=True)  # Unique phone number
     email = db.Column(db.String(100), unique=True, nullable=False)  # Unique email
     password = db.Column(db.String(100), nullable=False)  # Hashed password
-    nationality= db.Column(db.String(50), nullable=False)
-    passport=db.Column(db.String(50), nullable=False) 
+    nationality = db.Column(db.String(50), nullable=False)
+    passport = db.Column(db.String(50), nullable=False) 
     verified = db.Column(db.Boolean, default=False)  # Verified flag
     verification_token = db.Column(db.Integer, default=0)  # Token for email verification
 
+    # Adding the required property 'is_active' for Flask-Login
+    @property
+    def is_active(self):
+        return True  # You can customize this logic (e.g., check 'verified')
 
     def get_id(self): #Always ensure that get_id() returns a unique identifier for each user, 
                       #and that it's consistent with how your application retrieves users in the user loader callback.
@@ -235,44 +239,6 @@ def verify_account(token):
     else:
         return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Invalid or expired Token!", redirect_message = url_for("login"))
 
-# def registration():
-#     if request.method == "POST":
-#         first_name = request.form.get('first_name')
-#         second_name = request.form.get('second_name')
-#         phone_number = request.form.get('phone_number')
-#         email = request.form.get('email')
-#         password = request.form.get('password')
-#         # Email validation
-#         try:
-#             valid = validate_email(email)
-#             email = valid.email  
-#         except EmailNotValidError as e:
-#             flash(f"Invalid email: {str(e)}", "error")
-#             return redirect(url_for('registration'))
-#         user_exist = User.query.filter_by(email_address=email).first()
-#         if user_exist is None:
-#             hashed_password =password #generate_password_hash(password, method='sha256')
-#             new_user = User(
-#                 first_name=first_name,
-#                 second_name=second_name,
-#                 phone=phone_number,
-#                 email_address=email,
-#                 password=hashed_password,
-#                 verified = False,
-#                 verification_token = 0
-#             )
-#             db.session.add(new_user)
-#             db.session.commit()
-#             send_email(1,True,email)
-#             flash("Registration successful. Please log in.", "success")
-#             return redirect(url_for('login'))
-#         else:
-#             flash("Email already exists. Please log in.", "error")
-#     return render_template("registration.html", pagetitle="Registration")
-
-
-
-
 
 @app.route("/register_tourist", methods=['POST', 'GET'])
 def register_tourist():
@@ -284,8 +250,6 @@ def register_tourist():
         password = request.form.get('password')
         nationality= request.form.get('Nationality')
         passport= request.form.get('Passport')
-
-    
         # Email validation
         try:
             valid = validate_email(email)
@@ -295,12 +259,12 @@ def register_tourist():
             return redirect(url_for('register_tourist'))
         user_exist = Tourist.query.filter_by(email=email).first()
         if user_exist is None:
-            hashed_password =password #generate_password_hash(password, method='sha256')
+            hashed_password = generate_password_hash(password, method='sha256')
             new_user = Tourist(
                 first_name=first_name,
                 second_name=second_name,
                 phone=phone,
-                email_address=email,
+                email=email,
                 password=hashed_password,
                 nationality=nationality,
                 passport=passport,

@@ -22,3 +22,4 @@ function toggle(cardNumber) {
     // Toggle the rotation class on the arrow
     arrow_icon.classList.toggle('rotate-180');
 }
+

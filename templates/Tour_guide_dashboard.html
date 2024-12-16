@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+    <!-- font-awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <!-- Google material icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <!-- Remix icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">    
+    <title>Timeless Traveller</title>
+    <link rel="icon" href="../static/Images/Logo_Edited_with_bg.png" class="text-lg">
+</head>
+<style>
+    aside .sidebar a.active{
+        background-color:rgb(222, 222, 222) ;
+        margin-left: 0;
+    }
+    aside .sidebar a.active:before{
+        content: "";
+        width:6px;
+        height: 100%;
+        background: #450a0a ;
+    }
+    aside .sidebar a.active span{
+        background-color:rgb(222, 222, 222) ;
+        margin-left:calc(1rem - 6px);
+    }
+</style>
+<!-- Container -->
+<body class="grid my-0 mx-auto w-full grid-cols-3 gap-7">
+    <!-- Sidebar -->
+    <aside class="h-full bg-gray-100 w-max-fit w-fit -col-end-10">
+        <!-- Top (Logo & close button) -->
+        <div class="flex items-center justify-between mt-6 pr-4 ">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <img class="w-11 h-11" src="../static/Images/Logo_no_bg.png" alt="Logo">
+                <h2 class="text-lg"><span class="text-orange-500">Timeless</span> Traveller</h2>
+            </div>
+            <!-- Close button -->
+            <div class="hidden" id="close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+        <!-- Bottom (selection icons) -->
+        <div class="bg-gray-100 flex flex-col h-4/5 relative top-12 sidebar">
+            <a onclick="toggle_before()" class="active flex ml-8 gap-4 items-center relative h-14 transition-all duration-300 ease-in-out text-red-600 hover:ml-11" href="#">
+                <span class="material-symbols-outlined">dashboard</span>
+                <h3 class="font-medium text-sm ">Dashboard</h3>
+            </a>
+            <a class="flex ml-8 gap-4 items-center relative h-14 transition-all duration-300 ease-in-out text-red-600 hover:ml-11" href="#">
+                <span class="material-symbols-outlined">person</span>
+                <h3 class="text-sm">Profile</h3>
+            </a>
+            <a class="flex ml-8 gap-4 items-center relative h-14 transition-all duration-300 ease-in-out text-red-600 hover:ml-11" href="#">
+                <span class="material-symbols-outlined">request_page</span>
+                <h3 class="text-sm">Requests</h3>
+                <span class="bg-black text-red-600 py-0.5 px-2.5 text-xs rounded-md" id="request count">10</span>
+            </a>
+            <a class="flex ml-8 gap-4 items-center relative h-14 transition-all duration-300 ease-in-out text-red-600 hover:ml-11" href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <h3 class="text-sm">Settings</h3>
+            </a>
+            <a class="flex ml-8 gap-4 items-center h-14 transition-all duration-300 ease-in-out text-red-600 hover:ml-11" href="#">
+                <span class="material-symbols-outlined">logout</span>
+                <h3 class="text-sm">Logout</h3>
+            </a>
+        </div>
+    </aside>
+    <!-- End of sidebar -->
+     <!-- Main section -->
+    <main class="mt-6">
+        <!-- Dashboard -->
+        <div class="">
+            <h1 class="text-2xl font-bold" id="title">Dashboard</h1>
+            <div>
+                <input class="text-lg p-1 mt-4 rounded-2xl" type="date">
+            </div>
+            <!-- Insights cards -->
+            <div class="grid xl:grid-cols-3 gap-7 mt-4">
+                <!-- Accepted requests -->
+                <div class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 md:w-72 md:h-48 transition-transform duration-700 ease-in-out hover:scale-105">
+                    <!-- Top -->
+                    <span class=" bg-orange-500 rounded-full p-2 material-symbols-outlined">check</span>
+                    <!-- Middle -->
+                    <div class="flex items-center justify-between">
+                        <!-- Left -->
+                        <div class="mt-2">
+                            <h3 class="font-semibold text-xl">Accepted requests</h3>
+                            <!-- Should be a variable -->
+                            <h1 class="font-bold text-3xl mt-2">25</h1>
+                        </div>
+                        <!-- Right -->
+                        <div class="relative w-24 h-24">
+                            <svg class="w-24 h-24">
+                                <circle cx="38" cy="38" r="36" fill="none" stroke="#f97316" stroke-width="14" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="calc(226 - 0.9*226)" class="translate-x-1.5 translate-y-1.5 origin-center transition-all duration-500 ease-in-out"></circle>
+                            </svg>
+                            <!-- number -->
+                            <div class="absolute inset-0 flex justify-center items-center w-full font-bold text-lg">
+                                <p>90%</p>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <!-- Rejected requests -->
+                <div class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 md:w-72 md:h-48 transition-transform duration-700 ease-in-out hover:scale-105">
+                    <!-- Top -->
+                    <span class=" bg-orange-500 rounded-full p-2 material-symbols-outlined">close</span>
+                    <!-- Middle -->
+                    <div class="flex items-center justify-between">
+                        <!-- Left -->
+                        <div class="mt-2">
+                            <h3 class="font-semibold text-xl ">Rejected requests</h3>
+                            <!-- Should be a variable -->
+                            <h1 class="font-bold text-3xl mt-2">25</h1>
+                        </div>
+                        <!-- Right -->
+                        <div class="relative w-24 h-24">
+                            <svg class="w-24 h-24">
+                                <circle cx="38" cy="38" r="36" fill="none" stroke="#f97316" stroke-width="14" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="calc(226 - 0.1*226)" class="translate-x-1.5 translate-y-1.5 origin-center transition-all duration-500 ease-in-out"></circle>
+                            </svg>
+                            <!-- number -->
+                            <div class="absolute top-8 left-0 flex justify-center items-center w-full font-bold text-lg">
+                                <p>10%</p>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <!-- Ignored requests -->
+                <div class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 md:w-72 md:h-48 transition-transform duration-700 ease-in-out hover:scale-105">
+                    <!-- Top -->
+                    <span class=" bg-orange-500 rounded-full p-2 material-symbols-outlined">notifications_paused</span>
+                    <!-- Middle -->
+                    <div class="flex items-center justify-between">
+                        <!-- Left -->
+                        <div class="mt-2">
+                            <h3 class="font-semibold text-xl ">Ignored requests</h3>
+                            <!-- Should be a variable -->
+                            <h1 class="font-bold text-3xl mt-2">10</h1>
+                        </div>
+                        <!-- Right -->
+                        <div class="relative w-24 h-24">
+                            <svg class="w-24 h-24">
+                                <circle cx="38" cy="38" r="36" fill="none" stroke="#f97316" stroke-width="14" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="calc(226 - 0.3*226)" class="translate-x-1.5 translate-y-1.5 origin-center transition-all duration-500 ease-in-out"></circle>
+                            </svg>
+                            <!-- number -->
+                            <div class="absolute top-8 left-0 flex justify-center items-center w-full font-bold text-lg">
+                                <p>30%</p>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of the freakin Insights -->
+            <!--Previous tours  -->
+            <div class="mt-8 w-full">
+                <h2 class="mb-3 font-bold text-xl">Previous Tours</h2>
+                <table class="bg-gray-100 w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
+                    <thead>
+                        <tr class="h-11 border-b-2 border-white">
+                            <th>Tour Name</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Meeting Point</th>
+                            <th>Status</th>	
+                        </tr>
+                    </thead>
+                    <tbody class="last:border-none">
+                        <tr class="h-11 border-b-2 border-white last:border-none">
+                            <td>City Tour</td>
+                            <td>2024-12-20</td>
+                            <td>New York</td>
+                            <td>Four Seasons Hotel</td>
+                            <td>Finished</td>
+                        </tr>
+                        <tr class="h-11 border-b-2 border-white last:border-none">
+                            <td>City Tour</td>
+                            <td>2024-12-20</td>
+                            <td>New York</td>
+                            <td>Four Seasons Hotel</td>
+                            <td>Finished</td>
+                        </tr>
+                        <tr class="h-11 border-b-2 border-white last:border-none">
+                            <td>City Tour</td>
+                            <td>2024-12-20</td>
+                            <td>New York</td>
+                            <td>Four Seasons Hotel</td>
+                            <td>Finished</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a class="text-center block my-4 mx-auto text-base text-slate-400 "href="#">Show All</a>
+            </div>
+            <!--End of previous tours  -->
+            <!-- Upcoming tours -->
+            <div class="mt-8 w-full">
+                <h2 class="mb-3 font-bold text-xl">Upcoming Tours</h2>
+                <table class="bg-gray-100 w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
+                    <thead>
+                        <tr class="h-11 border-b-2 border-white">
+                            <th>Tour Name</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Meeting Point</th>
+                            <th>Status</th>	
+                        </tr>
+                    </thead>
+                    <tbody class="last:border-none">
+                        <tr class="h-11 border-b-2 border-white last:border-none">
+                            <td>City Tour</td>
+                            <td>2024-12-20</td>
+                            <td>New York</td>
+                            <td>Four Seasons Hotel</td>
+                            <td>Confimred</td>
+                        </tr>
+                        <tr class="h-11 border-b-2 border-white last:border-none">
+                            <td>City Tour</td>
+                            <td>2024-12-20</td>
+                            <td>New York</td>
+                            <td>Four Seasons Hotel</td>
+                            <td>Confimred</td>
+                        </tr>
+                        <tr class="h-11 border-b-2 border-white last:border-none">
+                            <td>City Tour</td>
+                            <td>2024-12-20</td>
+                            <td>New York</td>
+                            <td>Four Seasons Hotel</td>
+                            <td>Confimred</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a class="text-center block my-4 mx-auto text-base text-slate-400 "href="#">Show All</a>
+            </div>
+        </div>
+    </main>
+    <!-- End of main section -->
+    <!-- Right bar -->
+    <div>
+        <div>
+            
+        </div>
+    </div>
+</body>
+
+
+
+
+
+
+</html>

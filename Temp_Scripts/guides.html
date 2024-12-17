@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Guide Dashboard</title>
+</head>
+<body>
+    <h1>Pending Requests</h1>
+    {% for req in requests %}
+    <div>
+        <h3>{{ req.tour_name }}</h3>
+        <p>Date: {{ req.date }}</p>
+        <p>Location: {{ req.location }}</p>
+        <p>Meeting Point: {{ req.meeting_point }}</p>
+        <a href="/accept/{{ req.id }}/1">Accept</a> <!-- Replace 1 with the actual guide's ID -->
+    </div>
+    {% else %}
+    <p>No pending requests.</p>
+    {% endfor %}
+    <a href="/">Back to Home</a>
+</body>
+</html>

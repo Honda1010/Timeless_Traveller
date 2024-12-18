@@ -34,9 +34,9 @@
 </style>
 <!-- Container -->
 
-<body class="grid my-0 mx-auto w-full grid-cols-3 gap-7">
+<body class="grid my-0 mx-auto w-full md:grid-cols-3 gap-7">
     <!-- Sidebar -->
-    <aside class="h-full bg-gray-100 w-max-fit w-fit -col-end-10">
+    <aside id="aside-menu" class="h-full bg-gray-100 w-max-fit md:w-fit md:col-end-1 max-sm:fixed max-sm:left-0 max-sm:w-72 max-sm:z-40 max-sm:shadow-xl max-sm:hidden">
         <!-- Top (Logo & close button) -->
         <div class="flex items-center justify-between mt-6 pr-4 ">
             <!-- Logo -->
@@ -45,7 +45,7 @@
                 <h2 class="text-lg"><span class="text-orange-500">Timeless</span> Traveller</h2>
             </div>
             <!-- Close button -->
-            <div class="hidden" id="close-btn">
+            <div class="md:hidden cursor-pointer" id="close-btn">
                 <i class="fa-solid fa-xmark"></i>
             </div>
         </div>
@@ -86,7 +86,7 @@
     </aside>
     <!-- End of sidebar -->
     <!-- Main section -->
-    <main class="mt-6 " id="main_1">
+    <main class="mt-6 md:col-start-1 md:col-end-8 max-sm:mt-32 max-sm:px-4" id="main_1">
         <!-- Dashboard -->
         <div class="">
             <h1 class="text-2xl font-bold" id="title">Dashboard</h1>
@@ -96,8 +96,7 @@
             <!-- Insights cards -->
             <div class="grid xl:grid-cols-3 gap-7 mt-4">
                 <!-- Accepted requests -->
-                <div
-                    class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 md:w-72 md:h-48 transition-transform duration-700 ease-in-out hover:scale-105">
+                <div class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 transition-transform duration-700 ease-in-out hover:scale-105">
                     <!-- Top -->
                     <span class=" bg-orange-500 rounded-full p-2 material-symbols-outlined">check</span>
                     <!-- Middle -->
@@ -125,8 +124,7 @@
                     </div>
                 </div>
                 <!-- Rejected requests -->
-                <div
-                    class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 md:w-72 md:h-48 transition-transform duration-700 ease-in-out hover:scale-105">
+                <div class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 transition-transform duration-700 ease-in-out hover:scale-105">
                     <!-- Top -->
                     <span class=" bg-orange-500 rounded-full p-2 material-symbols-outlined">close</span>
                     <!-- Middle -->
@@ -155,8 +153,7 @@
                     </div>
                 </div>
                 <!-- Ignored requests -->
-                <div
-                    class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 md:w-72 md:h-48 transition-transform duration-700 ease-in-out hover:scale-105">
+                <div class="bg-gray-100 shadow-lg rounded-2xl px-4 py-2 transition-transform duration-700 ease-in-out hover:scale-105">
                     <!-- Top -->
                     <span class=" bg-orange-500 rounded-full p-2 material-symbols-outlined">notifications_paused</span>
                     <!-- Middle -->
@@ -270,7 +267,7 @@
         </div>
     </main>
     <!-- Profile Section -->
-    <main class="mt-6 hidden" id="main_2">
+    <main class="mt-6 hidden md:col-start-1 md:col-end-8 max-sm:mt-32 max-sm:px-4" id="main_2">
         <h1 class="font-bold text-2xl">Profile</h1>
         <div class="grid lg:grid-cols-2 gap-7 mt-6">
             <!-- info card -->
@@ -361,12 +358,136 @@
     <!-- end of profile section -->
 
     <!-- End of main section -->
-    <!-- Right bar -->
-    <div>
+    <!-- Right section -->
+    <div class="md:col-start-8 mt-6 mb-3 md:mr-2 max-sm:px-4">
+        <!-- Top of the right section -->
+        <div class="flex justify-end items-center max-sm:fixed max-sm:top-0 max-sm:left-0 max-sm:pl-7 max-sm:items-center max-sm:justify-end max-sm:w-full max-sm:bg-gray-100 max-sm:z-10 max-sm:shadow-lg">
+            <button class="hidden max-sm:inline-block pointer absolute left-4" id="menu-btn">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <div class="flex flex-row">
+                <div>
+                    <p>Hey, <b>TT</b></p>
+                    <small class="text-xs text-slate-500">Tour Guide</small>
+                    <p class="text-sm font-semibold">Rating
+                        <div class="flex">
+                            <!-- Full stars -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                              <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                              <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                              <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-4 h-4 text-yellow-500" viewBox="0 0 24 24">
+                              <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <!-- Empty star -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-4 h-4 text-yellow-500" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                        </div>
+                    </p>
+                </div>
+                <div class="profile_photo w-11 h-11 rounded-full overflow-hidden">
+                    <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
+                </div>
+            </div>
+        </div>
+        <!-- End of top -->
+         <!-- Recent Ratings + Total rating -->
         <div>
-
+            <h2 class="font-bold text-xl mb-2">Recent Ratings</h2>
+            <!-- Ratings -->
+            <div class="bg-gray-100 rounded-2xl px-4 py-2 space-y-3 transition-transform duration-700 ease-in-out hover:scale-105">
+                <div class="flex">
+                    <div class="profile_photo w-11 h-11 rounded-full overflow-hidden">
+                        <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
+                    </div>
+                    <div class="flex-col">
+                        <h4><b>Toursit1</b></h4>
+                        <div class="flex w-24 space-x-1">
+                            <!-- Full stars -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <!-- Empty star -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-6 h-6 text-gray-300" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="profile_photo w-11 h-11 rounded-full overflow-hidden">
+                        <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
+                    </div>
+                    <div class="flex-col">
+                        <h4><b>Toursit1</b></h4>
+                        <div class="flex w-24 space-x-1">
+                            <!-- Full stars -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <!-- Empty star -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-6 h-6 text-gray-300" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="profile_photo w-11 h-11 rounded-full overflow-hidden">
+                        <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
+                    </div>
+                    <div class="flex-col">
+                        <h4><b>Toursit1</b></h4>
+                        <div class="flex w-24 space-x-1">
+                            <!-- Full stars -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24">
+                                <path d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <!-- Empty star -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-6 h-6 text-gray-300" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
         </div>
     </div>
+    <!-- End of right section -->
     <script src="../script/main.js"></script>
 </body>
 

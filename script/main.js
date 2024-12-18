@@ -55,6 +55,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // alert('Changes saved!');
     });
 });
+
+const sideMenu = document.querySelector('aside');
+const menuBtn = document.querySelector('#menu-btn');
+const closeBtn = document.querySelector('#close-btn');
+
+// Show side menu when menu button is clicked
+menuBtn.addEventListener('click', () => {
+
+    sideMenu.classList.toggle('max-sm:hidden');
+
+});
+
+// Hide side menu when close button is clicked
+closeBtn.addEventListener('click', function() {
+
+    sideMenu.classList.toggle('max-sm:hidden');
+});
+
+
 const bar_xmark_toggle = document.getElementById('bar_xmark_toggle');
 const BarIcon = document.getElementById('bar_icon');
 const XamrkIcon = document.getElementById('xmark_icon');
@@ -65,3 +84,5 @@ bar_xmark_toggle.addEventListener('click', function() {
     BarIcon.classList.toggle('hidden');
     XamrkIcon.classList.toggle('hidden'); 
 });
+
+

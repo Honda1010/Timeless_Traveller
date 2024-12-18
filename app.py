@@ -79,6 +79,10 @@ class TourGuide(db.Model):
     city = db.Column(db.String(100), nullable=True)
     verified = db.Column(db.Integer, nullable=True)
     verification_token = db.Column(db.String(64), nullable=False)
+    accepted_requests=db.Column(db.Integer, nullable=True)
+    rejected_requests=db.Column(db.Integer, nullable=True)
+    ignored_requests=db.Column(db.Integer, nullable=True)
+        
 
     @property
     def is_active(self):
@@ -118,6 +122,16 @@ class Tourist(db.Model, UserMixin):  # Inherit from UserMixin
 
     def __repr__(self):
         return f"<Tourist {self.first_name} {self.second_name}>"
+
+class TouristRequest(db.Model):
+    __tablename__ = 'touristrequest'
+    id = db.Column(db.Integer, primary_key=True)
+    tour_name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    meeting_point = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(20), default='Pending')
+    guide_id = db.Column(db.Integer, nullable=True)
 
 
 # class User(UserMixin,db.Model):
@@ -207,15 +221,37 @@ def select():
 
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
 
-@app.route("/tourist_dashboard")
+@app.route("/Tourist_temp")
 def tourist_dashboard(): 
+    if request.method == 'POST':
+        tour_name = request.form['tour_name']
+        date = request.form['date']
+        location = request.form['location']
+        meeting_point = request.form['meeting_point']
+        new_request = TouristRequest(
+            tour_name=tour_name, 
+            date=datetime.strptime(date, '%Y-%m-%d'), #get the current date and time
+            location=location, 
+            meeting_point=meeting_point
+        )
+        db.session.add(new_request)
+        db.session.commit()
+        # flash("Tour Request Submitted Successfully!")
+        return redirect(url_for('tourist_dashboard'))
 
-    return render_template("tourist_dashboard.html",pagetitle="TimelessTraveller") 
+    return render_template("Tourist_temp.html",pagetitle="TimelessTraveller") 
 
-@app.route("/tourguide_dashboard")
+## Tourguide:
+# @app.route("/Tour_guide_dashboard") ##
+# def tourguide_dashboard(): 
+#     requests = TouristRequest.query.filter_by(status='Pending').all()
+#     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
+#     return render_template("Tour_guide_dashboard.html",requests=requests,pagetitle="TimelessTraveller") 
+
 def tourguide_dashboard(): 
-
-    return render_template("tourguide_dashboard.html",pagetitle="TimelessTraveller") 
+    requests = TouristRequest.query.filter_by(status='Pending').all()
+    # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
+    return render_template("Tour_guide_dashboard.html", requests=requests,pagetitle="TimelessTraveller") 
 
 
 
@@ -259,7 +295,7 @@ def register_tourist():
             return redirect(url_for('register_tourist'))
         user_exist = Tourist.query.filter_by(email=email).first()
         if user_exist is None:
-            hashed_password = generate_password_hash(password, method='sha256')
+            hashed_password = password #generate_password_hash(password, method='sha256')
             new_user = Tourist(
                 first_name=first_name,
                 second_name=second_name,

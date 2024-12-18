@@ -191,81 +191,58 @@
             <div class="mt-8 w-full">
                 <h2 class="mb-3 font-bold text-xl">Previous Tours</h2>
                 <table
-                    class="bg-gray-100 w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
-                    <thead>
-                        <tr class="h-11 border-b-2 border-white">
-                            <th>Tour Name</th>
-                            <th>Date</th>
-                            <th>Location</th>
-                            <th>Meeting Point</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="last:border-none">
-                        <tr class="h-11 border-b-2 border-white last:border-none">
-                            <td>City Tour</td>
-                            <td>2024-12-20</td>
-                            <td>New York</td>
-                            <td>Four Seasons Hotel</td>
-                            <td>Finished</td>
-                        </tr>
-                        <tr class="h-11 border-b-2 border-white last:border-none">
-                            <td>City Tour</td>
-                            <td>2024-12-20</td>
-                            <td>New York</td>
-                            <td>Four Seasons Hotel</td>
-                            <td>Finished</td>
-                        </tr>
-                        <tr class="h-11 border-b-2 border-white last:border-none">
-                            <td>City Tour</td>
-                            <td>2024-12-20</td>
-                            <td>New York</td>
-                            <td>Four Seasons Hotel</td>
-                            <td>Finished</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <a class="text-center block my-4 mx-auto text-base text-slate-400 " href="#">Show All</a>
+                class="bg-gray-100 w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
+                <thead>
+                    <tr class="h-11 border-b-2 border-white">
+                        <th>Tour Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Meeting Point</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="last:border-none">
+                    {% for request in requests %}
+                    <tr class="h-11 border-b-2 border-white last:border-none">
+                        <td>{{ request.tour_name }}</td>
+                        <td>{{ request.date }}</td>
+                        <td>{{ request.location }}</td>
+                        <td>{{ request.meeting_point }}</td>
+                        <td>{{ request.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <a class="text-center block my-4 mx-auto text-base text-slate-400 " href="#">Show All</a>
             </div>
             <!--End of previous tours  -->
             <!-- Upcoming tours -->
             <div class="mt-8 w-full">
                 <h2 class="mb-3 font-bold text-xl">Upcoming Tours</h2>
                 <table
-                    class="bg-gray-100 w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
-                    <thead>
-                        <tr class="h-11 border-b-2 border-white">
-                            <th>Tour Name</th>
-                            <th>Date</th>
-                            <th>Location</th>
-                            <th>Meeting Point</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="last:border-none">
-                        <tr class="h-11 border-b-2 border-white last:border-none">
-                            <td>City Tour</td>
-                            <td>2024-12-20</td>
-                            <td>New York</td>
-                            <td>Four Seasons Hotel</td>
-                            <td>Confimred</td>
-                        </tr>
-                        <tr class="h-11 border-b-2 border-white last:border-none">
-                            <td>City Tour</td>
-                            <td>2024-12-20</td>
-                            <td>New York</td>
-                            <td>Four Seasons Hotel</td>
-                            <td>Confimred</td>
-                        </tr>
-                        <tr class="h-11 border-b-2 border-white last:border-none">
-                            <td>City Tour</td>
-                            <td>2024-12-20</td>
-                            <td>New York</td>
-                            <td>Four Seasons Hotel</td>
-                            <td>Confimred</td>
-                        </tr>
-                    </tbody>
-                </table>
+                class="bg-gray-100 w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
+                <thead>
+                    <tr class="h-11 border-b-2 border-white">
+                        <th>Tour Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Meeting Point</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="last:border-none">
+                    {% for request in requests %}
+                    <tr class="h-11 border-b-2 border-white last:border-none">
+                        <td>{{ request.tour_name }}</td>
+                        <td>{{ request.date }}</td>
+                        <td>{{ request.location }}</td>
+                        <td>{{ request.meeting_point }}</td>
+                        <td>{{ request.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
                 <a class="text-center block my-4 mx-auto text-base text-slate-400 " href="#">Show All</a>
             </div>
         </div>

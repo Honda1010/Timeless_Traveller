@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Guide Requests</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 p-8">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">Tour Guide Requests</h1>
+        <table class="bg-white w-full rounded-lg shadow-md overflow-hidden">
+            <thead>
+                <tr class="bg-gray-200 text-gray-700 uppercase text-sm">
+                    <th class="py-3 px-4">Tour Name</th>
+                    <th class="py-3 px-4">Date</th>
+                    <th class="py-3 px-4">Location</th>
+                    <th class="py-3 px-4">Meeting Point</th>
+                    <th class="py-3 px-4">Status</th>
+                    <th class="py-3 px-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr class="border-b hover:bg-gray-100 transition">
+                    <td class="py-3 px-4">{{ request.tour_name }}</td>
+                    <td class="py-3 px-4">{{ request.date }}</td>
+                    <td class="py-3 px-4">{{ request.location }}</td>
+                    <td class="py-3 px-4">{{ request.meeting_point }}</td>
+                    <td class="py-3 px-4">{{ request.status }}</td>
+                    <td class="py-3 px-4 flex space-x-4">
+                        <form method="POST" action="/accept_request/{{ request.id }}">
+                            <button type="submit"
+                                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                                Accept
+                            </button>
+                        </form>
+                        <form method="POST" action="/reject_request/{{ request.id }}">
+                            <button type="submit"
+                                class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+                                Reject
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

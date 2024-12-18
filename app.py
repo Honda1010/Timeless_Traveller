@@ -48,7 +48,7 @@ def load_user(user_id):
         return tourist
     tourguide = TourGuide.query.get(int(tourguide_id))
     return tourguide if tourguide else None
-
+###
 ##
 ##
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:<desha_uwk003>@<tl-traveller.c9ogmiy8e7zm.eu-north-1.rds.amazonaws.com>/<tl-traveller>'

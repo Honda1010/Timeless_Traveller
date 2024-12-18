@@ -19,7 +19,7 @@ function toggle_dashboard(menu_number){
         option = document.getElementById(`Option_${i}`);
         option.classList.remove('active');
     }
-    for(let i=1 ; i<=2;i++){
+    for(let i=1 ; i<=3;i++){
         section= document.getElementById(`main_${i}`);
         section.classList.add('hidden');
     }
@@ -73,6 +73,11 @@ closeBtn.addEventListener('click', function() {
     sideMenu.classList.toggle('max-sm:hidden');
 });
 
+function removeCard(button) {
+    // Find the card element (parent of the button's parent)
+    const card = button.closest(".bg-gray-100");
+    card.remove();
+}
 
 const bar_xmark_toggle = document.getElementById('bar_xmark_toggle');
 const BarIcon = document.getElementById('bar_icon');

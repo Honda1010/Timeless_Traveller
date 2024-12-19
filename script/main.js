@@ -27,17 +27,23 @@ function toggle_dashboard(menu_number){
     section= document.getElementById(`main_${menu_number}`);
     option.classList.add('active');
     section.classList.remove('hidden');
-}
+};
+
 function toggle_tourist_page(nav_number){
     var section2;
     var link ;
     for(let i=1 ; i<=3;i++){
-        link = document.getElementById(`Link_${i}`);
         section2= document.getElementById(`section_${i}`);
+        link = document.getElementById(`Link_${i}`);
+        link.classList.remove('text-gray-800');
         section2.classList.add('hidden');
+
     }
     section2 =document.getElementById(`section_${nav_number}`);
+    link = document.getElementById(`Link_${nav_number}`);
+    link.classList.add('text-gray-800');
     section2.classList.remove('hidden');
+
 };
 document.addEventListener('DOMContentLoaded', () => {
     const emailField = document.getElementById('email');
@@ -48,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         emailField.removeAttribute('readonly');
         passwordField.removeAttribute('readonly');
         emailField.classList.remove('cursor-not-allowed', 'bg-gray-300');
-        passwordField.classList.remove('cursor-not-allowed', 'bg-gray-300');
+        passwordField.classList.remove('cursor-not-allowed', 'bg-gray-400');
         editButton.classList.add('hidden');
         saveButton.classList.remove('hidden');
     });

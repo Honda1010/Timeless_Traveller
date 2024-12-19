@@ -591,6 +591,7 @@ def verify_code():
     return render_template("login.html")
 
 
+
 @app.route("/update_pass",methods=['POST','GET'])
 def update_pass():
     verf_pass=""
@@ -616,6 +617,13 @@ def update_pass():
 
 
 
+# @app.route("/tour_guide_profile",methods=['POST','GET'])
+# def tour_guide_profile():
+#     current_tourguide_id = session.get('tourguide_id')
+
+#     Tourist_guide=Tourguide.query.filter_by(tourguide_id=current_tourguide_id).first()
+#     flash(Tourist_guide.first_name)
+#     return render_template("Tour_guide_dashboard.html")
 
 
 

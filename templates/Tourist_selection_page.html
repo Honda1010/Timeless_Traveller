@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <title>Timeless Traveller</title>
+    <link rel="icon" href="../static/Images/Logo_Edited_with_bg.png" class="text-lg">
+</head>
+
+<body class="bg-gradient-to-r from-sand via-desert to-sunset flex flex-col items-center">
+
+    <!-- Header Section (Navbar) -->
+    <header class="bg-black-dark w-full flex items-center justify-between px-10  border-b border-black-dark">
+        <div>
+            <a href="home.html">
+                <img src="../static/Images/Logo_no_bg.png" alt="logo" class="font-bold text-xl w-[75px]">
+            </a>
+        </div>
+        <nav class="md:flex space-x-8 hidden">
+            <a href="" class="text-sm font-medium text-white hover:text-gray-800">Profile</a>
+            <a href="" class="text-sm font-medium text-white hover:text-gray-800">Booking</a>
+            <a href="home.html" class="text-sm font-medium text-white hover:text-gray-800">Home</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+            <a href="{{ url_for('login', next=request.path) }}"
+                class="hidden md:block text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a>
+            <a href="{{ url_for('choose_feature') if session.get('logged_in') else 'login'}}"
+                class="text-white bg-sunset hover:bg-orange-600 text-sm font-medium px-4 py-2 rounded-lg">Get
+                TourGuide</a>
+            <div class="md:hidden text-2xl" id="bar_xmark_toggle">
+                <div id="bar_icon">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div id="xmark_icon">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu-->
+    <div id="mobile-menu" class="hidden">
+        <div
+            class="md:hidden flex flex-col space-y-4 bg-white px-6 py-4 absolute items-center left-0 w-full border-b shadow-lg z-50">
+            <a href="#Features" class="text-sm font-medium text-gray-600 hover:text-gray-800">Features</a>
+            <a href="#FAQs" class="text-sm font-medium text-gray-600 hover:text-gray-800">FAQ</a>
+            <a href="#Contact_us" class="text-sm font-medium text-gray-600 hover:text-gray-800">Contact us</a>
+            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a>
+        </div>
+    </div>
+
+    <!-- Main container (Options) -->
+    <section class="md:max-w-7xl bg-black-dark flex flex-col justify-center items-center p-5 rounded-xl mt-10 w-full">
+        <h1 class="font-bold text-white text-2xl mb-5">Options</h1>
+        <div class="grid md:grid-cols-2 gap-7 p-5">
+
+            <!-- Historical -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/pyramids.png" alt="Pyramids image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Historical</h2>
+                    <p>Explore the wonders of ancient civilizations by visiting historical places like the Great
+                        Pyramids.</p>
+                </div>
+            </a>
+
+            <!-- Hotels -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/hotel.png" alt="Hotel image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Hotels</h2>
+                    <p>Discover a wide range of hotels to suit every traveler’s needs, from luxurious five-star resorts
+                        to budget-friendly accommodations.</p>
+                </div>
+            </a>
+
+            <!-- Restaurant -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/restaurant.png" alt="Restaurant image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Restaurant</h2>
+                    <p>Savor the diverse culinary delights offered by world-class restaurants, cozy cafes, and local
+                        eateries.</p>
+                </div>
+            </a>
+
+            <!-- Entertainment -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/ticket2.png" alt="Entertainment image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Entertainment</h2>
+                    <p>Dive into a world of excitement with endless entertainment options for all ages.</p>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <script>
+        // test for toggle mobile 
+        document.getElementById('bar_xmark_toggle').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+
+</html>

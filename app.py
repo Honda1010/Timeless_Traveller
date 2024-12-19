@@ -475,6 +475,7 @@ def update_pass():
 
 
 
+
 @app.route('/logout')
 def logout():
     logout_user()

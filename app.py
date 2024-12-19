@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for,flash,get_flashed_messages,jsonify
 from flask_sqlalchemy import SQLAlchemy 
+from sqlalchemy import and_ 
 from flask_login import  UserMixin  
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import  login_user, logout_user,login_manager, LoginManager 
@@ -134,6 +135,25 @@ class TouristRequest(db.Model):
     guide_id = db.Column(db.Integer, nullable=True)
 
 
+class Schedule(db.Model):
+    __tablename__ = 'schedules'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
+    tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourist_id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    reservation_id = db.Column(db.Integer, db.ForeignKey('requests.id'), nullable=False)
+
+    # Relationships
+    tour_guide = db.relationship('TourGuide', backref='schedules')
+    tourist = db.relationship('Tourist', backref='schedules')
+
+    reservation = db.relationship('Request', backref='schedules')
+
+    def __repr__(self):
+        return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
+
+
 # class User(UserMixin,db.Model):
 #     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True) #Defining Attributes
 #     first_name=db.Column(db.String(50))
@@ -242,16 +262,37 @@ def tourist_dashboard():
     return render_template("Tourist_temp.html",pagetitle="TimelessTraveller") 
 
 ## Tourguide:
-# @app.route("/Tour_guide_dashboard") ##
+@app.route("/Tour_guide_dashboard") ##
+def tourguide_dashboard(): 
+    current_tourguide_id = session.get('tour_guide_id')
+
+    # Query for "Upcoming" requests: status = 'confirmed'
+    request_upcom = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
+        .filter(and_(Schedule.tour_guide_id == current_tourguide_id, TouristRequest.status == 'confirmed'))\
+        .all()
+
+    # Query for "Previous" requests: status = 'finished'
+    request_prev = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
+        .filter(and_(Schedule.tour_guide_id == current_tourguide_id, TouristRequest.status == 'finished'))\
+        .all()
+
+    # Query for "Pending" requests for all tour guides
+    requests_pending = TouristRequest.query.filter_by(status='Pending').all()
+    requests = TouristRequest.query.filter_by(status='Pending').all()
+    # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
+    return render_template("Tour_guide_dashboard.html",
+                            requests=requests,
+                            request_upcom=request_upcom,
+                            request_prev=request_prev,
+                            requests_pending=requests_pending,
+                            pagetitle="TimelessTraveller") 
+
+
+
 # def tourguide_dashboard(): 
 #     requests = TouristRequest.query.filter_by(status='Pending').all()
 #     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
-#     return render_template("Tour_guide_dashboard.html",requests=requests,pagetitle="TimelessTraveller") 
-
-def tourguide_dashboard(): 
-    requests = TouristRequest.query.filter_by(status='Pending').all()
-    # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
-    return render_template("Tour_guide_dashboard.html", requests=requests,pagetitle="TimelessTraveller") 
+#     return render_template("Tour_guide_dashboard.html", requests=requests,pagetitle="TimelessTraveller") 
 
 
 

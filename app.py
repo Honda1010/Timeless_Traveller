@@ -259,7 +259,7 @@ def register_tourist():
             return redirect(url_for('register_tourist'))
         user_exist = Tourist.query.filter_by(email=email).first()
         if user_exist is None:
-            hashed_password = generate_password_hash(password, method='sha256')
+            hashed_password = password #generate_password_hash(password, method='sha256')
             new_user = Tourist(
                 first_name=first_name,
                 second_name=second_name,

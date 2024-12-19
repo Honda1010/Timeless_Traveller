@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for,flash,get_flashed_messages,jsonify
 from flask_sqlalchemy import SQLAlchemy 
+from sqlalchemy import and_ 
 from flask_login import  UserMixin  
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import  login_user, logout_user,login_manager, LoginManager 
@@ -79,6 +80,10 @@ class TourGuide(db.Model):
     city = db.Column(db.String(100), nullable=True)
     verified = db.Column(db.Integer, nullable=True)
     verification_token = db.Column(db.String(64), nullable=False)
+    accepted_requests=db.Column(db.Integer, nullable=True)
+    rejected_requests=db.Column(db.Integer, nullable=True)
+    ignored_requests=db.Column(db.Integer, nullable=True)
+        
 
     @property
     def is_active(self):
@@ -119,6 +124,45 @@ class Tourist(db.Model, UserMixin):  # Inherit from UserMixin
     def __repr__(self):
         return f"<Tourist {self.first_name} {self.second_name}>"
 
+class TouristRequest(db.Model):
+    __tablename__ = 'touristrequest'
+    id = db.Column(db.Integer, primary_key=True)
+    tour_name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    meeting_point = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(20), default='Pending')
+    guide_id = db.Column(db.Integer, nullable=True)
+
+
+class Schedule(db.Model):
+    __tablename__ = 'schedules'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
+    tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourist_id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    reservation_id = db.Column(db.Integer, db.ForeignKey('tourist_request.id'), nullable=False)
+
+    # Relationships
+    tour_guide = db.relationship('TourGuide', backref='schedules')
+    tourist = db.relationship('Tourist', backref='schedules')
+
+    reservation = db.relationship('TouristRequest', backref='schedules')
+
+    def __repr__(self):
+        return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
+
+class Rejected_Tours(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
+    request_id = db.Column(db.Integer, db.ForeignKey('tourist_request.id'), nullable=False)
+    
+
+    # Relationships
+    tour_guide = db.relationship('TourGuide', backref='schedules')
+    reservation = db.relationship('TouristRequest', backref='schedules')
 
 # class User(UserMixin,db.Model):
 #     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True) #Defining Attributes
@@ -207,15 +251,115 @@ def select():
 
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
 
-@app.route("/tourist_dashboard")
+@app.route("/Tourist_temp")
 def tourist_dashboard(): 
+    if request.method == 'POST':
+        tour_name = request.form['tour_name']
+        date = request.form['date']
+        location = request.form['location']
+        meeting_point = request.form['meeting_point']
+        new_request = TouristRequest(
+            tour_name=tour_name, 
+            date=datetime.strptime(date, '%Y-%m-%d'), #get the current date and time
+            location=location, 
+            meeting_point=meeting_point
+        )
+        db.session.add(new_request)
+        db.session.commit()
 
-    return render_template("tourist_dashboard.html",pagetitle="TimelessTraveller") 
+        #getting the logged in tourist_id
+        # tourist_id = request.args.get('tourist_id', 1)  # Default ID or retrieved from session
+        tourist_id=session.get('tourist_id')
 
-@app.route("/tourguide_dashboard")
+        #Pending Requests
+        pending_reuests = TouristRequest.query.filter_by(
+            and_(
+                TouristRequest.status == 'Pending',
+                TouristRequest.id ==tourist_id     
+                )
+        ).all()
+
+        
+        #Tourist Accepted Requests
+        accepted_tours = db.session.query(Schedule, TouristRequest).join(
+        TouristRequest, Schedule.reservation_id == TouristRequest.id
+        ).filter(Schedule.tourist_id_fk == tourist_id).all()
+
+        # flash("Tour Request Submitted Successfully!")
+        return redirect(url_for('tourist_dashboard'))
+
+    return render_template("Tourist_temp.html",accepted_tours=accepted_tours,pending_reuests=pending_reuests,pagetitle="TimelessTraveller") 
+
+## Tourguide:
+@app.route("/Tour_guide_dashboard") ##
 def tourguide_dashboard(): 
+    current_tourguide_id = session.get('tour_guide_id')
 
-    return render_template("tourguide_dashboard.html",pagetitle="TimelessTraveller") 
+    #Requests in Schdeules (Confirmed or Finished)
+    # Query for "Upcoming" requests: status = 'confirmed'
+    request_upcom = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
+        .filter(and_(Schedule.tourguide_id_fk == current_tourguide_id, TouristRequest.status == 'confirmed'))\
+        .all()
+
+    # Query for "Previous" requests: status = 'finished'
+    request_prev = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
+        .filter(and_(Schedule.tourguide_id_fk == current_tourguide_id, TouristRequest.status == 'finished'))\
+        .all()
+
+    #When Tourguide click Accept or Reject:
+    if request.method == 'POST':
+        request_id = request.form['request_id']
+        tourguide_id = request.form['tourguide_id']
+        action = request.form['action']  # 'accept' or 'reject' 
+
+        if action == 'accept':
+            # Mark the request as confirmed and add it to Schdelule
+            request_entry = TouristRequest.query.get(request_id)
+            request_entry.status = 'confirmed'
+            accepted_tour = Schedule(
+                reservation_id=request_id,
+                tourist_id=request_entry.tourist_id,
+                tourguide_id=tourguide_id
+            )
+            db.session.add(accepted_tour)
+            db.session.commit()
+        elif action == 'reject':
+            # Mark the request as rejected (or remove it from the guide's view)
+            new_reject= Rejected_Tours(
+                tourguide_id_fk=current_tourguide_id,
+                request_id=request_id
+            )
+            db.session.commit()
+
+    # Query for "Pending" requests for all tour guides (if user rejects it removed from his page of requests)
+
+
+    requests_rejected = TouristRequest.query.join(Rejected_Tours, Rejected_Tours.request_id == TouristRequest.id)\
+        .filter(TouristRequest.status == 'Pending')\
+        .all()
+    
+    rejected_request_ids = [request.id for request in requests_rejected if request.tourguide_id_fk]
+
+    requests_pending=TouristRequest.query.filter_by(status='Pending').all()
+    
+    final_pending_requests = [request for request in requests_pending if request.id not in rejected_request_ids]
+
+    
+    # requests = TouristRequest.query.filter_by(status='Pending').all()
+    # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
+    return render_template("Tour_guide_dashboard.html",
+                            # requests=requests,
+                            request_upcom=request_upcom,
+                            request_prev=request_prev,
+                            final_pending_requests=final_pending_requests,
+                            pagetitle="TimelessTraveller") 
+
+
+
+# def tourguide_dashboard(): 
+#     requests = TouristRequest.query.filter_by(status='Pending').all()
+#     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
+#     return render_template("Tour_guide_dashboard.html", requests=requests,pagetitle="TimelessTraveller") 
 
 
 
@@ -486,3 +630,4 @@ if __name__ == "__main__":
     app.run(debug=True, port=5000)
 
 
+####

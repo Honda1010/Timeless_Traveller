@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <title>Timeless Traveller</title>
+    <link rel="icon" href="../static/Images/Logo_Edited_with_bg.png" class="text-lg">
+</head>
+
+<body class="bg-gradient-to-r from-sand via-desert to-sunset flex flex-col  ">
+
+    <!-- Header Section (Navbar) -->
+    <header class="bg-black-dark w-full flex items-center justify-between px-10  border-b border-black-dark">
+        <div>
+            <a href="home.html">
+                <img src="../static/Images/Logo_no_bg.png" alt="logo" class="font-bold text-xl w-[75px]">
+            </a>
+        </div>
+        <nav class="md:flex space-x-8 hidden">
+            <a class="text-sm font-medium text-white hover:text-gray-800" id="Link_1"
+                onclick="toggle_tourist_page(1)">Home</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" id="Link_2"
+                onclick="toggle_tourist_page(2)">Profile</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" id="Link_3"
+                onclick="toggle_tourist_page(3)">Booking</a>
+            <a href="" class="text-sm font-medium text-white hover:text-gray-800">Log Out</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+            <!-- <a href="{{ url_for('login', next=request.path) }}"
+                class="hidden md:block text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a> -->
+            <a href="" class="text-white bg-sunset hover:bg-orange-600 text-sm font-medium px-4 py-2 rounded-lg">Get
+                TourGuide</a>
+            <div class="md:hidden text-2xl" id="bar_xmark_toggle">
+                <div id="bar_icon">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+                <div id="xmark_icon" class="hidden">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu-->
+    <div id="mobile-menu" class="hidden ">
+        <div
+            class="md:hidden flex flex-col space-y-4 bg-black-dark px-6 py-4 absolute items-center left-0 w-full border-b shadow-lg z-50 border-black-dark">
+            <a class="text-sm font-medium text-white hover:text-gray-800" id="Link_1"
+                onclick="toggle_tourist_page(1)">Home</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" id="Link_2"
+                onclick="toggle_tourist_page(2)">Profile</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" id="Link_3"
+                onclick="toggle_tourist_page(3)">Booking</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800">Get
+                TourGuide</a>
+            <a href="#Contact_us" class="text-sm font-medium text-white hover:text-gray-800">Log Out</a>
+        </div>
+    </div>
+
+    <!-- Main container (Options) (Home)-->
+    <main
+        class="md:max-w-7xl bg-black-dark flex flex-col justify-center items-center p-5 rounded-xl mt-10 w-full mx-auto   "
+        id="section_1">
+        <h1 class="font-bold text-white text-2xl mb-5">Options</h1>
+        <div class="grid md:grid-cols-2 gap-7 p-5">
+
+            <!-- Historical -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/pyramids.png" alt="Pyramids image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Historical</h2>
+                    <p>Explore the wonders of ancient civilizations by visiting historical places like the Great
+                        Pyramids.</p>
+                </div>
+            </a>
+
+            <!-- Hotels -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/hotel.png" alt="Hotel image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Hotels</h2>
+                    <p>Discover a wide range of hotels to suit every traveler’s needs, from luxurious five-star resorts
+                        to budget-friendly accommodations.</p>
+                </div>
+            </a>
+
+            <!-- Restaurant -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/restaurant.png" alt="Restaurant image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Restaurant</h2>
+                    <p>Savor the diverse culinary delights offered by world-class restaurants, cozy cafes, and local
+                        eateries.</p>
+                </div>
+            </a>
+
+            <!-- Entertainment -->
+            <a href="#"
+                class="rounded-2xl bg-white-light p-5 hover:scale-110 duration-300 w-full flex flex-col items-center">
+                <div class="max-w-96 flex justify-center items-center">
+                    <img src="../static/Images/ticket2.png" alt="Entertainment image">
+                </div>
+                <div class="text-lg flex flex-col items-center space-y-2">
+                    <h2 class="font-bold">Entertainment</h2>
+                    <p>Dive into a world of excitement with endless entertainment options for all ages.</p>
+                </div>
+            </a>
+
+        </div>
+    </main>
+    <!-- profile section -->
+    <main class="px-10 grid md:grid-cols-2 gap-4 mt-10 hidden" id="section_2">
+        <!-- info card -->
+        <div
+            class="rounded-lg bg-black-dark p-4 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
+            <h2 class="font-semibold mb-4  text-xl">Personal informations</h2>
+            <div class="grid md:grid-cols-2 gap-5 mt-2">
+                <div>
+                    <span class="font-bold">First Name:</span>
+                    <span>Mohanad</span>
+                </div>
+                <div>
+                    <span class="font-bold">Second Name:</span>
+                    <span>Mohanad</span>
+                </div>
+                <div>
+                    <span class="font-bold">Phone Number:</span>
+                    <span>01140014117</span>
+                </div>
+                <div>
+                    <span class="font-bold">Passport Id:</span>
+                    <span>4654654</span>
+                </div>
+                <div>
+                    <span class="font-bold">Nationality:</span>
+                    <span>Egypt</span>
+                </div>
+
+            </div>
+        </div>
+        <!-- photo card -->
+        <div
+            class="rounded-lg bg-black-dark p-4 hover:shadow-xl transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg ">
+            <div class="flex flex-col items-center justify-center">
+                <h2 class="text-xl font-semibold mb-4  ">Personal Photo</h2>
+
+                <div class="w-32 h-32 rounded-full overflow-hidden border-4 shadow-lg border-black-dark">
+                    <img src="../static/Images/aboalhol.jpg" alt=" Tour Guide Photo" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+        <!-- Account info card -->
+        <div class="rounded-lg bg-black-dark p-6 shadow-md  md:col-span-2">
+            <h2 class="font-bold text-xl text-gray-700 mb-4">Account Information</h2>
+            <form id="account-form" class="space-y-6">
+                <!-- Email Field -->
+                <!-- Should be variable from database -->
+                <div>
+                    <label for="email" class="block text-gray-600 font-semibold mb-1">Email:</label>
+                    <input type="email" id="email" name="email" value="mohanad@example.com"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-800 cursor-not-allowed"
+                        readonly />
+                </div>
+                <!-- Password Field -->
+                <!-- Should be variable from database -->
+                <div>
+                    <label for="password" class="block text-gray-600 font-semibold mb-1">Password:</label>
+                    <input type="password" id="password" name="password" value="password123"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-800 cursor-not-allowed"
+                        readonly />
+                </div>
+                <!-- Buttons -->
+                <div class="flex space-x-4 mt-2">
+                    <button type="button" id="edit-btn"
+                        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        Edit
+                    </button>
+                    <button type="button" id="save-btn"
+                        class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 hidden">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <!-- end profile section -->
+    <main id="section_3" class="hidden px-10  mt-10">
+        <!--Previous tours  -->
+        <div class="w-full">
+            <h2 class="mb-3 font-bold text-xl">Previous Tours</h2>
+            <table
+                class="bg-black-dark w-full rounded-2xl p-8 text-center shadow-xl transition-all duration-700 ease-in-out hover:shadow-none">
+                <thead>
+                    <tr class="h-11 border-b-2 border-black-dark">
+                        <th>Tour Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Meeting Point</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="last:border-none">
+                    {% for request in requests %}
+                    <tr class="h-11 border-b-2 border-white last:border-none">
+                        <td>{{ request.tour_name }}</td>
+                        <td>{{ request.date }}</td>
+                        <td>{{ request.location }}</td>
+                        <td>{{ request.meeting_point }}</td>
+                        <td>{{ request.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a class="text-center block my-4 mx-auto text-base  " href="#">Show All</a>
+        </div>
+        <!--End of previous tours  -->
+        <!-- Upcoming tours -->
+        <div class="mt-8 w-full">
+            <h2 class="mb-3 font-bold text-xl">Upcoming Tours</h2>
+            <table
+                class="bg-black-dark w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
+                <thead>
+                    <tr class="h-11 border-b-2 border-black-dark">
+                        <th>Tour Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Meeting Point</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="last:border-none">
+                    {% for request in requests %}
+                    <tr class="h-11 border-b-2 border-white last:border-none">
+                        <td>{{ request.tour_name }}</td>
+                        <td>{{ request.date }}</td>
+                        <td>{{ request.location }}</td>
+                        <td>{{ request.meeting_point }}</td>
+                        <td>{{ request.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a class="text-center block my-4 mx-auto text-base" href="#">Show All</a>
+        </div>
+    </main>
+    <script>
+        // test for toggle mobile 
+        document.getElementById('bar_xmark_toggle').addEventListener('click', function () {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const cancel = document.getElementById('xmark_icon');
+            const bar = document.getElementById('bar_icon');
+            mobileMenu.classList.toggle('hidden');
+            cancel.classList.toggle('hidden');
+            bar.classList.toggle('hidden');
+        });
+    </script>
+    <script src="../script/main.js"></script>
+</body>
+
+</html>

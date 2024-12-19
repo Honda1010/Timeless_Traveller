@@ -10,7 +10,7 @@
     <link rel="icon" href="../static/Images/Logo_Edited_with_bg.png" class="text-lg">
 </head>
 
-<body class="bg-gradient-to-r from-sand via-desert to-sunset flex flex-col items-center">
+<body class="bg-gradient-to-r from-sand via-desert to-sunset flex flex-col  ">
 
     <!-- Header Section (Navbar) -->
     <header class="bg-black-dark w-full flex items-center justify-between px-10  border-b border-black-dark">
@@ -20,9 +20,10 @@
             </a>
         </div>
         <nav class="md:flex space-x-8 hidden">
-            <a href="" class="text-sm font-medium text-white hover:text-gray-800">Profile</a>
-            <a href="" class="text-sm font-medium text-white hover:text-gray-800">Booking</a>
-            <a href="home.html" class="text-sm font-medium text-white hover:text-gray-800">Home</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" onclick="toggle_tourist_page(1)">Home</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" onclick="toggle_tourist_page(2)">Profile</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" onclick="toggle_tourist_page(3)">Booking</a>
+            <a href="" class="text-sm font-medium text-white hover:text-gray-800">Log Out</a>
         </nav>
         <div class="flex items-center space-x-4">
             <!-- <a href="{{ url_for('login', next=request.path) }}"
@@ -44,16 +45,19 @@
     <div id="mobile-menu" class="hidden ">
         <div
             class="md:hidden flex flex-col space-y-4 bg-black-dark px-6 py-4 absolute items-center left-0 w-full border-b shadow-lg z-50 border-black-dark">
-            <a href="#Features" class="text-sm font-medium text-white hover:text-gray-800">Profile</a>
-            <a href="#FAQs" class="text-sm font-medium text-white hover:text-gray-800">Booking</a>
-            <a href="#Contact_us" class="text-sm font-medium text-white hover:text-gray-800">Home</a>
-            <a href="#" class="text-sm font-medium text-white hover:text-gray-800">Get
+            <a class="text-sm font-medium text-white hover:text-gray-800" onclick="toggle_tourist_page(1)">Home</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" onclick="toggle_tourist_page(2)">Profile</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800" onclick="toggle_tourist_page(3)">Booking</a>
+            <a class="text-sm font-medium text-white hover:text-gray-800">Get
                 TourGuide</a>
+            <a href="#Contact_us" class="text-sm font-medium text-white hover:text-gray-800">Log Out</a>
         </div>
     </div>
 
-    <!-- Main container (Options) -->
-    <section class="md:max-w-7xl bg-black-dark flex flex-col justify-center items-center p-5 rounded-xl mt-10 w-full">
+    <!-- Main container (Options) (Home)-->
+    <main
+        class="md:max-w-7xl bg-black-dark flex flex-col justify-center items-center p-5 rounded-xl mt-10 w-full mx-auto   "
+        id="section_1">
         <h1 class="font-bold text-white text-2xl mb-5">Options</h1>
         <div class="grid md:grid-cols-2 gap-7 p-5">
 
@@ -109,8 +113,84 @@
             </a>
 
         </div>
-    </section>
+    </main>
+    <!-- profile section -->
+    <main class="px-10 grid md:grid-cols-2 gap-4 mt-10 hidden" id="section_2">
+        <!-- info card -->
+        <div
+            class="rounded-lg bg-black-dark p-4 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
+            <h2 class="font-semibold mb-4  text-xl">Personal informations</h2>
+            <div class="grid md:grid-cols-2 gap-5 mt-2">
+                <div>
+                    <span class="font-bold">First Name:</span>
+                    <span>Mohanad</span>
+                </div>
+                <div>
+                    <span class="font-bold">Second Name:</span>
+                    <span>Mohanad</span>
+                </div>
+                <div>
+                    <span class="font-bold">Phone Number:</span>
+                    <span>01140014117</span>
+                </div>
+                <div>
+                    <span class="font-bold">Passport Id:</span>
+                    <span>4654654</span>
+                </div>
+                <div>
+                    <span class="font-bold">Nationality:</span>
+                    <span>Egypt</span>
+                </div>
 
+            </div>
+        </div>
+        <!-- photo card -->
+        <div
+            class="rounded-lg bg-black-dark p-4 hover:shadow-xl transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg ">
+            <div class="flex flex-col items-center justify-center">
+                <h2 class="text-xl font-semibold mb-4  ">Personal Photo</h2>
+
+                <div class="w-32 h-32 rounded-full overflow-hidden border-4 shadow-lg border-black-dark">
+                    <img src="../static/Images/aboalhol.jpg" alt=" Tour Guide Photo" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+        <!-- Account info card -->
+        <div class="rounded-lg bg-black-dark p-6 shadow-md  md:col-span-2">
+            <h2 class="font-bold text-xl text-gray-700 mb-4">Account Information</h2>
+            <form id="account-form" class="space-y-6">
+                <!-- Email Field -->
+                <!-- Should be variable from database -->
+                <div>
+                    <label for="email" class="block text-gray-600 font-semibold mb-1">Email:</label>
+                    <input type="email" id="email" name="email" value="mohanad@example.com"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-800 cursor-not-allowed"
+                        readonly />
+                </div>
+                <!-- Password Field -->
+                <!-- Should be variable from database -->
+                <div>
+                    <label for="password" class="block text-gray-600 font-semibold mb-1">Password:</label>
+                    <input type="password" id="password" name="password" value="password123"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-200 text-gray-800 cursor-not-allowed"
+                        readonly />
+                </div>
+                <!-- Buttons -->
+                <div class="flex space-x-4 mt-2">
+                    <button type="button" id="edit-btn"
+                        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        Edit
+                    </button>
+                    <button type="button" id="save-btn"
+                        class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 hidden">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <!-- end profile section -->
+    <main id="section_3" class="hidden"></main>
     <script>
         // test for toggle mobile 
         document.getElementById('bar_xmark_toggle').addEventListener('click', function () {
@@ -122,7 +202,7 @@
             bar.classList.toggle('hidden');
         });
     </script>
-
+    <script src="../script/main.js"></script>
 </body>
 
 </html>

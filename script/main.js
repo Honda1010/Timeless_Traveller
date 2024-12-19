@@ -28,6 +28,17 @@ function toggle_dashboard(menu_number){
     option.classList.add('active');
     section.classList.remove('hidden');
 }
+function toggle_tourist_page(nav_number){
+    var section2;
+    var link ;
+    for(let i=1 ; i<=3;i++){
+        link = document.getElementById(`Link_${i}`);
+        section2= document.getElementById(`section_${i}`);
+        section2.classList.add('hidden');
+    }
+    section2 =document.getElementById(`section_${nav_number}`);
+    section2.classList.remove('hidden');
+};
 document.addEventListener('DOMContentLoaded', () => {
     const emailField = document.getElementById('email');
     const passwordField = document.getElementById('password');
@@ -36,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     editButton.addEventListener('click', () => {
         emailField.removeAttribute('readonly');
         passwordField.removeAttribute('readonly');
-        emailField.classList.remove('cursor-not-allowed', 'bg-gray-200');
-        passwordField.classList.remove('cursor-not-allowed', 'bg-gray-200');
+        emailField.classList.remove('cursor-not-allowed', 'bg-gray-300');
+        passwordField.classList.remove('cursor-not-allowed', 'bg-gray-300');
         editButton.classList.add('hidden');
         saveButton.classList.remove('hidden');
     });
@@ -46,8 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
         emailField.setAttribute('readonly', true);
         passwordField.setAttribute('readonly', true);
 
-        emailField.classList.add('cursor-not-allowed', 'bg-gray-200');
-        passwordField.classList.add('cursor-not-allowed', 'bg-gray-200');
+        emailField.classList.add('cursor-not-allowed', 'bg-gray-300');
+        passwordField.classList.add('cursor-not-allowed', 'bg-gray-300');
 
         saveButton.classList.add('hidden');
         editButton.classList.remove('hidden');

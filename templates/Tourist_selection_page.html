@@ -25,16 +25,15 @@
             <a href="home.html" class="text-sm font-medium text-white hover:text-gray-800">Home</a>
         </nav>
         <div class="flex items-center space-x-4">
-            <a href="{{ url_for('login', next=request.path) }}"
-                class="hidden md:block text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a>
-            <a href="{{ url_for('choose_feature') if session.get('logged_in') else 'login'}}"
-                class="text-white bg-sunset hover:bg-orange-600 text-sm font-medium px-4 py-2 rounded-lg">Get
+            <!-- <a href="{{ url_for('login', next=request.path) }}"
+                class="hidden md:block text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a> -->
+            <a href="" class="text-white bg-sunset hover:bg-orange-600 text-sm font-medium px-4 py-2 rounded-lg">Get
                 TourGuide</a>
             <div class="md:hidden text-2xl" id="bar_xmark_toggle">
                 <div id="bar_icon">
                     <i class="fa-solid fa-bars"></i>
                 </div>
-                <div id="xmark_icon">
+                <div id="xmark_icon" class="hidden">
                     <i class="fa-solid fa-xmark"></i>
                 </div>
             </div>
@@ -42,13 +41,14 @@
     </header>
 
     <!-- Mobile Menu-->
-    <div id="mobile-menu" class="hidden">
+    <div id="mobile-menu" class="hidden ">
         <div
-            class="md:hidden flex flex-col space-y-4 bg-white px-6 py-4 absolute items-center left-0 w-full border-b shadow-lg z-50">
-            <a href="#Features" class="text-sm font-medium text-gray-600 hover:text-gray-800">Features</a>
-            <a href="#FAQs" class="text-sm font-medium text-gray-600 hover:text-gray-800">FAQ</a>
-            <a href="#Contact_us" class="text-sm font-medium text-gray-600 hover:text-gray-800">Contact us</a>
-            <a href="#" class="text-sm font-medium text-gray-600 hover:text-gray-800">Sign in</a>
+            class="md:hidden flex flex-col space-y-4 bg-black-dark px-6 py-4 absolute items-center left-0 w-full border-b shadow-lg z-50 border-black-dark">
+            <a href="#Features" class="text-sm font-medium text-white hover:text-gray-800">Profile</a>
+            <a href="#FAQs" class="text-sm font-medium text-white hover:text-gray-800">Booking</a>
+            <a href="#Contact_us" class="text-sm font-medium text-white hover:text-gray-800">Home</a>
+            <a href="#" class="text-sm font-medium text-white hover:text-gray-800">Get
+                TourGuide</a>
         </div>
     </div>
 
@@ -115,7 +115,11 @@
         // test for toggle mobile 
         document.getElementById('bar_xmark_toggle').addEventListener('click', function () {
             const mobileMenu = document.getElementById('mobile-menu');
+            const cancel = document.getElementById('xmark_icon');
+            const bar = document.getElementById('bar_icon');
             mobileMenu.classList.toggle('hidden');
+            cancel.classList.toggle('hidden');
+            bar.classList.toggle('hidden');
         });
     </script>
 

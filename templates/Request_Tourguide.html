@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+    <title>Timeless Traveller</title>
+    <link rel="icon" href="../static/Images/Logo_Edited_with_bg.png" class="text-lg">
+
+</head>
+
+<body class="bg-gradient-to-r from-sand via-desert to-sunset flex items-center justify-center h-screen">
+    <!-- Main container -->
+    <section class="md:max-w-5xl bg-black-dark md:grid md:grid-cols-2 items-center gap-16 p-5 rounded-2xl h-auto">
+        <!-- Image (left side) -->
+        <div class="hidden md:block md:h-full md:w-full">
+            <img src="../static/Images/R.jpeg" alt="Tourguide image" class="rounded-xl h-full w-full">
+        </div>
+        <!-- right side container -->
+        <div class=" grid gap-5">
+            <h1 class="font-bold text-5xl">Request</h1>
+            <p class="text-zinc-50 text-lg">Exploring a new destination is an exciting adventure, but having a
+                knowledgeable tour guide can take your experience to the next level.</p>
+            <!-- Form container -->
+            <form action="register_tourist" class="space-y-5" method="post">
+                <!-- Tour Name field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <input type="text" placeholder="Tour Name" name="Tour_name"
+                        class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Date field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-regular fa-calendar-days"></i>
+                    </div>
+                    <input type="date" placeholder="Date" name="Date"
+                        class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- location field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-solid fa-earth-americas"></i>
+                    </div>
+                    <input type="text" placeholder="Location" name="Location"
+                        class="w-full bg-white-light py-2 px-10 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+
+                <!-- Meeting Point field -->
+                <div class="relative">
+                    <div
+                        class="absolute top-1 left-1 bg-white-medium flex p-2 rounded-full items-center justify-center">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <input type="text" placeholder="Meeting Point" name="Meeting_Point"
+                        class="w-full bg-white-light py-2 px-11 rounded-full focus:bg-black focus:outline-none focus:text-zinc-300 focus:ring focus:ring-zinc-700 "
+                        required>
+                </div>
+                <!-- Sign up button -->
+                <button type="submit"
+                    class="bg-gradient-to-r from-white to-sunset font-semibold w-full rounded-full py-2 hover:bg-gradient-to-r hover:from-white-medium hover:to-red-600"
+                    type="submit">Submit
+                </button>
+            </form>
+
+        </div>
+
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../script/main.js"></script>
+</body>
+
+</html>

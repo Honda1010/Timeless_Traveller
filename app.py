@@ -251,13 +251,16 @@ def choose_feature(): #main-page
 
 @app.route("/select")
 def select(): 
-
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
+
+@app.route("/Request_TourGuide")
+def Request_TourGuide(): 
+    return render_template("Request_TourGuide.html",pagetitle="TimelessTraveller") 
 
 @app.route("/Tourist_selection_page")
 def tourist_dashboard(): 
-
-    
+    tourist_id=session.get('tourist_id')
+    current_tourist=Tourist.query.get(tourist_id)
     if request.method == 'POST':
         tour_name = request.form['tour_name']
         date = request.form['date']
@@ -265,16 +268,12 @@ def tourist_dashboard():
         meeting_point = request.form['meeting_point']
         new_request = TouristRequest(
             tour_name=tour_name, 
-            date=datetime.strptime(date, '%Y-%m-%d'), #get the current date and time
+            date=datetime.strptime(date, '%Y-%m-%d'),
             location=location, 
             meeting_point=meeting_point
         )
         db.session.add(new_request)
         db.session.commit()
-
-        #getting the logged in tourist_id
-        # tourist_id = request.args.get('tourist_id', 1)  # Default ID or retrieved from session
-        tourist_id=session.get('tourist_id')
 
         #Pending Requests
         pending_reuests = TouristRequest.query.filter_by(
@@ -293,14 +292,8 @@ def tourist_dashboard():
         # flash("Tour Request Submitted Successfully!")
         return redirect(url_for('tourist_dashboard'))
 
+    return render_template("Tourist_selection_page.html", tourist_id=tourist_id, pagetitle="TimelessTraveller") 
 
-
-
-    return render_template("Tourist_selection_page.html",
-    tourist_id=tourist_id,
-    # accepted_tours=accepted_tours,
-    # pending_reuests=pending_reuests,
-    pagetitle="TimelessTraveller") 
 
 ## Tourguide:
 @app.route("/Tour_guide_dashboard",methods=['POST','GET']) ##
@@ -424,6 +417,8 @@ def verify_account(token):
     else:
         return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Invalid or expired Token!", redirect_message = url_for("login"))
 
+def strong_pass(password):
+    return len(password) >=8 and len(password) <=20 and any(char.isupper() for char in password) and not password.isalnum() and any(char.islower() for char in password) and any(char.isdigit() for char in password)
 
 @app.route("/register_tourist", methods=['POST', 'GET'])
 def register_tourist():
@@ -435,34 +430,38 @@ def register_tourist():
         password = request.form.get('password')
         nationality= request.form.get('Nationality')
         passport= request.form.get('Passport')
-        # Email validation
-        try:
-            valid = validate_email(email)
-            email = valid.email  
-        except EmailNotValidError as e:
-            flash(f"Invalid email: {str(e)}", "error")
+        if not strong_pass(password):
+            flash(f"Weak Password")
             return redirect(url_for('register_tourist'))
-        user_exist = Tourist.query.filter_by(email=email).first()
-        if user_exist is None:
-            hashed_password = password #generate_password_hash(password, method='sha256')
-            new_user = Tourist(
-                first_name=first_name,
-                second_name=second_name,
-                phone=phone,
-                email=email,
-                password=hashed_password,
-                nationality=nationality,
-                passport=passport,
-                verified = False,
-                verification_token = 0
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            send_email(1,True,email)
-            flash("Registration successful. Please log in.", "success")
-            return redirect(url_for('login'))
         else:
-            flash("Email already exists. Please log in.", "error")
+        # Email validation
+            try:
+                valid = validate_email(email)
+                email = valid.email  
+            except EmailNotValidError as e:
+                flash(f"Invalid email: {str(e)}", "error")
+                return redirect(url_for('register_tourist'))
+            user_exist = Tourist.query.filter_by(email=email).first()
+            if user_exist is None:
+                hashed_password = password #generate_password_hash(password, method='sha256')
+                new_user = Tourist(
+                    first_name=first_name,
+                    second_name=second_name,
+                    phone=phone,
+                    email=email,
+                    password=hashed_password,
+                    nationality=nationality,
+                    passport=passport,
+                    verified = False,
+                    verification_token = 0
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                send_email(1,True,email)
+                flash("Registration successful. Please log in.", "success")
+                return redirect(url_for('login'))
+            else:
+                flash("Email already exists. Please log in.", "error")
     return render_template('Registration_Tourist.html', pagetitle="Registration")
 
 
@@ -480,38 +479,41 @@ def register_tourguide():
         second_lang=request.form.get('second_lang')
         third_lang=request.form.get('third_lang')
         city=request.form.get('City')
-
-        # Email validation
-        try:
-            valid = validate_email(email)
-            email = valid.email  
-        except EmailNotValidError as e:
-            flash(f"Invalid email: {str(e)}", "error")
+        if not strong_pass(password):
+            flash(f"Weak Password")
             return redirect(url_for('register_tourguide'))
-        user_exist = TourGuide.query.filter_by(email=email).first()
-        if user_exist is None:
-            hashed_password =password #generate_password_hash(password, method='sha256')
-            new_user = TourGuide(
-                first_name=first_name,
-                second_name=second_name,
-                phone=phone,
-                email=email,
-                password=hashed_password,
-                company_name=company_name,
-                first_lang=first_lang,
-                second_lang=second_lang,
-                third_lang=third_lang,
-                city=city, 
-                verified = False,
-                verification_token = 0
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            send_email(1,True,email)
-            flash("Registration successful. Please log in.", "success")
-            return redirect(url_for('login'))
         else:
-            flash("Email already exists. Please log in.", "error")
+        # Email validation
+            try:
+                valid = validate_email(email)
+                email = valid.email  
+            except EmailNotValidError as e:
+                flash(f"Invalid email: {str(e)}", "error")
+                return redirect(url_for('register_tourguide'))
+            user_exist = TourGuide.query.filter_by(email=email).first()
+            if user_exist is None:
+                hashed_password =password #generate_password_hash(password, method='sha256')
+                new_user = TourGuide(
+                    first_name=first_name,
+                    second_name=second_name,
+                    phone=phone,
+                    email=email,
+                    password=hashed_password,
+                    company_name=company_name,
+                    first_lang=first_lang,
+                    second_lang=second_lang,
+                    third_lang=third_lang,
+                    city=city, 
+                    verified = False,
+                    verification_token = 0
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                send_email(1,True,email)
+                flash("Registration successful. Please log in.", "success")
+                return redirect(url_for('login'))
+            else:
+                flash("Email already exists. Please log in.", "error")
 
     return render_template('Registration_TourGuide.html', pagetitle="Registration")
 

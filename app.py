@@ -32,7 +32,7 @@ from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = "eldosh"  # Replace with your own secret key
-app.permanent_session_lifetime = timedelta(minutes=30)
+# app.permanent_session_lifetime = timedelta(minutes=30)
 
 login_manager=LoginManager(app) #idetifies the app that loginManager start to set policies for it
 login_manager.login_view='login' #specify the name of the view function (or the endpoint) that handles user logins. When an unauthorized user attempts..
@@ -49,6 +49,7 @@ def load_user(user_id):
     if tourist:
         return tourist
     tourguide = TourGuide.query.get(int(tourguide_id))
+    # tourguide = TourGuide.query.filter_by(tourguide_id=tourguide_id).first()
     return tourguide if tourguide else None
 ###
 ##
@@ -133,8 +134,10 @@ class TouristRequest(db.Model):
     location = db.Column(db.String(100), nullable=False)
     meeting_point = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(20), default='Pending')
-    guide_id = db.Column(db.Integer, nullable=True)
+    tourist_id_fk_req = db.Column(db.Integer,db.ForeignKey('tourist.tourist_id'), nullable=True)
 
+    #Relationships:
+    tourist_fk_req = db.relationship('Tourist', backref='TouristRequest')
 
 class Schedule(db.Model):
     __tablename__ = 'schedules'
@@ -142,7 +145,7 @@ class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
     tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourist.tourist_id'), nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    date = db.Column(db.Date, nullable=True)
     reservation_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
 
     # Relationships
@@ -251,8 +254,10 @@ def select():
 
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
 
-@app.route("/Tourist_temp")
+@app.route("/Tourist_selection_page")
 def tourist_dashboard(): 
+
+    
     if request.method == 'POST':
         tour_name = request.form['tour_name']
         date = request.form['date']
@@ -288,14 +293,21 @@ def tourist_dashboard():
         # flash("Tour Request Submitted Successfully!")
         return redirect(url_for('tourist_dashboard'))
 
-    return render_template("Tourist_temp.html",accepted_tours=accepted_tours,pending_reuests=pending_reuests,pagetitle="TimelessTraveller") 
+
+
+    return render_template("Tourist_selection_page.html",
+    tourist_id=tourist_id,
+    # accepted_tours=accepted_tours,
+    # pending_reuests=pending_reuests,
+    pagetitle="TimelessTraveller") 
 
 ## Tourguide:
-@app.route("/Tour_guide_dashboard") ##
+@app.route("/Tour_guide_dashboard",methods=['POST','GET']) ##
 def tourguide_dashboard(): 
-    # current_tourguide_id = session.get('tourguide_id')
-    current_tourguide_id = 1
-
+    current_tourguide_id = session.get('tourguide_id')
+    current_tourguide=TourGuide.query.get(current_tourguide_id)
+    # current_tourguide_id = 1
+    print(current_tourguide_id, " hi")
     # current_tourguide_id = session['tourguide_id']
 
     #Requests in Schdeules (Confirmed or Finished)
@@ -311,32 +323,51 @@ def tourguide_dashboard():
 
     #When Tourguide click Accept or Reject:
     if request.method == 'POST':
-        request_id = request.form['request_id']
-        tourguide_id = request.form['tourguide_id']
-        action = request.form['action']  # 'accept' or 'reject' 
+        
+        form_type = request.form.get('form_type')
+        if form_type == 'form1':
+            email_edit=request.form['email']
+            password=request.form['password']
+            # Renwing The Email:
+            current_tourguide.email=email_edit
+            current_tourguide.password=password
+            db.session.commit()
+        
+        else:
+            request_id = 1
+            tourguide_id = 1
+            action = 1  # 'accept' or 'reject' 
 
-        if action == 'accept':
-            # Mark the request as confirmed and add it to Schdelule
-            request_entry = TouristRequest.query.get(request_id)
-            request_entry.status = 'confirmed'
-            accepted_tour = Schedule(
-                reservation_id=request_id,
-                tourist_id=request_entry.tourist_id,
-                tourguide_id=tourguide_id
-            )
-            db.session.add(accepted_tour)
-            db.session.commit()
-        elif action == 'reject':
-            # Mark the request as rejected (or remove it from the guide's view)
-            new_reject= Rejected_Tours(
-                tourguide_id_fk=current_tourguide_id,
-                request_id=request_id
-            )
-            db.session.add(new_reject)
-            db.session.commit()
+            request_id = request.form['request_id']
+            tourguide_id = current_tourguide_id
+            action = request.form['action']  # 'accept' or 'reject' 
+            
+
+            if action == 'accept':
+                # Mark the request as confirmed and add it to Schdelule
+                request_entry = TouristRequest.query.get(request_id)
+                request_entry.status = 'confirmed'
+                accepted_tour = Schedule(
+                    tourist_id_fk=request_entry.tourist_id_fk_req,
+                    tourguide_id_fk=tourguide_id,
+                    reservation_id=request_id,
+                )
+                db.session.add(accepted_tour)
+                db.session.commit()
+
+            elif action == 'reject':
+                # Mark the request as rejected (or remove it from the guide's view)
+                new_reject= Rejected_Tours(
+                    tourguide_id_fk_rej=current_tourguide_id,
+                    request_id=request_id
+                )
+                db.session.add(new_reject)
+                db.session.commit()
+
+
 
     # Query for "Pending" requests for all tour guides (if user rejects it removed from his page of requests)
-
+##
 
     requests_rejected = TouristRequest.query.join(Rejected_Tours, Rejected_Tours.request_id == TouristRequest.id)\
         .filter(TouristRequest.status == 'Pending')\
@@ -348,10 +379,11 @@ def tourguide_dashboard():
     
     final_pending_requests = [request for request in requests_pending if request.id not in rejected_request_ids]
 
-    
+
     # requests = TouristRequest.query.filter_by(status='Pending').all()
     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
     return render_template("Tour_guide_dashboard.html",
+                            current_tourguide=current_tourguide,
                             requests=requests_pending,
                             request_upcom=request_upcom,
                             request_prev=request_prev,
@@ -522,6 +554,7 @@ def login():
             else:
                 # if next_page:
                 #   return redirect(url_for(next_page))
+                session['tourist_id']=tourist.tourist_id
                 login_user(tourist)
                 return redirect(url_for('tourist_dashboard'))
 
@@ -534,6 +567,7 @@ def login():
             else:
                 # if next_page:
                 #   return redirect(url_for(next_page))
+                session['tourguide_id']=tourguide.tourguide_id
                 login_user(tourguide)
                 return redirect(url_for('tourguide_dashboard'))
         

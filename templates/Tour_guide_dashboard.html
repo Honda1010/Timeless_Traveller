@@ -258,35 +258,35 @@
                 <div class="grid md:grid-cols-2 gap-5 mt-2">
                     <div>
                         <span class="font-bold">First Name:</span>
-                        <span>Mohanad</span>
+                        <span>{{current_tourguide.first_name}}</span>
                     </div>
                     <div>
                         <span class="font-bold">Second Name:</span>
-                        <span>Mohanad</span>
+                        <span>{{current_tourguide.second_name}}</span>
                     </div>
                     <div>
                         <span class="font-bold">Phone Number:</span>
-                        <span>01140014117</span>
+                        <span>{{current_tourguide.phone}}</span>
                     </div>
                     <div>
                         <span class="font-bold">Company Name:</span>
-                        <span>YAT</span>
+                        <span>{{current_tourguide.company_name}}</span>
                     </div>
                     <div>
                         <span class="font-bold">First Language:</span>
-                        <span>Arabic</span>
+                        <span>{{current_tourguide.first_lang}}</span>
                     </div>
                     <div>
                         <span class="font-bold">Second Language:</span>
-                        <span>English</span>
+                        <span>{{current_tourguide.second_lang}}</span>
                     </div>
                     <div>
                         <span class="font-bold">Third Language:</span>
-                        <span>Spanish</span>
+                        <span>{{current_tourguide.third_lang}}</span>
                     </div>
                     <div>
                         <span class="font-bold">City:</span>
-                        <span>Giza</span>
+                        <span>{{current_tourguide.city}}</span>
                     </div>
 
                 </div>
@@ -308,9 +308,10 @@
         <!-- Account info card -->
         <div class="rounded-lg bg-gray-100 p-6 shadow-md mt-8">
             <h2 class="font-bold text-xl text-gray-700 mb-4">Account Information</h2>
-            <form id="account-form" class="space-y-6">
+            <form action="/Tour_guide_dashboard" id="account-form" class="space-y-6" method="POST">
                 <!-- Email Field -->
                 <!-- Should be variable from database -->
+                <input type="hidden" name="form_type" value="form2">
                 <div>
                     <label for="email" class="block text-gray-600 font-semibold mb-1">Email:</label>
                     <input type="email" id="email" name="email" value="mohanad@example.com"
@@ -331,7 +332,7 @@
                         class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                         Edit
                     </button>
-                    <button type="button" id="save-btn"
+                    <button type="submit" id="save-btn"
                         class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 hidden">
                         Save
                     </button>
@@ -345,40 +346,49 @@
         <h1 class="font-bold text-2xl">Requests</h1>
         <div class="grid lg:grid-cols-2 gap-3 mt-6">
             <!-- Card 1 -->
-            <div
-                class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
-                <div class="grid md:grid-cols-2 col-span-2">
-                    <div>
-                        <span class="font-bold">Tour Name:</span>
-                        <span>Mohanad</span>
+            {% for request in final_pending_requests %}
+                <div
+                    class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
+                    <div class="grid md:grid-cols-2 col-span-2">
+                        <div>
+                            <span class="font-bold">Tour Name:</span>
+                            <span>{{request.tour_name}}</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">Date: </span>
+                            <span>{{request.date}}</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">Location:</span>
+                            <span>{{request.location}}</span>
+                        </div>
+                        <div>
+                            <span class="font-bold">Meeting Point:</span>
+                            <span>{{request.meeting_point}}</span>
+                        </div>
                     </div>
-                    <div>
-                        <span class="font-bold">Date: </span>
-                        <span>1/1/2025</span>
+                    <div class="flex space-x-2 md:flex-col md:justify-center md:items-end md:space-y-2">
+                        <form action="/Tour_guide_dashboard" method="POST" >
+                            <button type="submit" name="action" value="accept" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"  >
+                                Accept
+                            </button>
+                            <input type="hidden" name="form_type" value="form2">
+                            <input type="hidden" name="request_id" value="{{request.id}}">
+                        </form>
+                        <form action="/Tour_guide_dashboard" method="POST">
+                            <button type="submit" name="action" value="rqject" class="px-6 py-2 text-white rounded-lg bg-red-500 hover:bg-red-600"
+                                onclick="removeCard(this)">
+                                Reject
+                            </button>
+                            <input type="hidden" name="form_type" value="form2">
+                            <input type="hidden" name="request_id" value="{{request.id}}">
+                        </form>
                     </div>
-                    <div>
-                        <span class="font-bold">Location:</span>
-                        <span>Cairo</span>
-                    </div>
-                    <div>
-                        <span class="font-bold">Meeting Point:</span>
-                        <span>Haram</span>
-                    </div>
-                </div>
-                <div class="flex space-x-2 md:flex-col md:justify-center md:items-end md:space-y-2">
-                    <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-                        Accept
-                    </button>
-                    <button type="button" class="px-6 py-2 text-white rounded-lg bg-red-500 hover:bg-red-600"
-                        onclick="removeCard(this)">
-                        Reject
-                    </button>
 
                 </div>
-
-            </div>
+            {%endfor%}
             <!-- Card 2 -->
-            <div
+        <!--<div
                 class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
                 <div class="grid md:grid-cols-2 col-span-2">
                     <div>
@@ -410,71 +420,7 @@
                 </div>
 
             </div>
-            <!-- Card 3 -->
-            <div
-                class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
-                <div class="grid md:grid-cols-2 col-span-2">
-                    <div>
-                        <span class="font-bold">Tour Name:</span>
-                        <span>Mohanad</span>
-                    </div>
-                    <div>
-                        <span class="font-bold">Date: </span>
-                        <span>1/1/2025</span>
-                    </div>
-                    <div>
-                        <span class="font-bold">Location:</span>
-                        <span>Cairo</span>
-                    </div>
-                    <div>
-                        <span class="font-bold">Meeting Point:</span>
-                        <span>Haram</span>
-                    </div>
-                </div>
-                <div class="flex space-x-2 md:flex-col md:justify-center md:items-end md:space-y-2">
-                    <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-                        Accept
-                    </button>
-                    <button type="button" class="px-6 py-2 text-white rounded-lg bg-red-500 hover:bg-red-600"
-                        onclick="removeCard(this)">
-                        Reject
-                    </button>
-
-                </div>
-
-            </div>
-            <div
-                class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
-                <div class="grid md:grid-cols-2 col-span-2">
-                    <div>
-                        <span class="font-bold">Tour Name:</span>
-                        <span>Mohanad</span>
-                    </div>
-                    <div>
-                        <span class="font-bold">Date: </span>
-                        <span>1/1/2025</span>
-                    </div>
-                    <div>
-                        <span class="font-bold">Location:</span>
-                        <span>Cairo</span>
-                    </div>
-                    <div>
-                        <span class="font-bold">Meeting Point:</span>
-                        <span>Haram</span>
-                    </div>
-                </div>
-                <div class="flex space-x-2 md:flex-col md:justify-center md:items-end md:space-y-2">
-                    <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-                        Accept
-                    </button>
-                    <button type="button" class="px-6 py-2 text-white rounded-lg bg-red-500 hover:bg-red-600"
-                        onclick="removeCard(this)">
-                        Reject
-                    </button>
-
-                </div>
-
-            </div>
+            Card 3
             <div
                 class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
                 <div class="grid md:grid-cols-2 col-span-2">
@@ -667,7 +613,71 @@
                 </div>
 
             </div>
+            <div
+                class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
+                <div class="grid md:grid-cols-2 col-span-2">
+                    <div>
+                        <span class="font-bold">Tour Name:</span>
+                        <span>Mohanad</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">Date: </span>
+                        <span>1/1/2025</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">Location:</span>
+                        <span>Cairo</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">Meeting Point:</span>
+                        <span>Haram</span>
+                    </div>
+                </div>
+                <div class="flex space-x-2 md:flex-col md:justify-center md:items-end md:space-y-2">
+                    <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                        Accept
+                    </button>
+                    <button type="button" class="px-6 py-2 text-white rounded-lg bg-red-500 hover:bg-red-600"
+                        onclick="removeCard(this)">
+                        Reject
+                    </button>
 
+                </div>
+
+            </div>
+            <div
+                class="bg-gray-100 rounded-xl grid md:grid-cols-3 p-4 gap-4 md:gap-0 transition-transform duration-700 ease-in-out hover:scale-105 shadow-lg">
+                <div class="grid md:grid-cols-2 col-span-2">
+                    <div>
+                        <span class="font-bold">Tour Name:</span>
+                        <span>Mohanad</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">Date: </span>
+                        <span>1/1/2025</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">Location:</span>
+                        <span>Cairo</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">Meeting Point:</span>
+                        <span>Haram</span>
+                    </div>
+                </div>
+                <div class="flex space-x-2 md:flex-col md:justify-center md:items-end md:space-y-2">
+                    <button type="button" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                        Accept
+                    </button>
+                    <button type="button" class="px-6 py-2 text-white rounded-lg bg-red-500 hover:bg-red-600"
+                        onclick="removeCard(this)">
+                        Reject
+                    </button>
+
+                </div>
+
+            </div>
+            -->
         </div>
     </main>
 
@@ -844,7 +854,8 @@
         </div>
     </div>
     <!-- End of right section -->
-    <script src="../script/main.js"></script>
+    <script src="../static/js/main.js"></script>
+    <!-- <script src="{{ url_for('static', filename='js/main.js') }}"></script> -->
 </body>
 
 

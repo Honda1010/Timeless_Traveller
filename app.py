@@ -145,7 +145,7 @@ class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
     tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourist.tourist_id'), nullable=False)
-    date = db.Column(db.Date, nullable=True)
+    date = db.Column(db.Date, nullable=False)
     reservation_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
 
     # Relationships
@@ -156,6 +156,13 @@ class Schedule(db.Model):
 
     # def __repr__(self):
     #     return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
+
+class Historical(db.Model):
+    __tablename__='Historical'
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    location=db.Column(db.String(1000),nullable=False)
+    name=db.Column(db.String(200),nullable=False)
+    type_=db.Column(db.String(100),nullable=False)
 
 class Rejected_Tours(db.Model):
     __tablename__ = 'rejected_tours'
@@ -233,10 +240,6 @@ def send_email(x, verify, recipient_email):
     except Exception as e:
         flash(f'Failed to send email: {str(e)}')
 
-
-
-
-
 ####################################################################################################
 @app.route("/")
 def home(): #main-page
@@ -251,18 +254,17 @@ def choose_feature(): #main-page
 
 @app.route("/select")
 def select(): 
-
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
 
-@app.route("/Tourist_selection_page")
-def tourist_dashboard(): 
-    tourist_id=session.get('tourist_id')
-    current_tourist=Tourist.query.get(tourist_id)
+@app.route("/Request_Tourguide", methods=['GET', 'POST'])
+def Request_Tourguide():
     if request.method == 'POST':
+        tourist_id=session.get('tourist_id')
+        current_tourist=Tourist.query.get(tourist_id)
         tour_name = request.form['tour_name']
         date = request.form['date']
         location = request.form['location']
-        meeting_point = request.form['meeting_point']
+        meeting_point = request.form['meeting_Point']
         new_request = TouristRequest(
             tour_name=tour_name, 
             date=datetime.strptime(date, '%Y-%m-%d'),
@@ -270,24 +272,28 @@ def tourist_dashboard():
             meeting_point=meeting_point
         )
         db.session.add(new_request)
-        db.session.commit()
+        db.session.commit() 
+        return redirect(url_for('Tourist_selection_page'))
+    return render_template("Request_Tourguide.html",pagetitle="TimelessTraveller") 
 
+@app.route("/Tourist_selection_page")
+def Tourist_selection_page(): 
+    tourist_id=session.get('tourist_id')
+    current_tourist=Tourist.query.get(tourist_id)
         #Pending Requests
-        pending_reuests = TouristRequest.query.filter_by(
-            and_(
-                TouristRequest.status == 'Pending',
-                TouristRequest.id ==tourist_id     
-                )
-        ).all()
+    # pending_reuests = TouristRequest.query.filter_by(
+    #     and_(
+    #         TouristRequest.status == 'Pending',
+    #         TouristRequest.id ==tourist_id     
+    #         )
+    # ).all()
+    #Tourist Accepted Requests
+    # accepted_tours = db.session.query(Schedule, TouristRequest).join(
+    # TouristRequest, Schedule.reservation_id == TouristRequest.id
+    # ).filter(Schedule.tourist_id_fk == tourist_id).all()
 
-
-        #Tourist Accepted Requests
-        accepted_tours = db.session.query(Schedule, TouristRequest).join(
-        TouristRequest, Schedule.reservation_id == TouristRequest.id
-        ).filter(Schedule.tourist_id_fk == tourist_id).all()
-
-        # flash("Tour Request Submitted Successfully!")
-        return redirect(url_for('tourist_dashboard'))
+    # flash("Tour Request Submitted Successfully!")
+    # return redirect(url_for('Tourist_selection_page'))
 
     return render_template("Tourist_selection_page.html", tourist_id=tourist_id, pagetitle="TimelessTraveller") 
 
@@ -341,6 +347,7 @@ def tourguide_dashboard():
                 accepted_tour = Schedule(
                     tourist_id_fk=request_entry.tourist_id_fk_req,
                     tourguide_id_fk=tourguide_id,
+                    date=request_entry.date,
                     reservation_id=request_id,
                 )
                 db.session.add(accepted_tour)
@@ -348,6 +355,9 @@ def tourguide_dashboard():
 
             elif action == 'reject':
                 # Mark the request as rejected (or remove it from the guide's view)
+                request_id = request.form.get('request_id')
+                request_entry = TouristRequest.query.get(request_id)
+                request_entry.status = 'rejected'
                 new_reject= Rejected_Tours(
                     tourguide_id_fk_rej=current_tourguide_id,
                     request_id=request_id
@@ -556,7 +566,7 @@ def login():
                 #   return redirect(url_for(next_page))
                 session['tourist_id']=tourist.tourist_id
                 login_user(tourist)
-                return redirect(url_for('tourist_dashboard'))
+                return redirect(url_for('Tourist_selection_page'))
 
         tourguide = TourGuide.query.filter_by(email=email).first()
         if tourguide and tourguide.password == password:

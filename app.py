@@ -240,10 +240,6 @@ def send_email(x, verify, recipient_email):
     except Exception as e:
         flash(f'Failed to send email: {str(e)}')
 
-
-
-
-
 ####################################################################################################
 @app.route("/")
 def home(): #main-page
@@ -260,19 +256,15 @@ def choose_feature(): #main-page
 def select(): 
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
 
-@app.route("/Request_TourGuide")
-def Request_TourGuide(): 
-    return render_template("Request_TourGuide.html",pagetitle="TimelessTraveller") 
-
-@app.route("/Tourist_selection_page")
-def tourist_dashboard(): 
-    tourist_id=session.get('tourist_id')
-    current_tourist=Tourist.query.get(tourist_id)
+@app.route("/Request_Tourguide", methods=['GET', 'POST'])
+def Request_Tourguide():
     if request.method == 'POST':
+        tourist_id=session.get('tourist_id')
+        current_tourist=Tourist.query.get(tourist_id)
         tour_name = request.form['tour_name']
         date = request.form['date']
         location = request.form['location']
-        meeting_point = request.form['meeting_point']
+        meeting_point = request.form['meeting_Point']
         new_request = TouristRequest(
             tour_name=tour_name, 
             date=datetime.strptime(date, '%Y-%m-%d'),
@@ -280,24 +272,28 @@ def tourist_dashboard():
             meeting_point=meeting_point
         )
         db.session.add(new_request)
-        db.session.commit()
+        db.session.commit() 
+        return redirect(url_for('Tourist_selection_page'))
+    return render_template("Request_Tourguide.html",pagetitle="TimelessTraveller") 
 
+@app.route("/Tourist_selection_page")
+def Tourist_selection_page(): 
+    tourist_id=session.get('tourist_id')
+    current_tourist=Tourist.query.get(tourist_id)
         #Pending Requests
-        pending_reuests = TouristRequest.query.filter_by(
-            and_(
-                TouristRequest.status == 'Pending',
-                TouristRequest.id ==tourist_id     
-                )
-        ).all()
+    # pending_reuests = TouristRequest.query.filter_by(
+    #     and_(
+    #         TouristRequest.status == 'Pending',
+    #         TouristRequest.id ==tourist_id     
+    #         )
+    # ).all()
+    #Tourist Accepted Requests
+    # accepted_tours = db.session.query(Schedule, TouristRequest).join(
+    # TouristRequest, Schedule.reservation_id == TouristRequest.id
+    # ).filter(Schedule.tourist_id_fk == tourist_id).all()
 
-
-        #Tourist Accepted Requests
-        accepted_tours = db.session.query(Schedule, TouristRequest).join(
-        TouristRequest, Schedule.reservation_id == TouristRequest.id
-        ).filter(Schedule.tourist_id_fk == tourist_id).all()
-
-        # flash("Tour Request Submitted Successfully!")
-        return redirect(url_for('tourist_dashboard'))
+    # flash("Tour Request Submitted Successfully!")
+    # return redirect(url_for('Tourist_selection_page'))
 
     return render_template("Tourist_selection_page.html", tourist_id=tourist_id, pagetitle="TimelessTraveller") 
 
@@ -570,7 +566,7 @@ def login():
                 #   return redirect(url_for(next_page))
                 session['tourist_id']=tourist.tourist_id
                 login_user(tourist)
-                return redirect(url_for('tourist_dashboard'))
+                return redirect(url_for('Tourist_selection_page'))
 
         tourguide = TourGuide.query.filter_by(email=email).first()
         if tourguide and tourguide.password == password:

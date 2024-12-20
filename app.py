@@ -262,7 +262,8 @@ def Request_Tourguide():
             tour_name=tour_name, 
             date=datetime.strptime(date, '%Y-%m-%d'),
             location=location, 
-            meeting_point=meeting_point
+            meeting_point=meeting_point,
+            tourist_id_fk_req = tourist_id
         )
         db.session.add(new_request)
         db.session.commit() 
@@ -342,6 +343,7 @@ def tourguide_dashboard():
                     tourguide_id_fk=tourguide_id,
                     date=request_entry.date,
                     reservation_id=request_id,
+                    guide_id = current_tourguide_id
                 )
                 db.session.add(accepted_tour)
                 db.session.commit()

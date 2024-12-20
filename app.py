@@ -332,7 +332,7 @@ def tourguide_dashboard():
             db.session.commit()
 
     # Query for "Pending" requests for all tour guides (if user rejects it removed from his page of requests)
-
+##
 
     requests_rejected = TouristRequest.query.join(Rejected_Tours, Rejected_Tours.request_id == TouristRequest.id)\
         .filter(TouristRequest.status == 'Pending')\

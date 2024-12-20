@@ -25,13 +25,14 @@ from email.message import EmailMessage
 # import secrets
 import string
 from flask_migrate import Migrate
+from datetime import timedelta
 # import json
 ##
 ###############------------##################
 
 app = Flask(__name__)
 app.secret_key = "eldosh"  # Replace with your own secret key
-
+# app.permanent_session_lifetime = timedelta(minutes=30)
 
 login_manager=LoginManager(app) #idetifies the app that loginManager start to set policies for it
 login_manager.login_view='login' #specify the name of the view function (or the endpoint) that handles user logins. When an unauthorized user attempts..
@@ -48,6 +49,7 @@ def load_user(user_id):
     if tourist:
         return tourist
     tourguide = TourGuide.query.get(int(tourguide_id))
+    # tourguide = TourGuide.query.filter_by(tourguide_id=tourguide_id).first()
     return tourguide if tourguide else None
 ###
 ##
@@ -132,27 +134,38 @@ class TouristRequest(db.Model):
     location = db.Column(db.String(100), nullable=False)
     meeting_point = db.Column(db.String(100), nullable=False)
     status = db.Column(db.String(20), default='Pending')
-    guide_id = db.Column(db.Integer, nullable=True)
+    tourist_id_fk_req = db.Column(db.Integer,db.ForeignKey('tourist.tourist_id'), nullable=True)
 
+    #Relationships:
+    tourist_fk_req = db.relationship('Tourist', backref='TouristRequest')
 
 class Schedule(db.Model):
-    __tablename__ = 'schedules'
+    __tablename__ = 'schedule'
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
-    tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourist_id'), nullable=False)
-    date = db.Column(db.Date, nullable=False)
-    reservation_id = db.Column(db.Integer, db.ForeignKey('requests.id'), nullable=False)
+    tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourist.tourist_id'), nullable=False)
+    date = db.Column(db.Date, nullable=True)
+    reservation_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
 
     # Relationships
-    tour_guide = db.relationship('TourGuide', backref='schedules')
-    tourist = db.relationship('Tourist', backref='schedules')
+    tour_guide = db.relationship('TourGuide', backref='schedule')
+    tourist = db.relationship('Tourist', backref='schedule')
 
-    reservation = db.relationship('Request', backref='schedules')
+    reservation = db.relationship('TouristRequest', backref='schedule')
 
-    def __repr__(self):
-        return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
+    # def __repr__(self):
+    #     return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
 
+class Rejected_Tours(db.Model):
+    __tablename__ = 'rejected_tours'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    tourguide_id_fk_rej = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
+    request_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
+    
+    # Relationships
+    fk_tourguide_rej = db.relationship('TourGuide', backref='Rejected_Tours')
+    fk_touristrequest_rej = db.relationship('TouristRequest', backref='Rejected_Tours')
 
 # class User(UserMixin,db.Model):
 #     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True) #Defining Attributes
@@ -241,8 +254,10 @@ def select():
 
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
 
-@app.route("/Tourist_temp")
+@app.route("/Tourist_selection_page")
 def tourist_dashboard(): 
+    tourist_id=session.get('tourist_id')
+    current_tourist=Tourist.query.get(tourist_id)
     if request.method == 'POST':
         tour_name = request.form['tour_name']
         date = request.form['date']
@@ -250,41 +265,120 @@ def tourist_dashboard():
         meeting_point = request.form['meeting_point']
         new_request = TouristRequest(
             tour_name=tour_name, 
-            date=datetime.strptime(date, '%Y-%m-%d'), #get the current date and time
+            date=datetime.strptime(date, '%Y-%m-%d'),
             location=location, 
             meeting_point=meeting_point
         )
         db.session.add(new_request)
         db.session.commit()
+
+        #Pending Requests
+        pending_reuests = TouristRequest.query.filter_by(
+            and_(
+                TouristRequest.status == 'Pending',
+                TouristRequest.id ==tourist_id     
+                )
+        ).all()
+
+
+        #Tourist Accepted Requests
+        accepted_tours = db.session.query(Schedule, TouristRequest).join(
+        TouristRequest, Schedule.reservation_id == TouristRequest.id
+        ).filter(Schedule.tourist_id_fk == tourist_id).all()
+
         # flash("Tour Request Submitted Successfully!")
         return redirect(url_for('tourist_dashboard'))
 
-    return render_template("Tourist_temp.html",pagetitle="TimelessTraveller") 
+    return render_template("Tourist_selection_page.html", tourist_id=tourist_id, pagetitle="TimelessTraveller") 
+
 
 ## Tourguide:
-@app.route("/Tour_guide_dashboard") ##
+@app.route("/Tour_guide_dashboard",methods=['POST','GET']) ##
 def tourguide_dashboard(): 
-    current_tourguide_id = session.get('tour_guide_id')
+    current_tourguide_id = session.get('tourguide_id')
+    current_tourguide=TourGuide.query.get(current_tourguide_id)
+    # current_tourguide_id = 1
+    print(current_tourguide_id, " hi")
+    # current_tourguide_id = session['tourguide_id']
 
+    #Requests in Schdeules (Confirmed or Finished)
     # Query for "Upcoming" requests: status = 'confirmed'
     request_upcom = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
-        .filter(and_(Schedule.tour_guide_id == current_tourguide_id, TouristRequest.status == 'confirmed'))\
+        .filter(and_(Schedule.tourguide_id_fk == current_tourguide_id, TouristRequest.status == 'confirmed'))\
         .all()
 
     # Query for "Previous" requests: status = 'finished'
     request_prev = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
-        .filter(and_(Schedule.tour_guide_id == current_tourguide_id, TouristRequest.status == 'finished'))\
+        .filter(and_(Schedule.tourguide_id_fk == current_tourguide_id, TouristRequest.status == 'finished'))\
         .all()
 
-    # Query for "Pending" requests for all tour guides
-    requests_pending = TouristRequest.query.filter_by(status='Pending').all()
-    requests = TouristRequest.query.filter_by(status='Pending').all()
+    #When Tourguide click Accept or Reject:
+    if request.method == 'POST':
+        
+        form_type = request.form.get('form_type')
+        if form_type == 'form1':
+            email_edit=request.form['email']
+            password=request.form['password']
+            # Renwing The Email:
+            current_tourguide.email=email_edit
+            current_tourguide.password=password
+            db.session.commit()
+        
+        else:
+            request_id = 1
+            tourguide_id = 1
+            action = 1  # 'accept' or 'reject' 
+
+            request_id = request.form['request_id']
+            tourguide_id = current_tourguide_id
+            action = request.form['action']  # 'accept' or 'reject' 
+            
+
+            if action == 'accept':
+                # Mark the request as confirmed and add it to Schdelule
+                request_entry = TouristRequest.query.get(request_id)
+                request_entry.status = 'confirmed'
+                accepted_tour = Schedule(
+                    tourist_id_fk=request_entry.tourist_id_fk_req,
+                    tourguide_id_fk=tourguide_id,
+                    reservation_id=request_id,
+                )
+                db.session.add(accepted_tour)
+                db.session.commit()
+
+            elif action == 'reject':
+                # Mark the request as rejected (or remove it from the guide's view)
+                new_reject= Rejected_Tours(
+                    tourguide_id_fk_rej=current_tourguide_id,
+                    request_id=request_id
+                )
+                db.session.add(new_reject)
+                db.session.commit()
+
+
+
+    # Query for "Pending" requests for all tour guides (if user rejects it removed from his page of requests)
+##
+
+    requests_rejected = TouristRequest.query.join(Rejected_Tours, Rejected_Tours.request_id == TouristRequest.id)\
+        .filter(TouristRequest.status == 'Pending')\
+        .all()
+    
+    rejected_request_ids = [request.id for request in requests_rejected if request.tourguide_id_fk]
+
+    requests_pending=TouristRequest.query.filter_by(status='Pending').all()
+    
+    final_pending_requests = [request for request in requests_pending if request.id not in rejected_request_ids]
+
+
+    # requests = TouristRequest.query.filter_by(status='Pending').all()
     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
     return render_template("Tour_guide_dashboard.html",
-                            requests=requests,
+                            current_tourguide=current_tourguide,
+                            requests=requests_pending,
                             request_upcom=request_upcom,
                             request_prev=request_prev,
-                            requests_pending=requests_pending,
+                            final_pending_requests=final_pending_requests,
                             pagetitle="TimelessTraveller") 
 
 
@@ -316,6 +410,8 @@ def verify_account(token):
     else:
         return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Invalid or expired Token!", redirect_message = url_for("login"))
 
+def strong_pass(password):
+    return len(password) >=8 and len(password) <=20 and any(char.isupper() for char in password) and not password.isalnum() and any(char.islower() for char in password) and any(char.isdigit() for char in password)
 
 @app.route("/register_tourist", methods=['POST', 'GET'])
 def register_tourist():
@@ -327,34 +423,38 @@ def register_tourist():
         password = request.form.get('password')
         nationality= request.form.get('Nationality')
         passport= request.form.get('Passport')
-        # Email validation
-        try:
-            valid = validate_email(email)
-            email = valid.email  
-        except EmailNotValidError as e:
-            flash(f"Invalid email: {str(e)}", "error")
+        if not strong_pass(password):
+            flash(f"Weak Password")
             return redirect(url_for('register_tourist'))
-        user_exist = Tourist.query.filter_by(email=email).first()
-        if user_exist is None:
-            hashed_password = password #generate_password_hash(password, method='sha256')
-            new_user = Tourist(
-                first_name=first_name,
-                second_name=second_name,
-                phone=phone,
-                email=email,
-                password=hashed_password,
-                nationality=nationality,
-                passport=passport,
-                verified = False,
-                verification_token = 0
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            send_email(1,True,email)
-            flash("Registration successful. Please log in.", "success")
-            return redirect(url_for('login'))
         else:
-            flash("Email already exists. Please log in.", "error")
+        # Email validation
+            try:
+                valid = validate_email(email)
+                email = valid.email  
+            except EmailNotValidError as e:
+                flash(f"Invalid email: {str(e)}", "error")
+                return redirect(url_for('register_tourist'))
+            user_exist = Tourist.query.filter_by(email=email).first()
+            if user_exist is None:
+                hashed_password = password #generate_password_hash(password, method='sha256')
+                new_user = Tourist(
+                    first_name=first_name,
+                    second_name=second_name,
+                    phone=phone,
+                    email=email,
+                    password=hashed_password,
+                    nationality=nationality,
+                    passport=passport,
+                    verified = False,
+                    verification_token = 0
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                send_email(1,True,email)
+                flash("Registration successful. Please log in.", "success")
+                return redirect(url_for('login'))
+            else:
+                flash("Email already exists. Please log in.", "error")
     return render_template('Registration_Tourist.html', pagetitle="Registration")
 
 
@@ -372,38 +472,41 @@ def register_tourguide():
         second_lang=request.form.get('second_lang')
         third_lang=request.form.get('third_lang')
         city=request.form.get('City')
-
-        # Email validation
-        try:
-            valid = validate_email(email)
-            email = valid.email  
-        except EmailNotValidError as e:
-            flash(f"Invalid email: {str(e)}", "error")
+        if not strong_pass(password):
+            flash(f"Weak Password")
             return redirect(url_for('register_tourguide'))
-        user_exist = TourGuide.query.filter_by(email=email).first()
-        if user_exist is None:
-            hashed_password =password #generate_password_hash(password, method='sha256')
-            new_user = TourGuide(
-                first_name=first_name,
-                second_name=second_name,
-                phone=phone,
-                email=email,
-                password=hashed_password,
-                company_name=company_name,
-                first_lang=first_lang,
-                second_lang=second_lang,
-                third_lang=third_lang,
-                city=city, 
-                verified = False,
-                verification_token = 0
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            send_email(1,True,email)
-            flash("Registration successful. Please log in.", "success")
-            return redirect(url_for('login'))
         else:
-            flash("Email already exists. Please log in.", "error")
+        # Email validation
+            try:
+                valid = validate_email(email)
+                email = valid.email  
+            except EmailNotValidError as e:
+                flash(f"Invalid email: {str(e)}", "error")
+                return redirect(url_for('register_tourguide'))
+            user_exist = TourGuide.query.filter_by(email=email).first()
+            if user_exist is None:
+                hashed_password =password #generate_password_hash(password, method='sha256')
+                new_user = TourGuide(
+                    first_name=first_name,
+                    second_name=second_name,
+                    phone=phone,
+                    email=email,
+                    password=hashed_password,
+                    company_name=company_name,
+                    first_lang=first_lang,
+                    second_lang=second_lang,
+                    third_lang=third_lang,
+                    city=city, 
+                    verified = False,
+                    verification_token = 0
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                send_email(1,True,email)
+                flash("Registration successful. Please log in.", "success")
+                return redirect(url_for('login'))
+            else:
+                flash("Email already exists. Please log in.", "error")
 
     return render_template('Registration_TourGuide.html', pagetitle="Registration")
 
@@ -451,6 +554,7 @@ def login():
             else:
                 # if next_page:
                 #   return redirect(url_for(next_page))
+                session['tourist_id']=tourist.tourist_id
                 login_user(tourist)
                 return redirect(url_for('tourist_dashboard'))
 
@@ -463,6 +567,7 @@ def login():
             else:
                 # if next_page:
                 #   return redirect(url_for(next_page))
+                session['tourguide_id']=tourguide.tourguide_id
                 login_user(tourguide)
                 return redirect(url_for('tourguide_dashboard'))
         
@@ -524,6 +629,7 @@ def verify_code():
     return render_template("login.html")
 
 
+
 @app.route("/update_pass",methods=['POST','GET'])
 def update_pass():
     verf_pass=""
@@ -548,6 +654,14 @@ def update_pass():
     return render_template("Change_Password.html",pagetitle="Login")
 
 
+
+# @app.route("/tour_guide_profile",methods=['POST','GET'])
+# def tour_guide_profile():
+#     current_tourguide_id = session.get('tourguide_id')
+
+#     Tourist_guide=Tourguide.query.filter_by(tourguide_id=current_tourguide_id).first()
+#     flash(Tourist_guide.first_name)
+#     return render_template("Tour_guide_dashboard.html")
 
 
 

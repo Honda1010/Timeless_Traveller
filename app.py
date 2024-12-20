@@ -140,7 +140,7 @@ class TouristRequest(db.Model):
     tourist_fk_req = db.relationship('Tourist', backref='TouristRequest')
 
 class Schedule(db.Model):
-    __tablename__ = 'schedules'
+    __tablename__ = 'schedule'
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
@@ -149,10 +149,10 @@ class Schedule(db.Model):
     reservation_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
 
     # Relationships
-    tour_guide = db.relationship('TourGuide', backref='schedules')
-    tourist = db.relationship('Tourist', backref='schedules')
+    tour_guide = db.relationship('TourGuide', backref='schedule')
+    tourist = db.relationship('Tourist', backref='schedule')
 
-    reservation = db.relationship('TouristRequest', backref='schedules')
+    reservation = db.relationship('TouristRequest', backref='schedule')
 
     # def __repr__(self):
     #     return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"

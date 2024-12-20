@@ -145,7 +145,7 @@ class Schedule(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
     tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourist.tourist_id'), nullable=False)
-    date = db.Column(db.Date, nullable=True)
+    date = db.Column(db.Date, nullable=False)
     reservation_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
 
     # Relationships
@@ -351,6 +351,7 @@ def tourguide_dashboard():
                 accepted_tour = Schedule(
                     tourist_id_fk=request_entry.tourist_id_fk_req,
                     tourguide_id_fk=tourguide_id,
+                    date=request_entry.date,
                     reservation_id=request_id,
                 )
                 db.session.add(accepted_tour)
@@ -358,6 +359,9 @@ def tourguide_dashboard():
 
             elif action == 'reject':
                 # Mark the request as rejected (or remove it from the guide's view)
+                request_id = request.form.get('request_id')
+                request_entry = TouristRequest.query.get(request_id)
+                request_entry.status = 'rejected'
                 new_reject= Rejected_Tours(
                     tourguide_id_fk_rej=current_tourguide_id,
                     request_id=request_id

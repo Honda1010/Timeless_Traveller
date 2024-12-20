@@ -279,6 +279,7 @@ def tourist_dashboard():
                 )
         ).all()
 
+
         #Tourist Accepted Requests
         accepted_tours = db.session.query(Schedule, TouristRequest).join(
         TouristRequest, Schedule.reservation_id == TouristRequest.id

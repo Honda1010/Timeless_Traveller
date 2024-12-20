@@ -25,13 +25,14 @@ from email.message import EmailMessage
 # import secrets
 import string
 from flask_migrate import Migrate
+from datetime import timedelta
 # import json
 ##
 ###############------------##################
 
 app = Flask(__name__)
 app.secret_key = "eldosh"  # Replace with your own secret key
-
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 login_manager=LoginManager(app) #idetifies the app that loginManager start to set policies for it
 login_manager.login_view='login' #specify the name of the view function (or the endpoint) that handles user logins. When an unauthorized user attempts..
@@ -140,9 +141,9 @@ class Schedule(db.Model):
     
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
-    tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourist_id'), nullable=False)
+    tourist_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourist.tourist_id'), nullable=False)
     date = db.Column(db.Date, nullable=False)
-    reservation_id = db.Column(db.Integer, db.ForeignKey('tourist_request.id'), nullable=False)
+    reservation_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
 
     # Relationships
     tour_guide = db.relationship('TourGuide', backref='schedules')
@@ -150,19 +151,18 @@ class Schedule(db.Model):
 
     reservation = db.relationship('TouristRequest', backref='schedules')
 
-    def __repr__(self):
-        return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
+    # def __repr__(self):
+    #     return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
 
 class Rejected_Tours(db.Model):
-
+    __tablename__ = 'rejected_tours'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    tourguide_id_fk = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
-    request_id = db.Column(db.Integer, db.ForeignKey('tourist_request.id'), nullable=False)
+    tourguide_id_fk_rej = db.Column(db.BigInteger, db.ForeignKey('tourguide.tourguide_id'), nullable=False)
+    request_id = db.Column(db.Integer, db.ForeignKey('touristrequest.id'), nullable=False)
     
-
     # Relationships
-    tour_guide = db.relationship('TourGuide', backref='schedules')
-    reservation = db.relationship('TouristRequest', backref='schedules')
+    fk_tourguide_rej = db.relationship('TourGuide', backref='Rejected_Tours')
+    fk_touristrequest_rej = db.relationship('TouristRequest', backref='Rejected_Tours')
 
 # class User(UserMixin,db.Model):
 #     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True) #Defining Attributes
@@ -279,7 +279,6 @@ def tourist_dashboard():
                 )
         ).all()
 
-        
         #Tourist Accepted Requests
         accepted_tours = db.session.query(Schedule, TouristRequest).join(
         TouristRequest, Schedule.reservation_id == TouristRequest.id
@@ -293,7 +292,10 @@ def tourist_dashboard():
 ## Tourguide:
 @app.route("/Tour_guide_dashboard") ##
 def tourguide_dashboard(): 
-    current_tourguide_id = session.get('tour_guide_id')
+    # current_tourguide_id = session.get('tourguide_id')
+    current_tourguide_id = 1
+
+    # current_tourguide_id = session['tourguide_id']
 
     #Requests in Schdeules (Confirmed or Finished)
     # Query for "Upcoming" requests: status = 'confirmed'
@@ -329,6 +331,7 @@ def tourguide_dashboard():
                 tourguide_id_fk=current_tourguide_id,
                 request_id=request_id
             )
+            db.session.add(new_reject)
             db.session.commit()
 
     # Query for "Pending" requests for all tour guides (if user rejects it removed from his page of requests)
@@ -348,7 +351,7 @@ def tourguide_dashboard():
     # requests = TouristRequest.query.filter_by(status='Pending').all()
     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
     return render_template("Tour_guide_dashboard.html",
-                            # requests=requests,
+                            requests=requests_pending,
                             request_upcom=request_upcom,
                             request_prev=request_prev,
                             final_pending_requests=final_pending_requests,
@@ -591,6 +594,7 @@ def verify_code():
     return render_template("login.html")
 
 
+
 @app.route("/update_pass",methods=['POST','GET'])
 def update_pass():
     verf_pass=""
@@ -615,6 +619,14 @@ def update_pass():
     return render_template("Change_Password.html",pagetitle="Login")
 
 
+
+# @app.route("/tour_guide_profile",methods=['POST','GET'])
+# def tour_guide_profile():
+#     current_tourguide_id = session.get('tourguide_id')
+
+#     Tourist_guide=Tourguide.query.filter_by(tourguide_id=current_tourguide_id).first()
+#     flash(Tourist_guide.first_name)
+#     return render_template("Tour_guide_dashboard.html")
 
 
 

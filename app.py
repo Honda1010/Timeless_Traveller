@@ -251,8 +251,11 @@ def choose_feature(): #main-page
 
 @app.route("/select")
 def select(): 
-
     return render_template("Selection_page.html",pagetitle="TimelessTraveller") 
+
+@app.route("/Request_TourGuide")
+def Request_TourGuide(): 
+    return render_template("Request_TourGuide.html",pagetitle="TimelessTraveller") 
 
 @app.route("/Tourist_selection_page")
 def tourist_dashboard(): 

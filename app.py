@@ -157,6 +157,13 @@ class Schedule(db.Model):
     # def __repr__(self):
     #     return f"<Schedule(id={self.id}, tour_guide_id={self.tour_guide_id}, date={self.date}, reservation_id={self.reservation_id})>"
 
+class Historical(db.Model):
+    __tablename__='Historical'
+    id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    location=db.Column(db.String(1000),nullable=False)
+    name=db.Column(db.String(200),nullable=False)
+    type_=db.Column(db.String(100),nullable=False)
+
 class Rejected_Tours(db.Model):
     __tablename__ = 'rejected_tours'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

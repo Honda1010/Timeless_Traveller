@@ -295,6 +295,7 @@ def tourist_dashboard():
 
 
 
+
     return render_template("Tourist_selection_page.html",
     tourist_id=tourist_id,
     # accepted_tours=accepted_tours,

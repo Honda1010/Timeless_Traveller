@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/main.css">
+    <!-- font-awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+    <!-- Google material icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <!-- Remix icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <title>Timeless Traveller</title>
+    <link rel="icon" href="../static/Images/Logo_Edited_with_bg.png" class="text-lg">
+</head>
+
+<style>
+    .active{
+        border: solid 1px white;
+        background-color: #c2410c ;
+    }
+</style>
+
+<body>
+     <!-- Header -->
+    <header class=" bg-gradient-to-r from-orange-700 via-desert to-orange-700 pb-2 mb-0 w-screen flex-col items-center px-10 space-y-2">
+        <div class="flex items-center md:ml-60">
+            <a href="home.html"><img src="../static/Images/Logo_no_bg.png" alt="logo"
+                    class="font-bold text-xl w-[75px]"></a>
+            <a href="home.html" class="text-xl text-white font-medium">Timeless Traveller</a>
+            <!-- <h1 class="font-bold text-xl text-sunset">Timeless Traveller</h1> -->
+        </div>
+        <nav class=" hidden md:static md:flex space-x-8 justify-start md:ml-60">
+            <a href="#" class=" active flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+                <span class="material-symbols-outlined">search_activity</span>
+                Historical Sites</a>
+            <a href="#" class="flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+                <span class="material-symbols-outlined">bedroom_parent</span>
+                Hotels</a>
+            <a href="#" class="flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+                <span class="material-symbols-outlined">restaurant</span>
+                Restaurants</a>
+            <a href="#" class="flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+                <span class="material-symbols-outlined">attractions</span>
+                Entertainment</a>
+        </nav>
+    </header>
+    <div class="relative h-96 bg-no-repeat" style="background-image: url('../static/Images/Orange_pyramids_no_background.jpeg');">
+        <p class="leading-normal md:ml-72 pt-6 text-4xl text-white font-medium">Discover the world your way <br>
+            Stay where memories begin <br>
+            Create timeless memories just for you
+        </p>
+            <div class="absolute left-72 bottom-1 bg-orange-700 max-w-fit h-fit p-1 rounded-md">
+                <form action="">
+                    <input type="search" placeholder="Where are you going?" class="relative font-semibold text-sm placeholder-black rounded-md items-center min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal ">
+                    <span class="absolute left-1 bottom-1 bg-white-medium flex p-2 rounded-full items-center justify-center material-symbols-outlined">carry_on_bag</span>
+                    <button class="rounded-md bg-blue-700 text-white text-lg font-medium items-center py-2 px-10 ">Search</button>
+                </form>
+            </div>
+    </div>
+    <!-- Popular Historical sites in Egypt -->
+    <section class="flex flex-col md:ml-72 mt-16">
+        <h2 class="text-black text-2xl font-bold">Popular Histroical attractions</h2>
+        <div class="flex flex-wrap justify-start gap-7 mt-5 mb-5">
+            <!-- Cards -->
+            <a href="../static/Images/aboalhol.jpg" target="_blank" class="max-w-72">
+                <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/aboalhol.jpg'); height: 350px;">
+                    <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                        <p class="project-category text-lg font-medium">The Sphinx</p>
+                        </strong>
+                        <div class="project-description mt-2">
+                            <strong class="block font-medium">Description:</strong>
+                            <p class="text-sm font-normal">
+                                The Sphinx is a mythical creature originating from ancient Egyptian and Greek mythology, 
+                                often depicted as a creature with the body of a lion and the head of a human, 
+                                symbolizing strength and wisdom.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="../static/Images/The_Pyramids_Egypt.jpg" target="_blank">
+                <div class="bg-cover bg-center bg-no-repeat rounded-lg max-w-72 overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Pyramids_Egypt.jpg'); height: 350px;">
+                    <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                        <p class="project-category text-lg font-medium">The Pyramids of Giza</p>
+                        </strong>
+                        <div class="project-description mt-2">
+                            <strong class="block font-medium">Description:</strong>
+                            <p class="text-sm font-normal">
+                                The Pyramids are monumental structures built in ancient Egypt as tombs for pharaohs and powerful individuals.
+                                They are some of the most iconic and enduring symbols of ancient Egyptian civilization.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="../static/Images/Abu_Smibel.jpg" target="_blank">
+                <div class="bg-cover bg-center bg-no-repeat rounded-lg max-w-72 overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Abu_Smibel.jpg'); height: 350px;">
+                    <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                        <p class="project-category text-lg font-medium">Abu Simbel temples</p>
+                        </strong>
+                        <div class="project-description mt-2">
+                            <strong class="block font-medium">Description:</strong>
+                            <p class="text-sm font-normal">
+                                The Abu Simbel Temples are two massive rock temples in southern Egypt, near the border with Sudan. 
+                                They were built during the reign of Pharaoh Ramses II (circa 1264 BCE) to honor himself and his queen, Nefertari
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="../static/Images/Citadel-of-Saladin.jpg" target="_blank">
+                <div class="bg-cover bg-center bg-no-repeat rounded-lg max-w-72 overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Citadel-of-Saladin.jpg'); height: 350px;">
+                    <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                        <p class="project-category text-lg font-medium">Citadel of Salah Aldin</p>
+                        </strong>
+                        <div class="project-description mt-2">
+                            <strong class="block font-medium">Description:</strong>
+                            <p class="text-sm font-normal">
+                                TThe Citadel of Salah El-Din in Cairo, Egypt, is a 12th-century fortress built by Salah El-Din Al-Ayyubi to defend against Crusader attacks. 
+                                Located on Mokattam Hill, it offers strategic views of the city.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="../static/Images/Amr_Ibn_El_Aas.jpg" target="_blank">
+                <div class="bg-cover bg-center bg-no-repeat rounded-lg max-w-72 overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Amr_Ibn_El_Aas.jpg'); height: 350px;">
+                    <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                        <p class="project-category text-lg font-medium">Amr Ibn al-As mosque</p>
+                        </strong>
+                        <div class="project-description mt-2">
+                            <strong class="block font-medium">Description:</strong>
+                            <p class="text-sm font-normal">
+                                The Amr ibn al-As Mosque, located in Cairo, Egypt, is the first mosque built in Africa. It was originally constructed in 641 AD by Amr ibn al-As, 
+                                the commander who led the Muslim conquest of Egypt. Known for its historical and spiritual significance
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="../static/Images/Baron_palace.jpg" target="_blank">
+                <div class="bg-cover bg-center bg-no-repeat rounded-lg max-w-72 overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Baron_palace.jpg'); height: 350px;">
+                    <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                        <p class="project-category text-lg font-medium">Baron Palace</p>
+                        </strong>
+                        <div class="mt-2">
+                            <strong class="block font-medium">Description:</strong>
+                            <p class="text-sm font-normal">
+                                The Baron Empain Palace, commonly known as Baron Palace, is a historic mansion located in the Heliopolis district of Cairo, Egypt.
+                                Built between 1907 and 1911 by the Belgian industrialist Édouard Louis Joseph Empain, 
+                                the palace is renowned for its unique architectural style and rich history.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="flex justify-center mt-16 mb-7">
+        <div class="bg-gray-100 rounded-lg shadow-lg p-4 flex max-w-4xl max-h-fit">
+            <!-- Image Section -->
+            <img src="../static/Images/Baron_palace.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
+        
+            <!-- Content Section -->
+            <div class="p-4 flex flex-col justify-between">
+                <!-- Top Section -->
+                <div>
+                    <div class="text-lg font-bold text-gray-900">Baron Palace</div>
+                    <div class="text-sm text-gray-600">Heliopolis, Cairo</div>
+                    <div class="mt-2">
+                        <strong class="block font-medium">Description:</strong>
+                        <p class="text-sm font-normal">
+                            The Baron Empain Palace, commonly known as Baron Palace, is a historic mansion located in the Heliopolis district of Cairo, Egypt.
+                            Built between 1907 and 1911 by the Belgian industrialist Édouard Louis Joseph Empain, 
+                            the palace is renowned for its unique architectural style and rich history.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex justify-end items-end">
+                    <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600 ">Show on Map</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+</body>
+
+</html>

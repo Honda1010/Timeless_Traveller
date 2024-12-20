@@ -14,6 +14,15 @@ module.exports = {
         'white-light':'#FFFFFF30',
         'white-medium':'#FFFFFF40',
       },
+      backgroundImage: {
+        'Temple': "url('./static/Images/Abu_Smibel.jpg')",
+        'Dream-Park': "url('./static/Images/Dream_park.jpg')",
+        'Restaurant_img': "url('./static/Images/Restaurant_image.png')",
+        'Hotel': "url('./static/Images/Sunrise_or_Sunset.jpg')",
+        'Four_photos': "url('./static/Images/Blank_4_Grids_Collage.png')"
+        
+      },
+
     },
   },
   plugins: [],

@@ -588,6 +588,10 @@ video {
   }
 }
 
+.static {
+  position: static;
+}
+
 .fixed {
   position: fixed;
 }
@@ -626,10 +630,6 @@ video {
 
 .top-8 {
   top: 2rem;
-}
-
-.left-2 {
-  left: 0.5rem;
 }
 
 .z-50 {
@@ -1116,10 +1116,6 @@ video {
   border-color: rgb(255 255 255 / var(--tw-border-opacity, 1));
 }
 
-.border-white-light {
-  border-color: #FFFFFF30;
-}
-
 .border-t-gray-500 {
   --tw-border-opacity: 1;
   border-top-color: rgb(107 114 128 / var(--tw-border-opacity, 1));
@@ -1152,6 +1148,11 @@ video {
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+
+.bg-gray-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
 }
 
 .bg-gray-50 {
@@ -1197,9 +1198,8 @@ video {
   background-color: #FFFFFF40;
 }
 
-.bg-gray-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity, 1));
+.bg-\[url\(\'\/static\/Images\/Abu_Simbel\.jpg\'\)\] {
+  background-image: url('/static/Images/Abu_Simbel.jpg');
 }
 
 .bg-gradient-to-r {
@@ -1263,6 +1263,11 @@ video {
 .px-10 {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+}
+
+.px-11 {
+  padding-left: 2.75rem;
+  padding-right: 2.75rem;
 }
 
 .px-2\.5 {
@@ -1333,16 +1338,6 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.px-12 {
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-
-.px-11 {
-  padding-left: 2.75rem;
-  padding-right: 2.75rem;
 }
 
 .pb-5 {

@@ -99,6 +99,23 @@ class TourGuide(db.Model):
     def __repr__(self):
         return f"<TourGuide {self.first_name} {self.second_name}>"
 
+class Restaurants(db.Model):
+    __tablename__ = 'restaurants'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary Key
+    name = db.Column(db.String(100), nullable=True)  # Hotel Name
+    location = db.Column(db.String(255), nullable=True)  # Hotel Location
+    city_id = db.Column(db.Integer,db.ForeignKey('cities_data.city_id') ,nullable=False)  # Foreign Key column
+
+    #Relationships:
+    fk_city = db.relationship('cities_data', backref='restaurants')
+
+    def get_id(self):
+        return str(self.id)
+
+
+
+
 class Hotels(db.Model):
     __tablename__ = 'Hotels'
     Hotel_ID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -107,7 +124,10 @@ class Hotels(db.Model):
     Opening = db.Column(db.Date, nullable=True)  
     Owner = db.Column(db.String(100), nullable=True)  
     Rooms = db.Column(db.String(100), nullable=True) 
-    city_id = db.Column(db.Integer, nullable = True) 
+    city_id = db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable = True) 
+
+    #Relationships:
+    fk_city_hotel = db.relationship('cities_data', backref='Hotels')
 
     def get_id(self):
         return str(self.Hotel_ID)

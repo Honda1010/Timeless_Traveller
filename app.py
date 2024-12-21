@@ -133,7 +133,7 @@ class Hotels(db.Model):
         return str(self.Hotel_ID)
 
 class Museum(db.Model):
-    __tablename__='museum'
+    __tablename__='Museum'
     Museum_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     Name=db.Column(db.String(100),nullable=False)
     Location=db.Column(db.String(100),nullable=True)
@@ -162,7 +162,7 @@ class Attraction(db.Model):
     fk_city_att = db.relationship('Cities_data', backref='Attraction')
 
     def get_id(self):
-        return str(self.Museum_id)    
+        return str(self.Attraction_id)    
 
 class Cities_data(db.Model):
     __tablename__ = 'cities_data'
@@ -480,71 +480,6 @@ def tourguide_dashboard():
 #
 # Send a GET request to the page
 
-
-def extract_info_hotel(h_name):
-    data = h_name
-    url = f"https://en.wikipedia.org/wiki/{data}"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, "html.parser")
-    name = soup.find("h1", {"id": "firstHeading"}).text.strip()
-
-    infobox = soup.find("table", {"class": "infobox"})
-    rows = infobox.find_all("tr") if infobox else []
-
-    location, opening, owner, rooms = None, None, None, None
-
-    for row in rows:
-        header = row.find("th")
-        data = row.find("td")
-
-        if header and data:
-            header_text = header.text.strip().lower()
-
-            if "location" in header_text:
-                location = data.text.strip()
-            elif "opening" in header_text:
-                opening = data.text.strip()
-            elif "owner" in header_text:
-                owner = data.text.strip()
-            elif "number of rooms" in header_text:
-                rooms = data.text.strip()
-
-
-    return {
-        "Name": name,
-        "Location": location,
-        "Opening": opening,
-        "Owner": owner,
-        "Number of Rooms": rooms,
-    }
-
-wikipedia_links = [
-    "Cecil_Hotel_(Alexandria)",
-    "El_Safa_Palace",
-    "Cairo_Marriott_Hotel",
-    "Fairmont_Nile_City",
-    "Grand_Nile_Tower_Hotel",
-    "Mena_House_Hotel",
-    "Semiramis_InterContinental_Hotel",
-    "Sofitel_Cairo_Nile_El_Gezirah_Hotel",
-    "Windsor_Hotel_(Cairo)",
-    "Steigenberger_Hotel_%26_Nelson_Village",
-    "Old_Cataract_Hotel"
-]
-
-def update_hotels():
-    for hotel_link in wikipedia_links:
-        info = extract_info_hotel(hotel_link)
-        current_hotel = Hotels(
-            Name = info['Name'],
-            Location = info['Location'],
-            Opening = info['Opening'],
-            Owner = info['Owner'],
-            Rooms = info['Number of Rooms']
-        )
-        db.session.add(current_hotel)
-        db.session.commit()
-
 def extract_info_museum(m_name):
     data=m_name
     url = f"https://en.wikipedia.org/wiki/{data}"
@@ -683,7 +618,7 @@ wikipedia_attraction_links = [
 #         db.session.add(current_attraction)
 #         db.session.commit()
 #
-@app.route("/attraction",methods=['POST','GET'])
+@app.route("/attraction", methods=['POST','GET'])
 def attraction(): 
     if request.method == 'POST':
         return render_template("Historical_Sites.html",
@@ -731,7 +666,17 @@ def attraction():
 @app.route("/resturants",methods=['POST','GET'])
 def resturants(): 
     if request.method == 'POST':
-        return render_template("Historical_Sites.html",
+        city_name = request.form.get('rest_name')  # Get city name from the form input
+
+        # Find the city by name
+        city = Cities_data.query.filter_by(city_name=city_name).first()
+        
+        if city:
+            # Get the restaurants by city_id
+            restaurants = Restaurants.query.filter_by(city_id=city.city_id).all()
+            print(restaurants)
+            # print("HIII")
+            return render_template('Historical_Sites.html', restaurants=restaurants, city_name=city_name,
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
                                     rest_panel = "",
@@ -751,7 +696,9 @@ def resturants():
                                     hotel_search = "hidden",
                                     resturant_search = "",
                                     museum_search = "hidden"
-                                    )
+
+            )
+       
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
@@ -831,10 +778,9 @@ def museums():
                                     resturant_search = "hidden",
                                     museum_search = ""
                                     )
-
+##
 @app.route("/hotels",methods=['POST','GET'])
 def hotels(): 
-    update_hotels()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')
         hotel = Hotels.query.filter_by(Name=hotel_name).first()
@@ -867,7 +813,27 @@ def hotels():
                                     museum_search = "hidden"
                                     )
         else:
-            return render_template("Historical_Sites.html", Hotel_name = hotel_name)
+            return render_template("Historical_Sites.html", Hotel_name = hotel_name,             
+                                    historical_panel = "hidden",
+                                    hotel_panel = "",
+                                    rest_panel = "hidden",
+                                    museum_panel = "hidden", 
+                                    
+                                    activate_history = "",
+                                    activate_hotels = "active",
+                                    activate_resturants = "",
+                                    activate_museums = "",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "",
+                                    resturant_search = "hidden",
+                                    museum_search = "hidden"
+                                    )
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "",

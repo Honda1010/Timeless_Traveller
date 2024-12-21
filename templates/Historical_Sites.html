@@ -740,24 +740,24 @@
     function showOnMap(location) {
         window.open(`https://www.google.com/maps/search/${encodeURIComponent(location)}`, '_blank');
     }
-    function toggle_sites(option_number) {
-        // var option = document.getElementById(`Option_${menu_number}`);
-        var option;
-        var section;
-        // for remove active class from all options
-        for (let i = 1; i <= 4; i++) {
-            option = document.getElementById(`Option_${i}`);
-            option.classList.remove('active');
-        }
-        for (let i = 1; i <= 3; i++) {
-            section = document.getElementById(`main_${i}`);
-            section.classList.add('hidden');
-        }
-        option = document.getElementById(`Option_${option_number}`);
-        section = document.getElementById(`main_${option_number}`);
-        option.classList.add('active');
-        section.classList.remove('hidden');
-    };
+    function toggle_sites(option_number){
+    // var option = document.getElementById(`Option_${menu_number}`);
+    var option;
+    var section;
+    // for remove active class from all options
+    for(let i=1 ; i<=4;i++){
+        option = document.getElementById(`Option_${i}`);
+        option.classList.remove('active');
+    }
+    for(let i=1 ; i<=4;i++){
+        section= document.getElementById(`main_${i}`);
+        section.classList.add('hidden');
+    }
+    option= document.getElementById(`Option_${option_number}`);
+    section= document.getElementById(`main_${option_number}`);
+    option.classList.add('active');
+    section.classList.remove('hidden');
+};
 </script>
 
 </html>

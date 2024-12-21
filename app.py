@@ -684,7 +684,7 @@ def login():
         email = request.form.get('email_address')
         password = request.form.get('password')
         account_type = request.form.get('User_Type')
-        if account_type = "Tourist":
+        if account_type is "Tourist":
             tourist = Tourist.query.filter_by(email=email).first()
             if tourist and tourist.password == password:
                 if tourist.verified==0:

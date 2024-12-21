@@ -731,7 +731,17 @@ def attraction():
 @app.route("/resturants",methods=['POST','GET'])
 def resturants(): 
     if request.method == 'POST':
-        return render_template("Historical_Sites.html",
+        city_name = request.form.get('rest_name')  # Get city name from the form input
+
+        # Find the city by name
+        city = Cities_data.query.filter_by(city_name=city_name).first()
+        
+        if city:
+            # Get the restaurants by city_id
+            restaurants = Restaurants.query.filter_by(city_id=city.city_id).all()
+            print(restaurants)
+            # print("HIII")
+            return render_template('Historical_Sites.html', restaurants=restaurants, city_name=city_name,
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
                                     rest_panel = "",
@@ -744,14 +754,16 @@ def resturants():
 
                                     card_show_historical = "hidden",
                                     card_show_hotels = "hidden",
-                                    card_show_resturants = "",
+                                    card_show_resturants = "hidden",
                                     card_show_museums = "hidden",
 
                                     attraction_search = "hidden",
                                     hotel_search = "hidden",
                                     resturant_search = "",
                                     museum_search = "hidden"
-                                    )
+
+            )
+       
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",

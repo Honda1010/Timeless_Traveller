@@ -26,6 +26,7 @@ from email.message import EmailMessage
 import string
 from flask_migrate import Migrate
 from datetime import timedelta
+from bs4 import BeautifulSoup
 # import json
 ##
 ###############------------##################
@@ -99,18 +100,28 @@ class TourGuide(db.Model):
         return f"<TourGuide {self.first_name} {self.second_name}>"
 
 class Hotels(db.Model):
-    __tablename__ = 'Hotels_in_egypt'
+    __tablename__ = 'Hotels'
     Hotel_ID = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    Wikipedia_link = db.Column(db.String(200), nullable=False)
     Name = db.Column(db.String(50), nullable=False)
     Location = db.Column(db.String(100), nullable=True)  
     Opening = db.Column(db.Date, nullable=True)  
     Owner = db.Column(db.String(100), nullable=True)  
-    Rooms = db.Column(db.String(100), nullable=True)  
+    Rooms = db.Column(db.String(100), nullable=True) 
+    city_id = db.Column(db.Integer, nullable = True) 
 
     def get_id(self):
         return str(self.Hotel_ID)
 
+class Cities_data(db.Model):
+    __tablename__ = 'cities_data'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    city_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    city_name = db.Column(db.String(100), nullable = False)
+    longitude = db.Column(db.Float, nullable = False)
+    latitude = db.Column(db.Float, nullable = False)
+
+    def get_id(self):
+        return str(self.id)
 
 class Tourist(db.Model, UserMixin):  # Inherit from UserMixin
     __tablename__ = 'tourist'
@@ -414,7 +425,90 @@ def tourguide_dashboard():
 #     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
 #     return render_template("Tour_guide_dashboard.html", requests=requests,pagetitle="TimelessTraveller") 
 
+#
+# Send a GET request to the page
 
+
+def extract_info_hotel(h_name):
+    data = h_name
+    url = f"https://en.wikipedia.org/wiki/{data}"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    name = soup.find("h1", {"id": "firstHeading"}).text.strip()
+
+    infobox = soup.find("table", {"class": "infobox"})
+    rows = infobox.find_all("tr") if infobox else []
+
+    location, opening, owner, rooms = None, None, None, None
+
+    for row in rows:
+        header = row.find("th")
+        data = row.find("td")
+
+        if header and data:
+            header_text = header.text.strip().lower()
+
+            if "location" in header_text:
+                location = data.text.strip()
+            elif "opening" in header_text:
+                opening = data.text.strip()
+            elif "owner" in header_text:
+                owner = data.text.strip()
+            elif "number of rooms" in header_text:
+                rooms = data.text.strip()
+
+    return {
+        "Name": name,
+        "Location": location,
+        "Opening": opening,
+        "Owner": owner,
+        "Number of Rooms": rooms,
+    }
+
+wikipedia_links = [
+    "Cecil_Hotel_(Alexandria)",
+    "El_Safa_Palace",
+    "Cairo_Marriott_Hotel",
+    "Fairmont_Nile_City",
+    "Grand_Nile_Tower_Hotel",
+    "Mena_House_Hotel",
+    "Semiramis_InterContinental_Hotel",
+    "Sofitel_Cairo_Nile_El_Gezirah_Hotel",
+    "Windsor_Hotel_(Cairo)",
+    "Steigenberger_Hotel_%26_Nelson_Village",
+    "Old_Cataract_Hotel"
+]
+
+def update_hotels():
+    for hotel_link in wikipedia_links:
+        info = extract_info_hotel(hotel_link)
+        current_hotel = Hotels(
+            Name = info['Name'],
+            Location = info['Location'],
+            Opening = info['Opening'],
+            Owner = info['Owner'],
+            Rooms = info['Number of Rooms']
+        )
+        db.session.add(current_hotel)
+        db.session.commit()
+
+@app.route("/Historical_Sites",methods=['POST','GET'])
+def Historical_sites(): 
+    update_hotels()
+    if request.method == 'POST':
+        hotel_name = request.form.get('hotel_name')
+        print(hotel_name)
+        hotel = Hotels.query.filter_by(Name=hotel_name).first()
+        if hotel:
+            return render_template("Historical_Sites.html", Hotel_name = hotel_name,
+                                    location = hotel.Location,
+                                    opening = hotel.Opening,
+                                    Owner = hotel.Owner,
+                                    rooms = hotel.Rooms)
+        else:
+            flash(f"Hotel Not Found")
+            return redirect(url_for('Historical_Sites'))
+    return render_template("Historical_Sites.html") 
 
 @app.route('/verify/<token>')
 def verify_account(token):

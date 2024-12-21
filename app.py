@@ -138,7 +138,10 @@ class Museums(db.Model):
     Name=db.Column(db.String(100),nullable=False)
     Location=db.Column(db.String(100),nullable=True)
     Type=db.Column(db.String(100),nullable=True)
-    city_id=db.Column(db.Integer,nullable=True)
+    city_id=db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable=True)
+
+    #Relationships:
+    fk_city_museums = db.relationship('cities_data', backref='Museums')
 
     def get_id(self):
         return str(self.Museum_id)
@@ -153,6 +156,10 @@ class Attraction(db.Model):
     Part_of=db.Column(db.String(100),nullable=True)
     Builders=db.Column(db.String(100),nullable=True)
     Periods=db.Column(db.String(100),nullable=True)
+    city_id=db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable=True)
+
+    #Relationships:
+    fk_city_att = db.relationship('cities_data', backref='Attraction')
 
     def get_id(self):
         return str(self.Museum_id)    

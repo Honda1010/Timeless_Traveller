@@ -46,7 +46,7 @@
                 <span class="material-symbols-outlined">restaurant</span>
                 Restaurants</a>
             <a id="Option_4" onclick="toggle_sites(4)" href="#"
-                class="{{activate_enter}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+                class="{{activate_museums}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">museum</span>
                 Museums</a>
         </nav>
@@ -61,8 +61,8 @@
         </p>
         <!-- historical search -->
         <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md"
-            id="search_1">
-            <form action="Historical_Sites" method="POST"
+            id="search_1 {{attraction_search}}" >
+            <form action="attraction" method="POST"
                 class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
                 <div class="relative h-fit">
                     <input type="search" placeholder=" Where are you going?"
@@ -77,9 +77,9 @@
             </form>
         </div>
         <!-- hotel search -->
-        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md hidden"
+        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md}}"
             id="search_2">
-            <form action="Historical_Sites" method="POST"
+            <form action="hotels" method="POST"
                 class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
                 <div class="relative h-fit">
                     <input type="search" placeholder=" Where are you going?"
@@ -94,9 +94,9 @@
             </form>
         </div>
         <!-- Restaurants search -->
-        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md hidden"
+        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md {{resturant_search}}"
             id="search_3">
-            <form action="Historical_Sites" method="POST"
+            <form action="resturants" method="POST"
                 class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
                 <div class="relative h-fit">
                     <input type="search" placeholder=" Where are you going?"
@@ -111,9 +111,9 @@
             </form>
         </div>
         <!-- Museums search -->
-        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md hidden"
+        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md {{museum_search}}"
             id="search_4">
-            <form action="Historical_Sites" method="POST"
+            <form action="museums" method="POST"
                 class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
                 <div class="relative h-fit">
                     <input type="search" placeholder=" Where are you going?"
@@ -128,8 +128,7 @@
             </form>
         </div>
     </div>
-    <main class="{{h_p}} grid grid-flow-row" id="main_1">
-
+    <main class="{{historical_panel}} grid grid-flow-row" id="main_1">
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
             <div
@@ -279,8 +278,7 @@
         </section>
     </main>
     <!------------------------------------------------------------ Hotels -------------------------------------------------------------------------------------------->
-    <main class="grid grid-flow-row {{hotel_P}}" id="main_2">
-
+    <main class="grid grid-flow-row {{hotel_panel}}" id="main_2">
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
             <div
@@ -433,9 +431,9 @@
     </main>
 
     <!------------------------------------------------------------- Restaurants --------------------------------------------------------->
-    <main class="{{rest_P}} grid grid-flow-row hidden" id="main_3">
+    <main class="{{rest_panel}} grid grid-flow-row hidden" id="main_3">
         <!-- Cards Section -->
-        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
+        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
             <div
                 class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_resturants}}">
                 <!-- Image Section -->
@@ -587,11 +585,11 @@
         </section>
     </main>
     <!----------------------------------------------------------- Museums --------------------------------------------------------------------------->
-    <main class="grid grid-flow-row hidden" id="main_4">
+    <main class="grid grid-flow-row hidden {{museum_panel}}"  id="main_4">
         <!-- Cards Section -->
-        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
+        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
             <div
-                class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl">
+                class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_museums}}">
                 <!-- Image Section -->
                 <img src="../static/Images/Grand_Egyptian_Museum.jpg" alt="Beach Resort"
                     class="max-w-80 max-h-80 rounded-lg">

@@ -311,6 +311,7 @@ def tourguide_dashboard():
 
     #Requests in Schdeules (Confirmed or Finished)
     # Query for "Upcoming" requests: status = 'confirmed'
+    
     request_upcom = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
         .filter(and_(Schedule.tourguide_id_fk == current_tourguide_id, TouristRequest.status == 'confirmed'))\
         .all()

@@ -774,6 +774,7 @@ def resturants():
                                     museum_search = "hidden"
                                     )
 
+
 @app.route("/museums",methods=['POST','GET'])
 def museums():
     update_museums()

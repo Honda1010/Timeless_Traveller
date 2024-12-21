@@ -658,18 +658,37 @@ def Historical_sites():
     update_hotels()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')
-        print(hotel_name)
         hotel = Hotels.query.filter_by(Name=hotel_name).first()
         if hotel:
+            print(hotel.Location)
             return render_template("Historical_Sites.html", Hotel_name = hotel_name,
                                     location = hotel.Location,
                                     opening = hotel.Opening,
                                     Owner = hotel.Owner,
-                                    rooms = hotel.Rooms)
+                                    rooms = hotel.Rooms,
+                                    h_p = "hidden",
+                                    hotel_P = "",
+                                    rest_P = "hidden",
+                                    activate_history = "",
+                                    activate_hotels = "active",
+                                    activate_resturants = "",
+                                    activate_enter = "",
+                                    card_show_hotels = "",
+                                    card_show_historical = "hidden",
+                                    card_show_resturants = "hidden")
         else:
-            flash(f"Hotel Not Found")
-            return redirect(url_for('Historical_Sites'))
-    return render_template("Historical_Sites.html") 
+            return render_template("Historical_Sites.html", Hotel_name = hotel_name)
+    return render_template("Historical_Sites.html",
+                                    h_p = "hidden",
+                                    hotel_P = "",
+                                    rest_P = "hidden",
+                                    activate_history = "",
+                                    activate_hotels = "active",
+                                    activate_resturants = "",
+                                    activate_enter = "",
+                                    card_show_hotels = "hidden",
+                                    card_show_historical = "hidden",
+                                    card_show_resturants = "hidden") 
 
 @app.route('/verify/<token>')
 def verify_account(token):
@@ -825,35 +844,35 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email_address')
         password = request.form.get('password')
-        
-        tourist = Tourist.query.filter_by(email=email).first()
-        if tourist and tourist.password == password:
-            if tourist.verified==0:
-                send_email(123,True,email)
-                flash('unverified email a verification email will be sent')
+        account_type = request.form.get('User_Type')
+        if account_type is "Tourist":
+            tourist = Tourist.query.filter_by(email=email).first()
+            if tourist and tourist.password == password:
+                if tourist.verified==0:
+                    send_email(123,True,email)
+                    flash('unverified email a verification email will be sent')
 
-            else:
-                # if next_page:
-                #   return redirect(url_for(next_page))
-                session['tourist_id']=tourist.tourist_id
-                login_user(tourist)
-                return redirect(url_for('Tourist_selection_page'))
+                else:
+                    # if next_page:
+                    #   return redirect(url_for(next_page))
+                    session['tourist_id']=tourist.tourist_id
+                    login_user(tourist)
+                    return redirect(url_for('Tourist_selection_page'))
+        else:
+            tourguide = TourGuide.query.filter_by(email=email).first()
+            if tourguide and tourguide.password == password:
+                if tourguide.verified==0:
+                    send_email(123,True,email)
+                    flash('unverified email a verification email will be sent')
 
-        tourguide = TourGuide.query.filter_by(email=email).first()
-        if tourguide and tourguide.password == password:
-            if tourguide.verified==0:
-                send_email(123,True,email)
-                flash('unverified email a verification email will be sent')
-
-            else:
-                # if next_page:
-                #   return redirect(url_for(next_page))
-                session['tourguide_id']=tourguide.tourguide_id
-                login_user(tourguide)
-                return redirect(url_for('tourguide_dashboard'))
+                else:
+                    # if next_page:
+                    #   return redirect(url_for(next_page))
+                    session['tourguide_id']=tourguide.tourguide_id
+                    login_user(tourguide)
+                    return redirect(url_for('tourguide_dashboard'))
         
         if not tourguide and not tourist:
-
             flash("Invalid credentials")
 
     return render_template('login.html')

@@ -1,12 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-Hotels=["Fairmont_Nile_City","Grand_Nile_Tower_Hotel","Mena_House_Hotel","Semiramis_InterContinental_Hotel"
-"Shepheard%27s_Hotel","Sofitel_Cairo_Nile_El_Gezirah_Hotel","Windsor_Hotel_(Cairo)","Cairo_Marriott_Hotel"]
-# URL of the Wikipedia page
-
 data=input("please enter the hotel ")
-
 
 url = f"https://en.wikipedia.org/wiki/{data}"
 #

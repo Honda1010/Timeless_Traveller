@@ -1,38 +1,26 @@
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import hashlib
-import time
+import requests
 
-def generate_token(user_email):
-    return hashlib.md5((user_email + str(time.time())).encode()).hexdigest()
+url = "https://api.makcorps.com/city"
+params = {
+    'cityid': '359787', #new york
+    'pagination': '0',
+    'cur': 'USD',
+    'rooms': '1',
+    'adults': '2',
+    'checkin': '2024-12-30',
+    'checkout': '2025-01-03',
+    'api_key': '6765f83372c8b13ee80b00e8'
+}
 
-def send_email(x, verify, recipient_email):
-    sender_email = "moustafaalaa30@gmail.com"
-    sender_password = "ycdknfumtdszsgzn"   
-    if verify == True:
-        subject = "Account Verification"
-        token = generate_token(recipient_email)
-        verification_url = f"http://yourdomain.com/verify/{token}"
-        body = f"Please click the following link to verify your account:\n\n{verification_url}"
-    else:
-        subject = "Password Reset"
-        body = f"Please use the following code:\n\n{x}"
-        print("HI")
+response = requests.get(url, params=params)
 
-    msg = MIMEMultipart()
-    msg['From'] = sender_email
-    msg['To'] = recipient_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'plain'))
-
-    try:
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()  
-            server.login(sender_email, sender_password)
-            server.send_message(msg)  
-            print("Email sent successfully!")
-    except Exception as e:
-        print(f"Failed to send email: {str(e)}")
-
-send_email("1234", True, "youssifmo0310@gmail.com")
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Parse JSON response
+    json_data = response.json()
+    
+    # Print or use the parsed JSON data
+    print(json_data)
+else:
+    # Print an error message if the request was not successful
+    print(f"Error: {response.status_code}, {response.text}")

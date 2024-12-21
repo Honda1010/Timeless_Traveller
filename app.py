@@ -98,6 +98,18 @@ class TourGuide(db.Model):
     def __repr__(self):
         return f"<TourGuide {self.first_name} {self.second_name}>"
 
+class Hotels(db.Model):
+    __tablename__ = 'Hotels_in_egypt'
+    Hotel_ID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    Wikipedia_link = db.Column(db.String(200), nullable=False)
+    Name = db.Column(db.String(50), nullable=False)
+    Location = db.Column(db.String(100), nullable=True)  
+    Opening = db.Column(db.Date, nullable=True)  
+    Owner = db.Column(db.String(100), nullable=True)  
+    Rooms = db.Column(db.String(100), nullable=True)  
+
+    def get_id(self):
+        return str(self.Hotel_ID)
 
 
 class Tourist(db.Model, UserMixin):  # Inherit from UserMixin
@@ -192,7 +204,7 @@ class Rejected_Tours(db.Model):
 #     db.create_all()
 
 ##----------------------------------------------##
-
+# name , location, open, owner, rooms, 
 
 tokens = {}
 
@@ -310,6 +322,7 @@ def tourguide_dashboard():
 
     #Requests in Schdeules (Confirmed or Finished)
     # Query for "Upcoming" requests: status = 'confirmed'
+    
     request_upcom = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
         .filter(and_(Schedule.tourguide_id_fk == current_tourguide_id, TouristRequest.status == 'confirmed'))\
         .all()
@@ -349,8 +362,8 @@ def tourguide_dashboard():
                     tourist_id_fk=request_entry.tourist_id_fk_req,
                     tourguide_id_fk=tourguide_id,
                     date=request_entry.date,
-                    reservation_id=request_id,
-                    guide_id = current_tourguide_id
+                    reservation_id=request_id
+                  #guide_id = current_tourguide_id
                 )
                 db.session.add(accepted_tour)
                 db.session.commit()
@@ -366,6 +379,7 @@ def tourguide_dashboard():
                 )
                 db.session.add(new_reject)
                 db.session.commit()
+
 
 
 

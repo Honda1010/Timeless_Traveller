@@ -1,42 +1,57 @@
 import requests
 from bs4 import BeautifulSoup
-import mysql.connector
 
-conn = mysql.connector.connect(
-    host='localhost', 
-    user='root', 
-    password='', 
-    database='tl_traveller'
-)
-cursor = conn.cursor()
+Hotels=["Fairmont_Nile_City","Grand_Nile_Tower_Hotel","Mena_House_Hotel","Semiramis_InterContinental_Hotel"
+"Shepheard%27s_Hotel","Sofitel_Cairo_Nile_El_Gezirah_Hotel","Windsor_Hotel_(Cairo)","Cairo_Marriott_Hotel"]
+# URL of the Wikipedia page
 
-def insert_place(location, name, type_):
-    cursor.execute("""
-        INSERT INTO historical (location,name, type_)
-        VALUES (%s, %s, %s)
-    """, (location,name,type_))
-    conn.commit()
+data=input("please enter the hotel ")
 
-def scrape_places():
-    search_query = "Cairo historical places"
-    base_url = "https://www.google.com/"  # Replace with an actual URL that lists places
-    response = requests.get(base_url + search_query)
-    soup = BeautifulSoup(response.content, 'html.parser')
 
-    # Example: Extract place details (update with correct tags based on the website's structure)
-    for place in soup.find_all('div', class_='place-item'):
-        name = place.find('h2').get_text()
-        type_ = place.find('span', class_='place-type').get_text()
-        location = place.find('span', class_='location').get_text()
-      
-        insert_place(location, name, type_)
-        print(name)
-        print(location)
-        print(type_)
+url = f"https://en.wikipedia.org/wiki/{data}"
+#
+# Send a GET request to the page
+response = requests.get(url)
+soup = BeautifulSoup(response.content, "html.parser")
 
-# Run the scraper
-scrape_places()
+# Extracting the required information
+def extract_info():
+    # Page title as the hotel name
+    name = soup.find("h1", {"id": "firstHeading"}).text.strip()
 
-# Close the connection
-cursor.close()
-conn.close()
+    # Location, opening, owner, and number of rooms from the infobox
+    infobox = soup.find("table", {"class": "infobox"})
+    rows = infobox.find_all("tr") if infobox else []
+
+    location, opening, owner, rooms = None, None, None, None
+
+    for row in rows:
+        header = row.find("th")
+        data = row.find("td")
+
+        if header and data:
+            header_text = header.text.strip().lower()
+
+            if "location" in header_text:
+                location = data.text.strip()
+            elif "opening" in header_text:
+                opening = data.text.strip()
+            elif "owner" in header_text:
+                owner = data.text.strip()
+            elif "number of rooms" in header_text:
+                rooms = data.text.strip()
+
+    return {
+        "Name": name,
+        "Location": location,
+        "Opening": opening,
+        "Owner": owner,
+        "Number of Rooms": rooms,
+    }
+
+# Get the extracted data
+info = extract_info()
+
+# Print the result
+for key, value in info.items():
+    print(f"{key}: {value}")

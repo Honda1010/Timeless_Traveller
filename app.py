@@ -671,6 +671,7 @@ wikipedia_attraction_links = [
     "Sidi_Abdel_Rahman"
 ]
 
+
 # def update_attraction():
 #     for attraction_link in wikipedia_attraction_links:
 #         info = extract_info_attraction(attraction_link)

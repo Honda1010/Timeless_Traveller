@@ -132,7 +132,7 @@ class Hotels(db.Model):
     def get_id(self):
         return str(self.Hotel_ID)
 
-class Museums(db.Model):
+class Museum(db.Model):
     __tablename__='Museum'
     Museum_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     Name=db.Column(db.String(100),nullable=False)
@@ -141,7 +141,7 @@ class Museums(db.Model):
     city_id=db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable=True)
 
     #Relationships:
-    fk_city_museums = db.relationship('Cities_data', backref='Museums')
+    fk_city_museums = db.relationship('Cities_data', backref='Museum')
 
     def get_id(self):
         return str(self.Museum_id)
@@ -162,7 +162,7 @@ class Attraction(db.Model):
     fk_city_att = db.relationship('Cities_data', backref='Attraction')
 
     def get_id(self):
-        return str(self.Museum_id)    
+        return str(self.Attraction_id)    
 
 class Cities_data(db.Model):
     __tablename__ = 'cities_data'
@@ -618,7 +618,7 @@ wikipedia_attraction_links = [
 #         db.session.add(current_attraction)
 #         db.session.commit()
 #
-@app.route("/attraction",methods=['POST','GET'])
+@app.route("/attraction", methods=['POST','GET'])
 def attraction(): 
     if request.method == 'POST':
         return render_template("Historical_Sites.html",
@@ -689,7 +689,7 @@ def resturants():
 
                                     card_show_historical = "hidden",
                                     card_show_hotels = "hidden",
-                                    card_show_resturants = "hidden",
+                                    card_show_resturants = "",
                                     card_show_museums = "hidden",
 
                                     attraction_search = "hidden",
@@ -726,8 +726,8 @@ def resturants():
 def museums():
     update_museums()
     if request.method == 'POST':
-        museum_name = request.form.get('museum_name')
-        museum = Museums.query.filter_by(Name=museum_name).first()
+        # museum_name = request.form.get('museum_name')
+        # museum = Museum.query.filter_by(Name=museum_name).first()
         return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
@@ -805,7 +805,27 @@ def hotels():
                                     museum_search = "hidden"
                                     )
         else:
-            return render_template("Historical_Sites.html", Hotel_name = hotel_name)
+            return render_template("Historical_Sites.html", Hotel_name = hotel_name,             
+                                    historical_panel = "hidden",
+                                    hotel_panel = "",
+                                    rest_panel = "hidden",
+                                    museum_panel = "hidden", 
+                                    
+                                    activate_history = "",
+                                    activate_hotels = "active",
+                                    activate_resturants = "",
+                                    activate_museums = "",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "",
+                                    resturant_search = "hidden",
+                                    museum_search = "hidden"
+                                    )
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "",

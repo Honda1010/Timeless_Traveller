@@ -33,19 +33,19 @@
             <!-- <h1 class="font-bold text-xl text-sunset">Timeless Traveller</h1> -->
         </div>
         <nav class="hidden md:flex space-x-8 justify-start lg:ml-60">
-            <a id="Option_1" onclick="toggle_sites(1)" href="#"
+            <a id="Option_1" onclick="toggle_sites(1)" href="/attraction"
                 class=" {{activate_history}} flex items-center justify-center rounded-full p-3 min-w-fit text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">search_activity</span>
                 Historical Sites</a>
-            <a id="Option_2" onclick="toggle_sites(2)" href="#"
+            <a id="Option_2" onclick="toggle_sites(2)" href="/hotels"
                 class="{{activate_hotels}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">bedroom_parent</span>
                 Hotels</a>
-            <a id="Option_3" onclick="toggle_sites(3)" href="#"
+            <a id="Option_3" onclick="toggle_sites(3)" href="/resturants"
                 class="{{activate_resturants}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">restaurant</span>
                 Restaurants</a>
-            <a id="Option_4" onclick="toggle_sites(4)" href="#"
+            <a id="Option_4" onclick="toggle_sites(4)" href="/musuems"
                 class="{{activate_museums}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">museum</span>
                 Museums</a>
@@ -130,7 +130,7 @@
     </div>
     <main class="{{historical_panel}} grid grid-flow-row" id="main_1">
         <!-- Cards Section -->
-        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
+        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
             <div
                 class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_historical}}">
                 <!-- Image Section -->
@@ -431,11 +431,11 @@
     </main>
 
     <!------------------------------------------------------------- Restaurants --------------------------------------------------------->
-    <main class="{{rest_panel}} grid grid-flow-row hidden" id="main_3">
+    <main class="{{rest_panel}} grid grid-flow-row" id="main_3">
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
             {% for restaurant in restaurants %}
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl">
+            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_resturants}}">
                 <!-- Image Section -->
                 <img src="../static/Images/Zeeyara_Restaurant.jpg" alt="{{ restaurant.name }}"
                     class="max-w-80 max-h-80 rounded-lg">
@@ -740,7 +740,7 @@
     function showOnMap(location) {
         window.open(`https://www.google.com/maps/search/${encodeURIComponent(location)}`, '_blank');
     }
-    function toggle_sites(option_number){
+    /*function toggle_sites(option_number){
     // var option = document.getElementById(`Option_${menu_number}`);
     var option;
     var section;
@@ -757,7 +757,7 @@
     section= document.getElementById(`main_${option_number}`);
     option.classList.add('active');
     section.classList.remove('hidden');
-};
+};*/
 </script>
 
 </html>

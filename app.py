@@ -770,7 +770,7 @@ def museums():
                                     resturant_search = "hidden",
                                     museum_search = ""
                                     )
-
+##
 @app.route("/hotels",methods=['POST','GET'])
 def hotels(): 
     if request.method == 'POST':

@@ -696,16 +696,16 @@ def verify_account(token):
     token_data = tokens.get(token)
     if token_data:
         if time.time() - token_data["timestamp"] < 3600:
-            user = Tourist.query.filter_by(email= tokens[token]["email"]).first() ##EDITTT DONE CHECK
+            user = Tourist.query.filter_by(email= tokens[token]["email"]).first()
             if not user:
-                user = TourGuide.query.filter_by(email = tokens[token]["email"]).first() ##EDITTT DONE CHECK
+                user = TourGuide.query.filter_by(email = tokens[token]["email"]).first() 
 
             user.verified = True
             user.verification_token = token
             db.session.commit()
             return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Your account has been successfully verified", redirect_message = url_for("home"))
         else:
-            del tokens[token]  # Token expired, remove it
+            del tokens[token]  
             return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Token Expired!", redirect_message = url_for("login"))
     else:
         return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Invalid or expired Token!", redirect_message = url_for("login"))
@@ -858,7 +858,7 @@ def login():
                     session['tourist_id']=tourist.tourist_id
                     login_user(tourist)
                     return redirect(url_for('Tourist_selection_page'))
-        else:
+        elif account_type is "Tour Guide":
             tourguide = TourGuide.query.filter_by(email=email).first()
             if tourguide and tourguide.password == password:
                 if tourguide.verified==0:
@@ -871,10 +871,8 @@ def login():
                     session['tourguide_id']=tourguide.tourguide_id
                     login_user(tourguide)
                     return redirect(url_for('tourguide_dashboard'))
-        
-        if not tourguide and not tourist:
+        else:
             flash("Invalid credentials")
-
     return render_template('login.html')
 
 

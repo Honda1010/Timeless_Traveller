@@ -567,6 +567,7 @@ wikipedia_museum_links = [
     "Grand_Egyptian_Museum"
 ]
 
+
 def update_museums():
     for museum_link in wikipedia_museum_links:
         info = extract_info_museum(museum_link)

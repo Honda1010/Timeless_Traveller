@@ -370,6 +370,7 @@ def tourguide_dashboard():
 
 
 
+
     # Query for "Pending" requests for all tour guides (if user rejects it removed from his page of requests)
 ##
 

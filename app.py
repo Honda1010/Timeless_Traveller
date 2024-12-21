@@ -689,7 +689,7 @@ def resturants():
 
                                     card_show_historical = "hidden",
                                     card_show_hotels = "hidden",
-                                    card_show_resturants = "hidden",
+                                    card_show_resturants = "",
                                     card_show_museums = "hidden",
 
                                     attraction_search = "hidden",
@@ -726,8 +726,8 @@ def resturants():
 def museums():
     update_museums()
     if request.method == 'POST':
-        museum_name = request.form.get('museum_name')
-        museum = Museum.query.filter_by(Name=museum_name).first()
+        # museum_name = request.form.get('museum_name')
+        # museum = Museum.query.filter_by(Name=museum_name).first()
         return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",

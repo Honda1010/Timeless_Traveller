@@ -482,6 +482,7 @@ def extract_info_hotel(h_name):
             elif "number of rooms" in header_text:
                 rooms = data.text.strip()
 
+
     return {
         "Name": name,
         "Location": location,

@@ -9,7 +9,7 @@ data=input("please enter the hotel ")
 
 
 url = f"https://en.wikipedia.org/wiki/{data}"
-
+#
 # Send a GET request to the page
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")

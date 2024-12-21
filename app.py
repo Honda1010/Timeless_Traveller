@@ -362,8 +362,8 @@ def tourguide_dashboard():
                     tourist_id_fk=request_entry.tourist_id_fk_req,
                     tourguide_id_fk=tourguide_id,
                     date=request_entry.date,
-                    reservation_id=request_id,
-                    guide_id = current_tourguide_id
+                    reservation_id=request_id
+                  #guide_id = current_tourguide_id
                 )
                 db.session.add(accepted_tour)
                 db.session.commit()
@@ -379,6 +379,7 @@ def tourguide_dashboard():
                 )
                 db.session.add(new_reject)
                 db.session.commit()
+
 
 
 

@@ -657,6 +657,8 @@ def update_attraction():
 @app.route("/Historical_Sites",methods=['POST','GET'])
 def Historical_sites(): 
     update_hotels()
+    update_museums()
+    update_attraction()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')
         hotel = Hotels.query.filter_by(Name=hotel_name).first()

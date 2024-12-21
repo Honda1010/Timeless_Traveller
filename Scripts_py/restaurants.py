@@ -11,7 +11,7 @@ rest.secret_key = "eldosh"  # Replace with your own secret key
 
 rest.config['SQLALCHEMY_DATABASE_URI']='mysql://root:@localhost/tl_traveller' # username: root, password: blank, database_name: hms
 db=SQLAlchemy(rest) #creating object(Database) of class SQLALCHEMY
-
+##
 
 governorates_info = {
     "Cairo": {"coordinates": (30.0330, 31.2330), "City_ID": 361058},

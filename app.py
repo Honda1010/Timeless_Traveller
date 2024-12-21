@@ -683,35 +683,35 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email_address')
         password = request.form.get('password')
-        
-        tourist = Tourist.query.filter_by(email=email).first()
-        if tourist and tourist.password == password:
-            if tourist.verified==0:
-                send_email(123,True,email)
-                flash('unverified email a verification email will be sent')
+        account_type = request.form.get('User_Type')
+        if account_type = "Tourist":
+            tourist = Tourist.query.filter_by(email=email).first()
+            if tourist and tourist.password == password:
+                if tourist.verified==0:
+                    send_email(123,True,email)
+                    flash('unverified email a verification email will be sent')
 
-            else:
-                # if next_page:
-                #   return redirect(url_for(next_page))
-                session['tourist_id']=tourist.tourist_id
-                login_user(tourist)
-                return redirect(url_for('Tourist_selection_page'))
+                else:
+                    # if next_page:
+                    #   return redirect(url_for(next_page))
+                    session['tourist_id']=tourist.tourist_id
+                    login_user(tourist)
+                    return redirect(url_for('Tourist_selection_page'))
+        else:
+            tourguide = TourGuide.query.filter_by(email=email).first()
+            if tourguide and tourguide.password == password:
+                if tourguide.verified==0:
+                    send_email(123,True,email)
+                    flash('unverified email a verification email will be sent')
 
-        tourguide = TourGuide.query.filter_by(email=email).first()
-        if tourguide and tourguide.password == password:
-            if tourguide.verified==0:
-                send_email(123,True,email)
-                flash('unverified email a verification email will be sent')
-
-            else:
-                # if next_page:
-                #   return redirect(url_for(next_page))
-                session['tourguide_id']=tourguide.tourguide_id
-                login_user(tourguide)
-                return redirect(url_for('tourguide_dashboard'))
+                else:
+                    # if next_page:
+                    #   return redirect(url_for(next_page))
+                    session['tourguide_id']=tourguide.tourguide_id
+                    login_user(tourguide)
+                    return redirect(url_for('tourguide_dashboard'))
         
         if not tourguide and not tourist:
-
             flash("Invalid credentials")
 
     return render_template('login.html')

@@ -1,16 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 
-# URL of the Wikipedia page
-url = "https://en.wikipedia.org/wiki/Temple_of_Edfu"
-
-# Send a GET request to the page
-response = requests.get(url)
-soup = BeautifulSoup(response.content, "html.parser")
-
-# Extracting the required information
 def extract_attraction():
-    # Page title as the name
+    
+    url = "https://en.wikipedia.org/wiki/Temple_of_Edfu"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
     name = soup.find("h1", {"id": "firstHeading"}).text.strip()
 
     # Attributes to extract

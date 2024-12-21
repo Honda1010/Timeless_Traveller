@@ -9,6 +9,23 @@ url = "https://en.wikipedia.org/wiki/Agricultural_Museum,_Egypt"
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")
 
+wikipedia_museum_links = [
+    "Egyptian_Museum",
+    "Egyptian_National_Military_Museum",
+    "Child_Museum_(Cairo)",
+    "Coptic_Museum",
+    "Aswan_Museum",
+    "Alexandria_National_Museum",
+    "Abdeen_Palace",
+    "Bibliotheca_Alexandrina",
+    "Imhotep_Museum",
+    "Graeco-Roman_Museum",
+    "Manial_Palace_and_Museum",
+    "Mukhtar_Museum"
+    "Mummification_Museum"
+    "Grand_Egyptian_Museum"
+]
+
 # Extracting the required information
 def extract_info():
     # Page title as the name
@@ -46,3 +63,15 @@ info = extract_info()
 # Print the result
 for key, value in info.items():
     print(f"{key}: {value}")
+
+
+# def update_museums():
+#     for museum_link in wikipedia_museum_links:
+#         info = extract_info_museum(museum_link)
+#         current_museum = Museums(
+#             Name = info['Name'],
+#             Location = info['Location'],
+#             Type = info['Type']
+#         )
+#         db.session.add(current_museum)
+#         db.session.commit()

@@ -846,7 +846,7 @@ def login():
         email = request.form.get('email_address')
         password = request.form.get('password')
         account_type = request.form.get('User_Type')
-        if account_type is "Tourist":
+        if account_type == "tourist":
             tourist = Tourist.query.filter_by(email=email).first()
             if tourist and tourist.password == password:
                 if tourist.verified==0:
@@ -859,7 +859,7 @@ def login():
                     session['tourist_id']=tourist.tourist_id
                     login_user(tourist)
                     return redirect(url_for('Tourist_selection_page'))
-        elif account_type is "Tour Guide":
+        elif account_type == "tour_guide":
             tourguide = TourGuide.query.filter_by(email=email).first()
             if tourguide and tourguide.password == password:
                 if tourguide.verified==0:

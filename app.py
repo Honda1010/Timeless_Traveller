@@ -132,8 +132,8 @@ class Hotels(db.Model):
     def get_id(self):
         return str(self.Hotel_ID)
 
-class Museums(db.Model):
-    __tablename__='Museum'
+class Museum(db.Model):
+    __tablename__='museum'
     Museum_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     Name=db.Column(db.String(100),nullable=False)
     Location=db.Column(db.String(100),nullable=True)
@@ -141,7 +141,7 @@ class Museums(db.Model):
     city_id=db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable=True)
 
     #Relationships:
-    fk_city_museums = db.relationship('Cities_data', backref='Museums')
+    fk_city_museums = db.relationship('Cities_data', backref='Museum')
 
     def get_id(self):
         return str(self.Museum_id)
@@ -599,7 +599,7 @@ wikipedia_museum_links = [
 def update_museums():
     for museum_link in wikipedia_museum_links:
         info = extract_info_museum(museum_link)
-        current_museum = Museums(
+        current_museum = Museum(
             Name = info['Name'],
             Location = info['Location'],
             Type = info['Type']
@@ -780,8 +780,16 @@ def museums():
     update_museums()
     if request.method == 'POST':
         museum_name = request.form.get('museum_name')
-        museum = Museums.query.filter_by(Name=museum_name).first()
-        return render_template("Historical_Sites.html",
+        print(museum_name)
+        museum1 = Museum.query.filter_by(Name=museum_name).first()
+        print(museum1.Location)
+        print(museum1.Name)
+        
+
+        return render_template("Historical_Sites.html",museum_name = museum_name,
+                                    location = museum1.Location,
+                                    type = museum1.Type,
+
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
                                     rest_panel = "hidden",
@@ -827,7 +835,6 @@ def museums():
 @app.route("/hotels",methods=['POST','GET'])
 def hotels(): 
     update_hotels()
-    # update_attraction()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')
         hotel = Hotels.query.filter_by(Name=hotel_name).first()

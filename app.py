@@ -682,7 +682,7 @@ wikipedia_attraction_links = [
 #         )
 #         db.session.add(current_attraction)
 #         db.session.commit()
-
+#
 @app.route("/attraction",methods=['POST','GET'])
 def attraction(): 
     if request.method == 'POST':

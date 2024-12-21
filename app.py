@@ -497,17 +497,16 @@ def Historical_sites():
     update_hotels()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')
-        print(hotel_name)
         hotel = Hotels.query.filter_by(Name=hotel_name).first()
         if hotel:
+            print(hotel.Location)
             return render_template("Historical_Sites.html", Hotel_name = hotel_name,
                                     location = hotel.Location,
                                     opening = hotel.Opening,
                                     Owner = hotel.Owner,
                                     rooms = hotel.Rooms)
         else:
-            flash(f"Hotel Not Found")
-            return redirect(url_for('Historical_Sites'))
+            return render_template("Historical_Sites.html", Hotel_name = hotel_name)
     return render_template("Historical_Sites.html") 
 
 @app.route('/verify/<token>')

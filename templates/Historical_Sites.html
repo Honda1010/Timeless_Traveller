@@ -42,8 +42,8 @@
                 <span class="material-symbols-outlined">restaurant</span>
                 Restaurants</a>
             <a id="Option_4" onclick="toggle_sites(4)" href="#" class="flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
-                <span class="material-symbols-outlined">attractions</span>
-                Entertainment</a>
+                <span class="material-symbols-outlined">museum</span>
+                Museums</a>
         </nav>
     </header>
     <div class="relative h-96 bg-no-repeat bg-center bg-cover flex justify-start" style="background-image: url('../static/Images/Orange_pyramids_no_background.jpeg');">
@@ -455,6 +455,136 @@
             </div>
         </section>
     </main>
+    <!----------------------------------------------------------- Museums --------------------------------------------------------------------------->
+    <main class="grid grid-flow-row hidden" id="main_4">
+        <!-- Cards Section -->
+        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
+            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl">
+                <!-- Image Section -->
+                <img src="../static/Images/Grand_Egyptian_Museum.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
+            
+                <!-- Content Section -->
+                <div class="p-4 flex flex-col justify-between">
+                    <!-- Top Section -->
+                    <div class="md:flex md:flex-col">
+                        <div class="text-lg font-bold text-gray-900">The Grand Egyptian Museum</div>
+                        <div class="text-sm text-gray-600">Cairo</div>
+                        <div class="mt-2">
+                            <strong class="block font-medium">Description:</strong>
+                            <p class="text-sm font-normal w-fit">
+                                The Grand Egyptian Museum (GEM) is the world's largest archaeological museum dedicated to a single civilization. 
+                                Spanning approximately 5.2 million square feet, it houses over 100,000 artifacts, including the complete collection
+                                of treasures from King Tutankhamun's tomb.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex md:justify-end justify-start mt-2 items-end">
+                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap('Zeeyara Restaurant, Giza')">Show on Map</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Popular Restaurants in Egypt -->
+        <section class="grid w-full justify-center items-center mx-auto mt-16">
+            <h2 class="text-black px-5 text-2xl font-bold">Popular Fancy Restaurants</h2>
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
+                <!-- Cards -->
+                <a href="../static/Images/Grand_Egyptian_Museum.jpg" target="_blank" class="w-full sm:w-72">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Grand_Egyptian_Museum.jpg'); height: 350px;">
+                        <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                            <p class="project-category text-lg font-medium">The Grand Egyptian Museum</p>
+                            </strong>
+                            <div class="project-description mt-2">
+                                <strong class="block font-medium">Description:</strong>
+                                <p class="text-sm font-normal">
+                                    The Grand Egyptian Museum (GEM) is the world's largest archaeological museum dedicated to a single civilization. 
+                                    Spanning approximately 5.2 million square feet, it houses over 100,000 artifacts, including the complete collection
+                                    of treasures from King Tutankhamun's tomb.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="../static/Images/Museum_of_Islamic_Art.jpg" target="_blank" class="w-full sm:w-72">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Museum_of_Islamic_Art.jpg'); height: 350px;">
+                        <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                            <p class="project-category text-lg font-medium">Museum of Islamic Arts</p>
+                            </strong>
+                            <div class="project-description mt-2">
+                                <strong class="block font-medium">Description:</strong>
+                                <p class="text-sm font-normal">
+                                    The Museum of Islamic Art in Cairo, Egypt, is one of the world's most significant institutions dedicated to Islamic art and 
+                                    heritage. Established in 1903, it houses an extensive collection of artifacts from various Islamic periods, 
+                                    including rare woodwork, ceramics, metalwork, glass, and textiles.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="../static/Images/The_Luxor_Museum.jpg" target="_blank" class="w-full sm:w-72">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Luxor_Museum.jpg'); height: 350px;">
+                        <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                            <p class="project-category text-lg font-medium">The Luxor Museum</p>
+                            </strong>
+                            <div class="project-description mt-2">
+                                <strong class="block font-medium">Description:</strong>
+                                <p class="text-sm font-normal">
+                                    The Luxor Museum is celebrated for its emphasis on quality over quantity,
+                                    Allowing visitors to fully appreciate the craftsmanship and historical
+                                    importance of each piece, making it one of Egypt's most esteemed museums.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="../static/Images/The_Egyptian_Museum.jpg" target="_blank" class="w-full sm:w-72">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Egyptian_Museum.jpg'); height: 350px;">
+                        <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                            <p class="project-category text-lg font-medium">The Egyptian Museum</p>
+                            </strong>
+                            <div class="project-description mt-2">
+                                <strong class="block font-medium">Description:</strong>
+                                <p class="text-sm font-normal">
+                                    The Egyptian Museum in Cairo, established in 1902, is the oldest archaeological museum in the Middle East
+                                    and houses the world's largest collection of Pharaonic antiquities.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="../static/Images/The_Coptic_Museum.jpg" target="_blank" class="w-full sm:w-72">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Coptic_Museum.jpg'); height: 350px;">
+                        <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                            <p class="project-category text-lg font-medium">The Coptic Museum</p>
+                            </strong>
+                            <div class="project-description mt-2">
+                                <strong class="block font-medium">Description:</strong>
+                                <p class="text-sm font-normal">
+                                    The Coptic Museum, located in Old Cairo's Coptic Cairo district, 
+                                    houses the world's largest collection of Coptic Christian artifacts.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="../static/Images/Abdeen_Palace_Museum.jpg" target="_blank" class="w-full sm:w-72">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Abdeen_Palace_Museum.jpg'); height: 350px;">
+                        <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
+                            <p class="project-category text-lg font-medium">Abdeen Palace Museum</p>
+                            </strong>
+                            <div class="mt-2">
+                                <strong class="block font-medium">Description:</strong>
+                                <p class="text-sm font-normal">
+                                    Abdeen Palace, located in Cairo, Egypt, is a historic palace that has been transformed into a museum complex.
+                                    The palace served as the royal residence and the center of government during the monarchy.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
     
 
 
@@ -473,7 +603,7 @@
         option = document.getElementById(`Option_${i}`);
         option.classList.remove('active');
     }
-    for(let i=1 ; i<=2;i++){
+    for(let i=1 ; i<=3;i++){
         section= document.getElementById(`main_${i}`);
         section.classList.add('hidden');
     }

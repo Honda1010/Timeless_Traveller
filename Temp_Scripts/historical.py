@@ -9,7 +9,6 @@ url = f"https://en.wikipedia.org/wiki/{data}"
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")
 
-# Extracting the required information
 def extract_info():
     # Page title as the hotel name
     name = soup.find("h1", {"id": "firstHeading"}).text.strip()

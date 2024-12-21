@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+
 # URL of the Wikipedia page
 url = "https://en.wikipedia.org/wiki/Agricultural_Museum,_Egypt"
 

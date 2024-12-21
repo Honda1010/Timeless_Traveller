@@ -52,9 +52,9 @@
             Create timeless memories just for you
         </p>
             <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md">
-                <form action="" class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
+                <form action = "Historical_Sites" method = "POST" class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
                     <div class="relative h-fit">
-                        <input type="search" placeholder=" Where are you going?" class="font-semibold text-sm placeholder-black rounded-md items-center md:min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal ">
+                        <input type="search" placeholder=" Where are you going?" class="font-semibold text-sm placeholder-black rounded-md items-center md:min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal " name = "hotel_name">
                         <span class=" absolute left-1 p-2 rounded-full items-center material-symbols-outlined">carry_on_bag</span>
                         <button class="rounded-md h-fit bg-blue-700 text-white text-lg font-medium items-center py-1 pb-1.5  px-2 md:px-10 hover:bg-blue-800 ">Search</button>
                     </div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="flex md:justify-end justify-start mt-2 items-end">
-                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap('Baron Palace, Heliopolis, cairo')">Show on Map</button>
+                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap({{hotel_name}})">Show on Map</button>
                     </div>
                 </div>
             </div>
@@ -204,18 +204,21 @@
                 <div class="p-4 flex flex-col justify-between">
                     <!-- Top Section -->
                     <div class="md:flex md:flex-col">
-                        <div class="text-lg font-bold text-gray-900">Four Seasons Hotel</div>
-                        <div class="text-sm text-gray-600">Giza</div>
+                        <div class="text-lg font-bold text-gray-900">{{Hotel_name}}</div>
+                        <div class="text-sm text-gray-600">{{location}}</div>
                         <div class="mt-2">
                             <strong class="block font-medium">Description:</strong>
                             <p class="text-sm font-normal w-fit">
-                                The Four Seasons Hotel Cairo at The First Residence combines classical grandeur with modern luxury, 
-                                making it an ideal choice for travelers seeking comfort and proximity to Cairo's historic sites.
+                                Opening: {{opening}}
+                                <br>
+                                Owner: {{Owner}}
+                                <br>
+                                Number of Rooms: {{rooms}}
                             </p>
                         </div>
                     </div>
                     <div class="flex md:justify-end justify-start mt-2 items-end">
-                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap('Four Seasons Hotel, Giza')">Show on Map</button>
+                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap({{Hotel_name}})">Show on Map</button>
                     </div>
                 </div>
             </div>

@@ -32,16 +32,16 @@
             <!-- <h1 class="font-bold text-xl text-sunset">Timeless Traveller</h1> -->
         </div>
         <nav class="hidden md:flex space-x-8 justify-start lg:ml-60">
-            <a id="Option_1" onclick="toggle_sites(1)" href="#" class=" active flex items-center justify-center rounded-full p-3 min-w-fit text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_1" onclick="toggle_sites(1)" href="#" class=" {{activate_history}} flex items-center justify-center rounded-full p-3 min-w-fit text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">search_activity</span>
                 Historical Sites</a>
-            <a id="Option_2" onclick="toggle_sites(2)" href="#" class="flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_2" onclick="toggle_sites(2)" href="#" class="{{activate_hotels}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">bedroom_parent</span>
                 Hotels</a>
-            <a id="Option_3" onclick="toggle_sites(3)" href="#" class="flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_3" onclick="toggle_sites(3)" href="#" class="{{activate_resturants}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">restaurant</span>
                 Restaurants</a>
-            <a id="Option_4" onclick="toggle_sites(4)" href="#" class="flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_4" onclick="toggle_sites(4)" href="#" class="{{activate_enter}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">attractions</span>
                 Entertainment</a>
         </nav>
@@ -62,11 +62,11 @@
                 </form>
             </div>
     </div>
-    <main class="grid grid-flow-row" id="main_1">
+    <main class="{{h_p}} grid grid-flow-row" id="main_1">
         
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl">
+            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_historical}}">
                 <!-- Image Section -->
                 <img src="../static/Images/Baron_palace.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
             
@@ -192,11 +192,11 @@
         </section>
     </main>
     <!------------------------------------------------------------ Hotels -------------------------------------------------------------------------------------------->
-    <main class="grid grid-flow-row hidden" id="main_2">
+    <main class="grid grid-flow-row {{hotel_P}}" id="main_2">
         
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl">
+            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_hotels}}">
                 <!-- Image Section -->
                 <img src="../static/Images/Four_Seasons_Hotel.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
             
@@ -324,10 +324,10 @@
     </main>
 
     <!------------------------------------------------------------- Restaurants --------------------------------------------------------->
-    <main class="grid grid-flow-row hidden" id="main_3">
+    <main class="{{rest_P}} grid grid-flow-row hidden" id="main_3">
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl">
+            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_resturants}}">
                 <!-- Image Section -->
                 <img src="../static/Images/Zeeyara_Restaurant.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
             

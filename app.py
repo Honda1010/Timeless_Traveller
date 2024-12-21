@@ -504,10 +504,30 @@ def Historical_sites():
                                     location = hotel.Location,
                                     opening = hotel.Opening,
                                     Owner = hotel.Owner,
-                                    rooms = hotel.Rooms)
+                                    rooms = hotel.Rooms,
+                                    h_p = "hidden",
+                                    hotel_P = "",
+                                    rest_P = "hidden",
+                                    activate_history = "",
+                                    activate_hotels = "active",
+                                    activate_resturants = "",
+                                    activate_enter = "",
+                                    card_show_hotels = "",
+                                    card_show_historical = "hidden",
+                                    card_show_resturants = "hidden")
         else:
             return render_template("Historical_Sites.html", Hotel_name = hotel_name)
-    return render_template("Historical_Sites.html") 
+    return render_template("Historical_Sites.html",
+                                    h_p = "hidden",
+                                    hotel_P = "",
+                                    rest_P = "hidden",
+                                    activate_history = "",
+                                    activate_hotels = "active",
+                                    activate_resturants = "",
+                                    activate_enter = "",
+                                    card_show_hotels = "hidden",
+                                    card_show_historical = "hidden",
+                                    card_show_resturants = "hidden") 
 
 @app.route('/verify/<token>')
 def verify_account(token):

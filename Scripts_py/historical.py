@@ -1,23 +1,27 @@
 import requests
 from bs4 import BeautifulSoup
+import urllib.parse
 
-data=input("please enter the hotel ")
+def extract_info_hotel(h_name):
+    # Encode the name to handle special characters and spaces
+    data = urllib.parse.quote(h_name)
+    url = f"https://en.wikipedia.org/wiki/{data}"
+    response = requests.get(url)
 
-url = f"https://en.wikipedia.org/wiki/{data}"
-#
-# Send a GET request to the page
-response = requests.get(url)
-soup = BeautifulSoup(response.content, "html.parser")
+    # Check if the page was successfully fetched
+    if response.status_code != 200:
+        return {"Error": f"Failed to fetch the page. HTTP Status Code: {response.status_code}"}
 
-def extract_info():
-    # Page title as the hotel name
+    soup = BeautifulSoup(response.content, "html.parser")
+    
+    # Extract the name from the page title
     name = soup.find("h1", {"id": "firstHeading"}).text.strip()
 
-    # Location, opening, owner, and number of rooms from the infobox
+    # Extract the infobox information
     infobox = soup.find("table", {"class": "infobox"})
     rows = infobox.find_all("tr") if infobox else []
 
-    location, opening, owner, rooms = None, None, None, None
+    location, opening, owner, rooms, description = None, None, None, None, None
 
     for row in rows:
         header = row.find("th")
@@ -27,13 +31,30 @@ def extract_info():
             header_text = header.text.strip().lower()
 
             if "location" in header_text:
-                location = data.text.strip()
+                location = data.get_text(" ", strip=True)
             elif "opening" in header_text:
-                opening = data.text.strip()
+                opening = data.get_text(" ", strip=True)
             elif "owner" in header_text:
-                owner = data.text.strip()
+                owner = data.get_text(" ", strip=True)
             elif "number of rooms" in header_text:
-                rooms = data.text.strip()
+                rooms = data.get_text(" ", strip=True)
+
+    # Extract description: Target the first meaningful paragraph
+    content_div = soup.find("div", {"class": "mw-content-ltr mw-parser-output"})
+    if content_div:
+        # Filter paragraphs that are not empty or metadata-like
+        paragraphs = content_div.find_all("p", recursive=False)
+        for paragraph in paragraphs:
+            text = paragraph.get_text(" ", strip=True)
+            if text and not text.startswith("Coordinates") and len(text) > 30:
+                description = text
+                break
+
+    # Fall back to meta description if no valid paragraph is found
+    if not description:
+        meta_tag = soup.find("meta", {"name": "description"})
+        if meta_tag:
+            description = meta_tag.get("content", "").strip()
 
     return {
         "Name": name,
@@ -41,11 +62,10 @@ def extract_info():
         "Opening": opening,
         "Owner": owner,
         "Number of Rooms": rooms,
+        "Description": description,
     }
 
-# Get the extracted data
-info = extract_info()
-
-# Print the result
+# Example usage
+info = extract_info_hotel("Grand_Nile_Tower_Hotel")
 for key, value in info.items():
     print(f"{key}: {value}")

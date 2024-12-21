@@ -132,6 +132,31 @@ class Hotels(db.Model):
     def get_id(self):
         return str(self.Hotel_ID)
 
+class Museums(db.Model):
+    __tablename__='Museum'
+    Museum_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    Name=db.Column(db.String(100),nullable=False)
+    Location=db.Column(db.String(100),nullable=True)
+    Type=db.Column(db.String(100),nullable=True)
+    city_id=db.Column(db.Integer,nullable=True)
+
+    def get_id(self):
+        return str(self.Museum_id)
+
+class Attraction(db.Model):
+    __tablename__='Attraction'
+    Attraction_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    Name=db.Column(db.String(100),nullable=False)
+    Location=db.Column(db.String(100),nullable=True)
+    Type=db.Column(db.String(100),nullable=True)
+    Built=db.Column(db.String(100),nullable=True)
+    Part_of=db.Column(db.String(100),nullable=True)
+    Builders=db.Column(db.String(100),nullable=True)
+    Periods=db.Column(db.String(100),nullable=True)
+
+    def get_id(self):
+        return str(self.Museum_id)    
+
 class Cities_data(db.Model):
     __tablename__ = 'cities_data'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -477,6 +502,7 @@ def extract_info_hotel(h_name):
             elif "number of rooms" in header_text:
                 rooms = data.text.strip()
 
+
     return {
         "Name": name,
         "Location": location,
@@ -512,9 +538,148 @@ def update_hotels():
         db.session.add(current_hotel)
         db.session.commit()
 
+def extract_info_museum(m_name):
+    data=m_name
+    url = f"https://en.wikipedia.org/wiki/{data}"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    name = soup.find("h1", {"id": "firstHeading"}).text.strip()
+
+    # Location and type from the infobox
+    infobox = soup.find("table", {"class": "infobox"})
+    rows = infobox.find_all("tr") if infobox else []
+
+    location, type_ = None, None
+
+    for row in rows:
+        header = row.find("th")
+        data = row.find("td")
+
+        if header and data:
+            header_text = header.text.strip().lower()
+
+            # Check for location-related headers
+            if "location" in header_text or "city" in header_text or "town" in header_text:
+                location = data.text.strip()
+            # Check for type-related headers
+            elif "type" in header_text or "architecture" in header_text or "architect" in header_text:
+                type_ = data.text.strip()
+
+    return {
+        "Name": name,
+        "Location": location,
+        "Type": type_,
+    }
+
+wikipedia_museum_links = [
+    "Egyptian_Museum",
+    "Egyptian_National_Military_Museum",
+    "Child_Museum_(Cairo)",
+    "Coptic_Museum",
+    "Aswan_Museum",
+    "Alexandria_National_Museum",
+    "Abdeen_Palace",
+    "Bibliotheca_Alexandrina",
+    "Imhotep_Museum",
+    "Graeco-Roman_Museum",
+    "Manial_Palace_and_Museum",
+    "Mukhtar_Museum"
+    "Mummification_Museum"
+    "Grand_Egyptian_Museum"
+]
+
+
+def update_museums():
+    for museum_link in wikipedia_museum_links:
+        info = extract_info_museum(museum_link)
+        current_museum = Museums(
+            Name = info['Name'],
+            Location = info['Location'],
+            Type = info['Type']
+        )
+        db.session.add(current_museum)
+        db.session.commit()
+
+def extract_info_attraction(a_name):
+    data=a_name
+    url = f"https://en.wikipedia.org/wiki/{data}"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    name = soup.find("h1", {"id": "firstHeading"}).text.strip()
+
+    # Attributes to extract
+    attributes = {
+        "Location": None,
+        "Type": None,
+        "Built": None,
+        "Part of": None,
+        "Builders": None,
+        "Periods": None,
+    }
+
+    # Locate the infobox
+    infobox = soup.find("table", {"class": "infobox"})
+    rows = infobox.find_all("tr") if infobox else []
+
+    # Loop through rows to find attributes
+    for row in rows:
+        header = row.find("th")
+        data = row.find("td")
+
+        if header and data:
+            header_text = header.text.strip().lower()
+
+            if "location" in header_text:
+                attributes["Location"] = data.text.strip()
+            elif "type" in header_text:
+                attributes["Type"] = data.text.strip()
+            elif "built" in header_text or "founded" in header_text or "constructed" in header_text:
+                attributes["Built"] = data.text.strip()
+            elif "part of" in header_text:
+                attributes["Part of"] = data.text.strip()
+            elif "builder" in header_text:
+                attributes["Builders"] = data.text.strip()
+            elif "period" in header_text:
+                attributes["Periods"] = data.text.strip()
+
+    # Add the name to the attributes
+    attributes["Name"] = name
+    return attributes
+
+
+wikipedia_attraction_links = [
+    "Valley_of_the_Kings",
+    "Valley_of_the_Queens",
+    "Karnak",
+    "Great_Pyramid_of_Giza",
+    "Abu_Simbel",
+    "Saint_Catherine%27s_Monastery",
+    "Memphis,_Egypt",
+    "Temple_of_Edfu",
+    "National_Museum_of_Egyptian_Civilization",
+    "Northern_coast_of_Egypt",
+    "Nuweiba",
+    "Ras_el-Hekma",
+    "Lake_Nasser",
+    "Sidi_Abdel_Rahman"
+]
+
+# def update_attraction():
+#     for attraction_link in wikipedia_attraction_links:
+#         info = extract_info_attraction(attraction_link)
+#         current_attraction = Attraction(
+#             Name = info['Name'],
+#             Location = info['Location'],
+#             Type = info['Type']
+#         )
+#         db.session.add(current_attraction)
+#         db.session.commit()
+
 @app.route("/Historical_Sites",methods=['POST','GET'])
 def Historical_sites(): 
     update_hotels()
+    update_museums()
+    # update_attraction()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')
         hotel = Hotels.query.filter_by(Name=hotel_name).first()
@@ -555,16 +720,16 @@ def verify_account(token):
     token_data = tokens.get(token)
     if token_data:
         if time.time() - token_data["timestamp"] < 3600:
-            user = Tourist.query.filter_by(email= tokens[token]["email"]).first() ##EDITTT DONE CHECK
+            user = Tourist.query.filter_by(email= tokens[token]["email"]).first()
             if not user:
-                user = TourGuide.query.filter_by(email = tokens[token]["email"]).first() ##EDITTT DONE CHECK
+                user = TourGuide.query.filter_by(email = tokens[token]["email"]).first() 
 
             user.verified = True
             user.verification_token = token
             db.session.commit()
             return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Your account has been successfully verified", redirect_message = url_for("home"))
         else:
-            del tokens[token]  # Token expired, remove it
+            del tokens[token]  
             return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Token Expired!", redirect_message = url_for("login"))
     else:
         return render_template("Email_verfication.html", pagetitle="Email_verification", verification_message = "Invalid or expired Token!", redirect_message = url_for("login"))
@@ -704,7 +869,7 @@ def login():
         email = request.form.get('email_address')
         password = request.form.get('password')
         account_type = request.form.get('User_Type')
-        if account_type is "Tourist":
+        if account_type == "tourist":
             tourist = Tourist.query.filter_by(email=email).first()
             if tourist and tourist.password == password:
                 if tourist.verified==0:
@@ -717,7 +882,7 @@ def login():
                     session['tourist_id']=tourist.tourist_id
                     login_user(tourist)
                     return redirect(url_for('Tourist_selection_page'))
-        else:
+        elif account_type == "tour_guide":
             tourguide = TourGuide.query.filter_by(email=email).first()
             if tourguide and tourguide.password == password:
                 if tourguide.verified==0:
@@ -730,10 +895,8 @@ def login():
                     session['tourguide_id']=tourguide.tourguide_id
                     login_user(tourguide)
                     return redirect(url_for('tourguide_dashboard'))
-        
-        if not tourguide and not tourist:
+        else:
             flash("Invalid credentials")
-
     return render_template('login.html')
 
 

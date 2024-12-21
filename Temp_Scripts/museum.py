@@ -1,23 +1,24 @@
 import requests
 from bs4 import BeautifulSoup
 
-data=input("please enter the hotel ")
 
-url = f"https://en.wikipedia.org/wiki/{data}"
-#
+# URL of the Wikipedia page
+url = "https://en.wikipedia.org/wiki/Agricultural_Museum,_Egypt"
+
 # Send a GET request to the page
 response = requests.get(url)
 soup = BeautifulSoup(response.content, "html.parser")
 
+# Extracting the required information
 def extract_info():
-    # Page title as the hotel name
+    # Page title as the name
     name = soup.find("h1", {"id": "firstHeading"}).text.strip()
 
-    # Location, opening, owner, and number of rooms from the infobox
+    # Location and type from the infobox
     infobox = soup.find("table", {"class": "infobox"})
     rows = infobox.find_all("tr") if infobox else []
 
-    location, opening, owner, rooms = None, None, None, None
+    location, type_ = None, None
 
     for row in rows:
         header = row.find("th")
@@ -26,21 +27,17 @@ def extract_info():
         if header and data:
             header_text = header.text.strip().lower()
 
-            if "location" in header_text:
+            # Check for location-related headers
+            if "location" in header_text or "city" in header_text or "town" in header_text:
                 location = data.text.strip()
-            elif "opening" in header_text:
-                opening = data.text.strip()
-            elif "owner" in header_text:
-                owner = data.text.strip()
-            elif "number of rooms" in header_text:
-                rooms = data.text.strip()
+            # Check for type-related headers
+            elif "type" in header_text or "architecture" in header_text or "architect" in header_text:
+                type_ = data.text.strip()
 
     return {
         "Name": name,
         "Location": location,
-        "Opening": opening,
-        "Owner": owner,
-        "Number of Rooms": rooms,
+        "Type": type_,
     }
 
 # Get the extracted data

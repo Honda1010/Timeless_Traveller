@@ -108,7 +108,7 @@ class Restaurants(db.Model):
     city_id = db.Column(db.Integer,db.ForeignKey('cities_data.city_id') ,nullable=False)  # Foreign Key column
 
     #Relationships:
-    fk_city = db.relationship('cities_data', backref='restaurants')
+    fk_city = db.relationship('Cities_data', backref='Restaurants')
 
     def get_id(self):
         return str(self.id)
@@ -127,7 +127,7 @@ class Hotels(db.Model):
     city_id = db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable = True) 
 
     #Relationships:
-    fk_city_hotel = db.relationship('cities_data', backref='Hotels')
+    fk_city_hotel = db.relationship('Cities_data', backref='Hotels')
 
     def get_id(self):
         return str(self.Hotel_ID)
@@ -141,7 +141,7 @@ class Museums(db.Model):
     city_id=db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable=True)
 
     #Relationships:
-    fk_city_museums = db.relationship('cities_data', backref='Museums')
+    fk_city_museums = db.relationship('Cities_data', backref='Museums')
 
     def get_id(self):
         return str(self.Museum_id)
@@ -159,7 +159,7 @@ class Attraction(db.Model):
     city_id=db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable=True)
 
     #Relationships:
-    fk_city_att = db.relationship('cities_data', backref='Attraction')
+    fk_city_att = db.relationship('Cities_data', backref='Attraction')
 
     def get_id(self):
         return str(self.Museum_id)    

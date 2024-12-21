@@ -99,6 +99,23 @@ class TourGuide(db.Model):
     def __repr__(self):
         return f"<TourGuide {self.first_name} {self.second_name}>"
 
+class Restaurants(db.Model):
+    __tablename__ = 'restaurants'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Primary Key
+    name = db.Column(db.String(100), nullable=True)  # Hotel Name
+    location = db.Column(db.String(255), nullable=True)  # Hotel Location
+    city_id = db.Column(db.Integer,db.ForeignKey('cities_data.city_id') ,nullable=False)  # Foreign Key column
+
+    #Relationships:
+    fk_city = db.relationship('cities_data', backref='restaurants')
+
+    def get_id(self):
+        return str(self.id)
+
+
+
+
 class Hotels(db.Model):
     __tablename__ = 'Hotels'
     Hotel_ID = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -107,7 +124,10 @@ class Hotels(db.Model):
     Opening = db.Column(db.Date, nullable=True)  
     Owner = db.Column(db.String(100), nullable=True)  
     Rooms = db.Column(db.String(100), nullable=True) 
-    city_id = db.Column(db.Integer, nullable = True) 
+    city_id = db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable = True) 
+
+    #Relationships:
+    fk_city_hotel = db.relationship('cities_data', backref='Hotels')
 
     def get_id(self):
         return str(self.Hotel_ID)
@@ -656,8 +676,145 @@ wikipedia_attraction_links = [
 #         db.session.add(current_attraction)
 #         db.session.commit()
 
-@app.route("/Historical_Sites",methods=['POST','GET'])
-def Historical_sites(): 
+@app.route("/attraction",methods=['POST','GET'])
+def attraction(): 
+    if request.method == 'POST':
+        return render_template("Historical_Sites.html",
+                                    historical_panel = "",
+                                    hotel_panel = "hidden",
+                                    rest_panel = "hidden",
+                                    museum_panel = "hidden", 
+                                    
+                                    activate_history = "active",
+                                    activate_hotels = "",
+                                    activate_resturants = "",
+                                    activate_museums = "",
+
+                                    card_show_historical = "",
+                                    card_show_hotels = "hidden",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "",
+                                    hotel_search = "hidden",
+                                    resturant_search = "hidden",
+                                    museum_search = "hidden"
+                                    )
+    return render_template("Historical_Sites.html",
+                                    historical_panel = "",
+                                    hotel_panel = "hidden",
+                                    rest_panel = "hidden",
+                                    museum_panel = "hidden", 
+                                    
+                                    activate_history = "active",
+                                    activate_hotels = "",
+                                    activate_resturants = "",
+                                    activate_museums = "",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "hidden",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "",
+                                    hotel_search = "hidden",
+                                    resturant_search = "hidden",
+                                    museum_search = "hidden") 
+
+@app.route("/resturants",methods=['POST','GET'])
+def resturants(): 
+    if request.method == 'POST':
+        return render_template("Historical_Sites.html",
+                                    historical_panel = "hidden",
+                                    hotel_panel = "hidden",
+                                    rest_panel = "",
+                                    museum_panel = "hidden", 
+                                    
+                                    activate_history = "",
+                                    activate_hotels = "",
+                                    activate_resturants = "active",
+                                    activate_museums = "",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "hidden",
+                                    card_show_resturants = "",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "hidden",
+                                    resturant_search = "",
+                                    museum_search = "hidden"
+                                    )
+    return render_template("Historical_Sites.html",
+                                    historical_panel = "hidden",
+                                    hotel_panel = "hidden",
+                                    rest_panel = "",
+                                    museum_panel = "hidden", 
+                                    
+                                    activate_history = "",
+                                    activate_hotels = "",
+                                    activate_resturants = "active",
+                                    activate_museums = "",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "hidden",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "hidden",
+                                    resturant_search = "",
+                                    museum_search = "hidden"
+                                    )
+
+@app.route("/museums",methods=['POST','GET'])
+def museums(): 
+    if request.method == 'POST':
+        return render_template("Historical_Sites.html",
+                                    historical_panel = "hidden",
+                                    hotel_panel = "hidden",
+                                    rest_panel = "hidden",
+                                    museum_panel = "", 
+                                    
+                                    activate_history = "",
+                                    activate_hotels = "",
+                                    activate_resturants = "",
+                                    activate_museums = "active",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "hidden",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "hidden",
+                                    resturant_search = "hidden",
+                                    museum_search = ""
+                                    )
+    return render_template("Historical_Sites.html",
+                                    historical_panel = "hidden",
+                                    hotel_panel = "hidden",
+                                    rest_panel = "hidden",
+                                    museum_panel = "", 
+                                    
+                                    activate_history = "",
+                                    activate_hotels = "",
+                                    activate_resturants = "",
+                                    activate_museums = "active",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "hidden",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "hidden",
+                                    resturant_search = "hidden",
+                                    museum_search = ""
+                                    )
+
+@app.route("/hotels",methods=['POST','GET'])
+def hotels(): 
     update_hotels()
     update_museums()
     # update_attraction()
@@ -671,29 +828,49 @@ def Historical_sites():
                                     opening = hotel.Opening,
                                     Owner = hotel.Owner,
                                     rooms = hotel.Rooms,
-                                    h_p = "hidden",
-                                    hotel_P = "",
-                                    rest_P = "hidden",
+                                    
+                                    historical_panel = "hidden",
+                                    hotel_panel = "",
+                                    rest_panel = "hidden",
+                                    museum_panel = "hidden", 
+                                    
                                     activate_history = "",
                                     activate_hotels = "active",
                                     activate_resturants = "",
-                                    activate_enter = "",
-                                    card_show_hotels = "",
+                                    activate_museums = "",
+
                                     card_show_historical = "hidden",
-                                    card_show_resturants = "hidden")
+                                    card_show_hotels = "",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "",
+                                    resturant_search = "hidden",
+                                    museum_search = "hidden"
+                                    )
         else:
             return render_template("Historical_Sites.html", Hotel_name = hotel_name)
     return render_template("Historical_Sites.html",
-                                    h_p = "hidden",
-                                    hotel_P = "",
-                                    rest_P = "hidden",
+                                    historical_panel = "hidden",
+                                    hotel_panel = "",
+                                    rest_panel = "hidden",
+                                    museum_panel = "hidden", 
+                                    
                                     activate_history = "",
                                     activate_hotels = "active",
                                     activate_resturants = "",
-                                    activate_enter = "",
-                                    card_show_hotels = "hidden",
+                                    activate_museums = "",
+
                                     card_show_historical = "hidden",
-                                    card_show_resturants = "hidden") 
+                                    card_show_hotels = "hidden",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "",
+                                    resturant_search = "hidden",
+                                    museum_search = "hidden") 
 
 @app.route('/verify/<token>')
 def verify_account(token):

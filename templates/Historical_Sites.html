@@ -16,15 +16,16 @@
 </head>
 
 <style>
-    .active{
+    .active {
         border: solid 1px white;
-        background-color: #c2410c ;
+        background-color: #c2410c;
     }
 </style>
 
 <body class="grid grid-flow-row overflow-x-hidden">
-     <!-- Header -->
-    <header class=" bg-gradient-to-r from-orange-700 via-desert to-orange-700 pb-2 mb-0 w-screen flex-col items-center px-10 space-y-2">
+    <!-- Header -->
+    <header
+        class=" bg-gradient-to-r from-orange-700 via-desert to-orange-700 pb-2 mb-0 w-screen flex-col items-center px-10 space-y-2">
         <div class="flex items-center lg:ml-60">
             <a href="home.html"><img src="../static/Images/Logo_no_bg.png" alt="logo"
                     class="font-bold text-xl w-[75px]"></a>
@@ -32,44 +33,109 @@
             <!-- <h1 class="font-bold text-xl text-sunset">Timeless Traveller</h1> -->
         </div>
         <nav class="hidden md:flex space-x-8 justify-start lg:ml-60">
-            <a id="Option_1" onclick="toggle_sites(1)" href="#" class=" {{activate_history}} flex items-center justify-center rounded-full p-3 min-w-fit text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_1" onclick="toggle_sites(1)" href="#"
+                class=" {{activate_history}} flex items-center justify-center rounded-full p-3 min-w-fit text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">search_activity</span>
                 Historical Sites</a>
-            <a id="Option_2" onclick="toggle_sites(2)" href="#" class="{{activate_hotels}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_2" onclick="toggle_sites(2)" href="#"
+                class="{{activate_hotels}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">bedroom_parent</span>
                 Hotels</a>
-            <a id="Option_3" onclick="toggle_sites(3)" href="#" class="{{activate_resturants}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_3" onclick="toggle_sites(3)" href="#"
+                class="{{activate_resturants}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">restaurant</span>
                 Restaurants</a>
-            <a id="Option_4" onclick="toggle_sites(4)" href="#" class="{{activate_enter}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
+            <a id="Option_4" onclick="toggle_sites(4)" href="#"
+                class="{{activate_museums}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">museum</span>
                 Museums</a>
         </nav>
     </header>
-    <div class="relative h-96 bg-no-repeat bg-center bg-cover flex justify-start" style="background-image: url('../static/Images/Orange_pyramids_no_background.jpeg');">
-        <p class="flex justify-start md:leading-normal mx-5 md:ml-72 md:pt-6 md:text-4xl text-2xl leading-normal pt-16 text-white font-medium">Discover the world your way <br>
+    <div class="relative h-96 bg-no-repeat bg-center bg-cover flex justify-start"
+        style="background-image: url('../static/Images/Orange_pyramids_no_background.jpeg');">
+        <p
+            class="flex justify-start md:leading-normal mx-5 md:ml-72 md:pt-6 md:text-4xl text-2xl leading-normal pt-16 text-white font-medium">
+            Discover the world your way <br>
             Stay where memories begin <br>
             Create timeless memories just for you
         </p>
-            <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md">
-                <form action = "Historical_Sites" method = "POST" class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
-                    <div class="relative h-fit">
-                        <input type="search" placeholder=" Where are you going?" class="font-semibold text-sm placeholder-black rounded-md items-center md:min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal " name = "hotel_name">
-                        <span class=" absolute left-1 p-2 rounded-full items-center material-symbols-outlined">carry_on_bag</span>
-                        <button class="rounded-md h-fit bg-blue-700 text-white text-lg font-medium items-center py-1 pb-1.5  px-2 md:px-10 hover:bg-blue-800 ">Search</button>
-                    </div>
-                    
-                </form>
-            </div>
+        <!-- historical search -->
+        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md"
+            id="search_1 {{attraction_search}}" >
+            <form action="attraction" method="POST"
+                class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
+                <div class="relative h-fit">
+                    <input type="search" placeholder=" Where are you going?"
+                        class="font-semibold text-sm placeholder-black rounded-md items-center md:min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal "
+                        name="hotel_name">
+                    <span
+                        class=" absolute left-1 p-2 rounded-full items-center material-symbols-outlined">carry_on_bag</span>
+                    <button
+                        class="rounded-md h-fit bg-blue-700 text-white text-lg font-medium items-center py-1 pb-1.5  px-2 md:px-10 hover:bg-blue-800 ">Search</button>
+                </div>
+
+            </form>
+        </div>
+        <!-- hotel search -->
+        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md}}"
+            id="search_2">
+            <form action="hotels" method="POST"
+                class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
+                <div class="relative h-fit">
+                    <input type="search" placeholder=" Where are you going?"
+                        class="font-semibold text-sm placeholder-black rounded-md items-center md:min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal "
+                        name="hotel_name">
+                    <span
+                        class=" absolute left-1 p-2 rounded-full items-center material-symbols-outlined">carry_on_bag</span>
+                    <button
+                        class="rounded-md h-fit bg-blue-700 text-white text-lg font-medium items-center py-1 pb-1.5  px-2 md:px-10 hover:bg-blue-800 ">Search</button>
+                </div>
+
+            </form>
+        </div>
+        <!-- Restaurants search -->
+        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md {{resturant_search}}"
+            id="search_3">
+            <form action="resturants" method="POST"
+                class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
+                <div class="relative h-fit">
+                    <input type="search" placeholder=" Where are you going?"
+                        class="font-semibold text-sm placeholder-black rounded-md items-center md:min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal "
+                        name="hotel_name">
+                    <span
+                        class=" absolute left-1 p-2 rounded-full items-center material-symbols-outlined">carry_on_bag</span>
+                    <button
+                        class="rounded-md h-fit bg-blue-700 text-white text-lg font-medium items-center py-1 pb-1.5  px-2 md:px-10 hover:bg-blue-800 ">Search</button>
+                </div>
+
+            </form>
+        </div>
+        <!-- Museums search -->
+        <div class="flex absolute inset-x-0 mx-auto -bottom-4 bg-orange-700 max-w-fit h-fit p-1 rounded-md {{museum_search}}"
+            id="search_4">
+            <form action="museums" method="POST"
+                class="flex space-x-2 md:flex-row flex-col items-center py-1 space-y-2 w-full mx-1 px-0">
+                <div class="relative h-fit">
+                    <input type="search" placeholder=" Where are you going?"
+                        class="font-semibold text-sm placeholder-black rounded-md items-center md:min-w-96 py-2 px-10 hover:ring-2 hover:ring-black focus:outline-none focus:placeholder-opacity-50 focus:font-normal "
+                        name="hotel_name">
+                    <span
+                        class=" absolute left-1 p-2 rounded-full items-center material-symbols-outlined">carry_on_bag</span>
+                    <button
+                        class="rounded-md h-fit bg-blue-700 text-white text-lg font-medium items-center py-1 pb-1.5  px-2 md:px-10 hover:bg-blue-800 ">Search</button>
+                </div>
+
+            </form>
+        </div>
     </div>
-    <main class="{{h_p}} grid grid-flow-row" id="main_1">
-        
+    <main class="{{historical_panel}} grid grid-flow-row" id="main_1">
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_historical}}">
+            <div
+                class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_historical}}">
                 <!-- Image Section -->
                 <img src="../static/Images/Baron_palace.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
-            
+
                 <!-- Content Section -->
                 <div class="p-4 flex flex-col justify-between">
                     <!-- Top Section -->
@@ -79,14 +145,17 @@
                         <div class="mt-2">
                             <strong class="block font-medium">Description:</strong>
                             <p class="text-sm font-normal w-fit">
-                                The Baron Empain Palace, commonly known as Baron Palace, is a historic mansion located in the Heliopolis district of Cairo, Egypt.
-                                Built between 1907 and 1911 by the Belgian industrialist Édouard Louis Joseph Empain, 
+                                The Baron Empain Palace, commonly known as Baron Palace, is a historic mansion located
+                                in the Heliopolis district of Cairo, Egypt.
+                                Built between 1907 and 1911 by the Belgian industrialist Édouard Louis Joseph Empain,
                                 the palace is renowned for its unique architectural style and rich history.
                             </p>
                         </div>
                     </div>
                     <div class="flex md:justify-end justify-start mt-2 items-end">
-                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap({{hotel_name}})">Show on Map</button>
+                        <button
+                            class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"
+                            onclick="showOnMap('{{hotel_name}}')">Show on Map</button>
                     </div>
                 </div>
             </div>
@@ -94,18 +163,21 @@
         <!-- Popular Historical sites in Egypt -->
         <section class="grid w-full justify-center items-center mx-auto mt-16">
             <h2 class="text-black px-5 text-2xl font-bold">Popular Histroical attractions</h2>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
                 <!-- Cards -->
                 <a href="../static/Images/aboalhol.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/aboalhol.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/aboalhol.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Sphinx</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Sphinx is a mythical creature originating from ancient Egyptian and Greek mythology, 
-                                    often depicted as a creature with the body of a lion and the head of a human, 
+                                    The Sphinx is a mythical creature originating from ancient Egyptian and Greek
+                                    mythology,
+                                    often depicted as a creature with the body of a lion and the head of a human,
                                     symbolizing strength and wisdom.
                                 </p>
                             </div>
@@ -113,44 +185,52 @@
                     </div>
                 </a>
                 <a href="../static/Images/The_Pyramids_Egypt.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Pyramids_Egypt.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/The_Pyramids_Egypt.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Pyramids of Giza</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Pyramids are monumental structures built in ancient Egypt as tombs for pharaohs and powerful individuals.
-                                    They are some of the most iconic and enduring symbols of ancient Egyptian civilization.
+                                    The Pyramids are monumental structures built in ancient Egypt as tombs for pharaohs
+                                    and powerful individuals.
+                                    They are some of the most iconic and enduring symbols of ancient Egyptian
+                                    civilization.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Abu_Smibel.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Abu_Smibel.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Abu_Smibel.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Abu Simbel temples</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Abu Simbel Temples are two massive rock temples in southern Egypt, near the border with Sudan. 
-                                    They were built during the reign of Pharaoh Ramses II (circa 1264 BCE) to honor himself and his queen, Nefertari
+                                    The Abu Simbel Temples are two massive rock temples in southern Egypt, near the
+                                    border with Sudan.
+                                    They were built during the reign of Pharaoh Ramses II (circa 1264 BCE) to honor
+                                    himself and his queen, Nefertari
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Citadel-of-Saladin.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Citadel-of-Saladin.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Citadel-of-Saladin.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Citadel of Salah Aldin</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    TThe Citadel of Salah El-Din in Cairo, Egypt, is a 12th-century fortress built by Salah El-Din Al-Ayyubi to defend against Crusader attacks. 
+                                    TThe Citadel of Salah El-Din in Cairo, Egypt, is a 12th-century fortress built by
+                                    Salah El-Din Al-Ayyubi to defend against Crusader attacks.
                                     Located on Mokattam Hill, it offers strategic views of the city.
                                 </p>
                             </div>
@@ -158,30 +238,36 @@
                     </div>
                 </a>
                 <a href="../static/Images/Amr_Ibn_El_Aas.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Amr_Ibn_El_Aas.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Amr_Ibn_El_Aas.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Amr Ibn al-As mosque</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Amr ibn al-As Mosque, located in Cairo, Egypt, is the first mosque built in Africa. It was originally constructed in 641 AD by Amr ibn al-As, 
-                                    the commander who led the Muslim conquest of Egypt. Known for its historical and spiritual significance
+                                    The Amr ibn al-As Mosque, located in Cairo, Egypt, is the first mosque built in
+                                    Africa. It was originally constructed in 641 AD by Amr ibn al-As,
+                                    the commander who led the Muslim conquest of Egypt. Known for its historical and
+                                    spiritual significance
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Baron_palace.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Baron_palace.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Baron_palace.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Baron Palace</p>
                             </strong>
                             <div class="mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Baron Empain Palace, commonly known as Baron Palace, is a historic mansion located in the Heliopolis district of Cairo, Egypt.
-                                    Built between 1907 and 1911 by the Belgian industrialist Édouard Louis Joseph Empain, 
+                                    The Baron Empain Palace, commonly known as Baron Palace, is a historic mansion
+                                    located in the Heliopolis district of Cairo, Egypt.
+                                    Built between 1907 and 1911 by the Belgian industrialist Édouard Louis Joseph
+                                    Empain,
                                     the palace is renowned for its unique architectural style and rich history.
                                 </p>
                             </div>
@@ -192,14 +278,15 @@
         </section>
     </main>
     <!------------------------------------------------------------ Hotels -------------------------------------------------------------------------------------------->
-    <main class="grid grid-flow-row {{hotel_P}}" id="main_2">
-        
+    <main class="grid grid-flow-row {{hotel_panel}}" id="main_2">
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_hotels}}">
+            <div
+                class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_hotels}}">
                 <!-- Image Section -->
-                <img src="../static/Images/Four_Seasons_Hotel.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
-            
+                <img src="../static/Images/Four_Seasons_Hotel.jpg" alt="Beach Resort"
+                    class="max-w-80 max-h-80 rounded-lg">
+
                 <!-- Content Section -->
                 <div class="p-4 flex flex-col justify-between">
                     <!-- Top Section -->
@@ -218,7 +305,9 @@
                         </div>
                     </div>
                     <div class="flex md:justify-end justify-start mt-2 items-end">
-                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap('{{Hotel_name}}')">Show on Map</button>
+                        <button
+                            class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"
+                            onclick="showOnMap('{{Hotel_name}}')">Show on Map</button>
                     </div>
                 </div>
             </div>
@@ -226,47 +315,56 @@
         <!-- Popular Hotels in Egypt -->
         <section class="grid w-full justify-center items-center mx-auto mt-16">
             <h2 class="text-black px-5 text-2xl font-bold">Popular Luxurious Hotels</h2>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
                 <!-- Cards -->
                 <a href="../static/Images/Four_Seasons_Hotel.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Four_Seasons_Hotel.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Four_Seasons_Hotel.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Four Seasons</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Four Seasons Hotel Cairo at The First Residence combines classical grandeur with modern luxury, 
-                                    making it an ideal choice for travelers seeking comfort and proximity to Cairo's historic sites.
+                                    The Four Seasons Hotel Cairo at The First Residence combines classical grandeur with
+                                    modern luxury,
+                                    making it an ideal choice for travelers seeking comfort and proximity to Cairo's
+                                    historic sites.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/The_Nile_Ritz-Carlton_Hotel.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Nile_Ritz-Carlton_Hotel.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/The_Nile_Ritz-Carlton_Hotel.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Nile Ritz-Carlton</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Nile Ritz-Carlton, Cairo seamlessly blends rich cultural heritage with contemporary luxury, 
-                                    making it an ideal choice for travelers seeking an opulent retreat in the vibrant heart of Egypt's capital.
+                                    The Nile Ritz-Carlton, Cairo seamlessly blends rich cultural heritage with
+                                    contemporary luxury,
+                                    making it an ideal choice for travelers seeking an opulent retreat in the vibrant
+                                    heart of Egypt's capital.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Steigenberger_Pyramids_Hotel.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Steigenberger_Pyramids_Hotel.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Steigenberger_Pyramids_Hotel.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Steigenberger Pyramids Cairo</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Steigenberger Pyramids Cairo combines modern luxury with proximity to Egypt's ancient wonders, 
+                                    The Steigenberger Pyramids Cairo combines modern luxury with proximity to Egypt's
+                                    ancient wonders,
                                     making it an ideal choice for travelers seeking both comfort and convenience.
                                 </p>
                             </div>
@@ -274,46 +372,55 @@
                     </div>
                 </a>
                 <a href="../static/Images/The_Westin_Cairo_Golf_Resort.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Westin_Cairo_Golf_Resort.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/The_Westin_Cairo_Golf_Resort.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Citadel of Salah Aldin</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Westin Cairo Golf Resort & Spa, Katameya Dunes combines luxury accommodations with world-class amenities, 
-                                    making it an ideal destination for travelers seeking relaxation and recreation in New Cairo.
+                                    The Westin Cairo Golf Resort & Spa, Katameya Dunes combines luxury accommodations
+                                    with world-class amenities,
+                                    making it an ideal destination for travelers seeking relaxation and recreation in
+                                    New Cairo.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Kempinski_Nile_Hotel.jpeg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Kempinski_Nile_Hotel.jpeg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Kempinski_Nile_Hotel.jpeg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Kempinski</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    Situated just a five-minute walk from downtown Cairo and the Egyptian Museum. 
-                                    The Kempinski Nile Hotel offers a blend of luxurious accommodations and a prime location, 
-                                    making it an ideal option for travelers looking for a comfortable and convenient stay in Cairo.
+                                    Situated just a five-minute walk from downtown Cairo and the Egyptian Museum.
+                                    The Kempinski Nile Hotel offers a blend of luxurious accommodations and a prime
+                                    location,
+                                    making it an ideal option for travelers looking for a comfortable and convenient
+                                    stay in Cairo.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Steigenberger-Al-Dau_Hotel.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Steigenberger-Al-Dau_Hotel.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Steigenberger-Al-Dau_Hotel.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Steigenberger ALDAU</p>
                             </strong>
                             <div class="mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Steigenberger ALDAU Beach Hotel combines refined luxury with a range of amenities and activities, 
-                                    making it a premier choice for travelers seeking a sophisticated and relaxing retreat in Hurghada.
+                                    The Steigenberger ALDAU Beach Hotel combines refined luxury with a range of
+                                    amenities and activities,
+                                    making it a premier choice for travelers seeking a sophisticated and relaxing
+                                    retreat in Hurghada.
                                 </p>
                             </div>
                         </div>
@@ -324,13 +431,15 @@
     </main>
 
     <!------------------------------------------------------------- Restaurants --------------------------------------------------------->
-    <main class="{{rest_P}} grid grid-flow-row hidden" id="main_3">
+    <main class="{{rest_panel}} grid grid-flow-row hidden" id="main_3">
         <!-- Cards Section -->
-        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_resturants}}">
+        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
+            <div
+                class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_resturants}}">
                 <!-- Image Section -->
-                <img src="../static/Images/Zeeyara_Restaurant.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
-            
+                <img src="../static/Images/Zeeyara_Restaurant.jpg" alt="Beach Resort"
+                    class="max-w-80 max-h-80 rounded-lg">
+
                 <!-- Content Section -->
                 <div class="p-4 flex flex-col justify-between">
                     <!-- Top Section -->
@@ -340,15 +449,19 @@
                         <div class="mt-2">
                             <strong class="block font-medium">Description:</strong>
                             <p class="text-sm font-normal w-fit">
-                                Zeeyara Restaurant elevates classic dishes to a gourmet level, 
-                                offering guests an authentic culinary experience amidst the historic ambiance of the area.
-                                The restaurant's rooftop setting provides picturesque views of the surrounding minarets, domes, and medieval architecture, 
+                                Zeeyara Restaurant elevates classic dishes to a gourmet level,
+                                offering guests an authentic culinary experience amidst the historic ambiance of the
+                                area.
+                                The restaurant's rooftop setting provides picturesque views of the surrounding minarets,
+                                domes, and medieval architecture,
                                 enhancing the dining experience.
                             </p>
                         </div>
                     </div>
                     <div class="flex md:justify-end justify-start mt-2 items-end">
-                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap('Zeeyara Restaurant, Giza')">Show on Map</button>
+                        <button
+                            class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"
+                            onclick="showOnMap('Zeeyara Restaurant, Giza')">Show on Map</button>
                     </div>
                 </div>
             </div>
@@ -356,33 +469,39 @@
         <!-- Popular Restaurants in Egypt -->
         <section class="grid w-full justify-center items-center mx-auto mt-16">
             <h2 class="text-black px-5 text-2xl font-bold">Popular Fancy Restaurants</h2>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
                 <!-- Cards -->
                 <a href="../static/Images/Zeeyara_Restaurant.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Zeeyara_Restaurant.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Zeeyara_Restaurant.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Zeeyara Restaurant</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    Zeeyara Restaurant elevates classic dishes to a gourmet level, 
-                                    offering guests an authentic culinary experience amidst the historic ambiance of the area.
+                                    Zeeyara Restaurant elevates classic dishes to a gourmet level,
+                                    offering guests an authentic culinary experience amidst the historic ambiance of the
+                                    area.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Koshary_Abo_Tarek_Restaurant.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Koshary_Abo_Tarek_Restaurant.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Koshary_Abo_Tarek_Restaurant.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Koshary Abo Tarek Restaurant</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    Koshary Abou Tarek is a renowned eatery in Cairo, Egypt, celebrated for serving koshary, 
-                                    the nation's beloved comfort food. The restaurant has become an iconic destination for 
+                                    Koshary Abou Tarek is a renowned eatery in Cairo, Egypt, celebrated for serving
+                                    koshary,
+                                    the nation's beloved comfort food. The restaurant has become an iconic destination
+                                    for
                                     both locals and tourists seeking an authentic Egyptian dining experience.
                                 </p>
                             </div>
@@ -390,14 +509,15 @@
                     </div>
                 </a>
                 <a href="../static/Images/Burak_Restaurant.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Burak_Restaurant.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Burak_Restaurant.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">CZN Burak Restaurant</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    CZN Burak is a renowned Turkish restaurant chain led by Chef Burak Özdemir, 
+                                    CZN Burak is a renowned Turkish restaurant chain led by Chef Burak Özdemir,
                                     celebrated for its vibrant culinary presentations and signature dishes.
                                 </p>
                             </div>
@@ -405,31 +525,37 @@
                     </div>
                 </a>
                 <a href="../static/Images/The_Revolving_Restaurant.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Revolving_Restaurant.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/The_Revolving_Restaurant.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Revolving Restaurant</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Revolving Restaurant, situated on the 41st floor of the Grand Nile Tower Hotel in Cairo.
-                                    As the highest restaurant in the Middle East, it rotates 360 degrees every 75 minutes, 
-                                    allowing diners to enjoy a complete view of Cairo's landmarks, including the Pyramids.
+                                    The Revolving Restaurant, situated on the 41st floor of the Grand Nile Tower Hotel
+                                    in Cairo.
+                                    As the highest restaurant in the Middle East, it rotates 360 degrees every 75
+                                    minutes,
+                                    allowing diners to enjoy a complete view of Cairo's landmarks, including the
+                                    Pyramids.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </a>
                 <a href="../static/Images/Qasr_Al_Kababgy_Restaurant.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Qasr_Al_Kababgy_Restaurant.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Qasr_Al_Kababgy_Restaurant.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Qasr El Kababgy Restaurant</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    Qasr El Kababgy is a renowned Egyptian restaurant chain celebrated for its authentic grilled 
-                                    dishes and traditional Egyptian cuisine. The establishment has garnered a reputation 
+                                    Qasr El Kababgy is a renowned Egyptian restaurant chain celebrated for its authentic
+                                    grilled
+                                    dishes and traditional Egyptian cuisine. The establishment has garnered a reputation
                                     as one of the best in Egypt and the Arab world
                                 </p>
                             </div>
@@ -437,16 +563,19 @@
                     </div>
                 </a>
                 <a href="../static/Images/Saraya_Gallery_Restaurant.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Saraya_Gallery_Restaurant.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Saraya_Gallery_Restaurant.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Saraya Gallery Restaurant</p>
                             </strong>
                             <div class="mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    Saraya Gallery is a distinguished French à la carte restaurant located within the 
-                                    Cairo Marriott Hotel & Omar Khayyam Casino. Renowned for its opulent décor, the restaurant 
-                                    features an antique ceiling and lavish furnishings, offering a regal dining experience.
+                                    Saraya Gallery is a distinguished French à la carte restaurant located within the
+                                    Cairo Marriott Hotel & Omar Khayyam Casino. Renowned for its opulent décor, the
+                                    restaurant
+                                    features an antique ceiling and lavish furnishings, offering a regal dining
+                                    experience.
                                 </p>
                             </div>
                         </div>
@@ -456,13 +585,15 @@
         </section>
     </main>
     <!----------------------------------------------------------- Museums --------------------------------------------------------------------------->
-    <main class="grid grid-flow-row hidden" id="main_4">
+    <main class="grid grid-flow-row hidden {{museum_panel}}"  id="main_4">
         <!-- Cards Section -->
-        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7 hidden">
-            <div class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl">
+        <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
+            <div
+                class="bg-gray-200 rounded-lg shadow-lg p-4 flex md:flex-row flex-col sm:max-w-[920px] w-full max-h-fit transition duration-700 hover:shadow-xl {{card_show_museums}}">
                 <!-- Image Section -->
-                <img src="../static/Images/Grand_Egyptian_Museum.jpg" alt="Beach Resort" class="max-w-80 max-h-80 rounded-lg">
-            
+                <img src="../static/Images/Grand_Egyptian_Museum.jpg" alt="Beach Resort"
+                    class="max-w-80 max-h-80 rounded-lg">
+
                 <!-- Content Section -->
                 <div class="p-4 flex flex-col justify-between">
                     <!-- Top Section -->
@@ -472,14 +603,18 @@
                         <div class="mt-2">
                             <strong class="block font-medium">Description:</strong>
                             <p class="text-sm font-normal w-fit">
-                                The Grand Egyptian Museum (GEM) is the world's largest archaeological museum dedicated to a single civilization. 
-                                Spanning approximately 5.2 million square feet, it houses over 100,000 artifacts, including the complete collection
+                                The Grand Egyptian Museum (GEM) is the world's largest archaeological museum dedicated
+                                to a single civilization.
+                                Spanning approximately 5.2 million square feet, it houses over 100,000 artifacts,
+                                including the complete collection
                                 of treasures from King Tutankhamun's tomb.
                             </p>
                         </div>
                     </div>
                     <div class="flex md:justify-end justify-start mt-2 items-end">
-                        <button class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"onclick="showOnMap('Zeeyara Restaurant, Giza')">Show on Map</button>
+                        <button
+                            class="rounded-md text-white text-lg font-medium max-h-10 min-w-36 items-center py-2 bg-sunset hover:bg-orange-600"
+                            onclick="showOnMap('Zeeyara Restaurant, Giza')">Show on Map</button>
                     </div>
                 </div>
             </div>
@@ -487,18 +622,22 @@
         <!-- Popular Restaurants in Egypt -->
         <section class="grid w-full justify-center items-center mx-auto mt-16">
             <h2 class="text-black px-5 text-2xl font-bold">Popular Fancy Restaurants</h2>
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
+            <div
+                class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
                 <!-- Cards -->
                 <a href="../static/Images/Grand_Egyptian_Museum.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Grand_Egyptian_Museum.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Grand_Egyptian_Museum.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Grand Egyptian Museum</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Grand Egyptian Museum (GEM) is the world's largest archaeological museum dedicated to a single civilization. 
-                                    Spanning approximately 5.2 million square feet, it houses over 100,000 artifacts, including the complete collection
+                                    The Grand Egyptian Museum (GEM) is the world's largest archaeological museum
+                                    dedicated to a single civilization.
+                                    Spanning approximately 5.2 million square feet, it houses over 100,000 artifacts,
+                                    including the complete collection
                                     of treasures from King Tutankhamun's tomb.
                                 </p>
                             </div>
@@ -506,15 +645,18 @@
                     </div>
                 </a>
                 <a href="../static/Images/Museum_of_Islamic_Art.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Museum_of_Islamic_Art.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Museum_of_Islamic_Art.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Museum of Islamic Arts</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Museum of Islamic Art in Cairo, Egypt, is one of the world's most significant institutions dedicated to Islamic art and 
-                                    heritage. Established in 1903, it houses an extensive collection of artifacts from various Islamic periods, 
+                                    The Museum of Islamic Art in Cairo, Egypt, is one of the world's most significant
+                                    institutions dedicated to Islamic art and
+                                    heritage. Established in 1903, it houses an extensive collection of artifacts from
+                                    various Islamic periods,
                                     including rare woodwork, ceramics, metalwork, glass, and textiles.
                                 </p>
                             </div>
@@ -522,7 +664,8 @@
                     </div>
                 </a>
                 <a href="../static/Images/The_Luxor_Museum.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Luxor_Museum.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/The_Luxor_Museum.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Luxor Museum</p>
                             </strong>
@@ -538,14 +681,16 @@
                     </div>
                 </a>
                 <a href="../static/Images/The_Egyptian_Museum.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Egyptian_Museum.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/The_Egyptian_Museum.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Egyptian Museum</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Egyptian Museum in Cairo, established in 1902, is the oldest archaeological museum in the Middle East
+                                    The Egyptian Museum in Cairo, established in 1902, is the oldest archaeological
+                                    museum in the Middle East
                                     and houses the world's largest collection of Pharaonic antiquities.
                                 </p>
                             </div>
@@ -553,14 +698,15 @@
                     </div>
                 </a>
                 <a href="../static/Images/The_Coptic_Museum.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/The_Coptic_Museum.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/The_Coptic_Museum.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">The Coptic Museum</p>
                             </strong>
                             <div class="project-description mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    The Coptic Museum, located in Old Cairo's Coptic Cairo district, 
+                                    The Coptic Museum, located in Old Cairo's Coptic Cairo district,
                                     houses the world's largest collection of Coptic Christian artifacts.
                                 </p>
                             </div>
@@ -568,15 +714,18 @@
                     </div>
                 </a>
                 <a href="../static/Images/Abdeen_Palace_Museum.jpg" target="_blank" class="w-full sm:w-72">
-                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105" style="background-image: url('../static/Images/Abdeen_Palace_Museum.jpg'); height: 350px;">
+                    <div class="bg-cover bg-center bg-no-repeat rounded-lg overflow-hidden transform transition duration-700 hover:scale-105"
+                        style="background-image: url('../static/Images/Abdeen_Palace_Museum.jpg'); height: 350px;">
                         <div class=" bg-black bg-opacity-50 text-white h-full flex flex-col justify-end p-3">
                             <p class="project-category text-lg font-medium">Abdeen Palace Museum</p>
                             </strong>
                             <div class="mt-2">
                                 <strong class="block font-medium">Description:</strong>
                                 <p class="text-sm font-normal">
-                                    Abdeen Palace, located in Cairo, Egypt, is a historic palace that has been transformed into a museum complex.
-                                    The palace served as the royal residence and the center of government during the monarchy.
+                                    Abdeen Palace, located in Cairo, Egypt, is a historic palace that has been
+                                    transformed into a museum complex.
+                                    The palace served as the royal residence and the center of government during the
+                                    monarchy.
                                 </p>
                             </div>
                         </div>
@@ -585,7 +734,7 @@
             </div>
         </section>
     </main>
-    
+
 
 
 
@@ -594,23 +743,24 @@
     function showOnMap(location) {
         window.open(`https://www.google.com/maps/search/${encodeURIComponent(location)}`, '_blank');
     }
-    function toggle_sites(option_number){
-    // var option = document.getElementById(`Option_${menu_number}`);
-    var option;
-    var section;
-    // for remove active class from all options
-    for(let i=1 ; i<=4;i++){
-        option = document.getElementById(`Option_${i}`);
-        option.classList.remove('active');
-    }
-    for(let i=1 ; i<=3;i++){
-        section= document.getElementById(`main_${i}`);
-        section.classList.add('hidden');
-    }
-    option= document.getElementById(`Option_${option_number}`);
-    section= document.getElementById(`main_${option_number}`);
-    option.classList.add('active');
-    section.classList.remove('hidden');
-};
+    function toggle_sites(option_number) {
+        // var option = document.getElementById(`Option_${menu_number}`);
+        var option;
+        var section;
+        // for remove active class from all options
+        for (let i = 1; i <= 4; i++) {
+            option = document.getElementById(`Option_${i}`);
+            option.classList.remove('active');
+        }
+        for (let i = 1; i <= 3; i++) {
+            section = document.getElementById(`main_${i}`);
+            section.classList.add('hidden');
+        }
+        option = document.getElementById(`Option_${option_number}`);
+        section = document.getElementById(`main_${option_number}`);
+        option.classList.add('active');
+        section.classList.remove('hidden');
+    };
 </script>
+
 </html>

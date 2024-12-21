@@ -628,20 +628,20 @@ def extract_info_attraction(a_name):
 
 
 wikipedia_attraction_links = [
-    "Egyptian_Museum",
-    "Egyptian_National_Military_Museum",
-    "Child_Museum_(Cairo)",
-    "Coptic_Museum",
-    "Aswan_Museum",
-    "Alexandria_National_Museum",
-    "Abdeen_Palace",
-    "Bibliotheca_Alexandrina",
-    "Imhotep_Museum",
-    "Graeco-Roman_Museum",
-    "Manial_Palace_and_Museum",
-    "Mukhtar_Museum"
-    "Mummification_Museum"
-    "Grand_Egyptian_Museum"
+    "Valley_of_the_Kings",
+    "Valley_of_the_Queens",
+    "Karnak",
+    "Great_Pyramid_of_Giza",
+    "Abu_Simbel",
+    "Saint_Catherine%27s_Monastery",
+    "Memphis,_Egypt",
+    "Temple_of_Edfu",
+    "National_Museum_of_Egyptian_Civilization",
+    "Northern_coast_of_Egypt",
+    "Nuweiba",
+    "Ras_el-Hekma",
+    "Lake_Nasser",
+    "Sidi_Abdel_Rahman"
 ]
 
 # def update_attraction():

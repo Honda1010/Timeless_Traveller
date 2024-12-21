@@ -113,7 +113,7 @@ class Hotels(db.Model):
         return str(self.Hotel_ID)
 
 class Museums(db.Model):
-    __tablename__='Museums'
+    __tablename__='Museum'
     Museum_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     Name=db.Column(db.String(100),nullable=False)
     Location=db.Column(db.String(100),nullable=True)
@@ -628,38 +628,38 @@ def extract_info_attraction(a_name):
 
 
 wikipedia_attraction_links = [
-    "Egyptian_Museum",
-    "Egyptian_National_Military_Museum",
-    "Child_Museum_(Cairo)",
-    "Coptic_Museum",
-    "Aswan_Museum",
-    "Alexandria_National_Museum",
-    "Abdeen_Palace",
-    "Bibliotheca_Alexandrina",
-    "Imhotep_Museum",
-    "Graeco-Roman_Museum",
-    "Manial_Palace_and_Museum",
-    "Mukhtar_Museum"
-    "Mummification_Museum"
-    "Grand_Egyptian_Museum"
+    "Valley_of_the_Kings",
+    "Valley_of_the_Queens",
+    "Karnak",
+    "Great_Pyramid_of_Giza",
+    "Abu_Simbel",
+    "Saint_Catherine%27s_Monastery",
+    "Memphis,_Egypt",
+    "Temple_of_Edfu",
+    "National_Museum_of_Egyptian_Civilization",
+    "Northern_coast_of_Egypt",
+    "Nuweiba",
+    "Ras_el-Hekma",
+    "Lake_Nasser",
+    "Sidi_Abdel_Rahman"
 ]
 
-def update_attraction():
-    for attraction_link in wikipedia_attraction_links:
-        info = extract_info_attraction(attraction_link)
-        current_attraction = Attraction(
-            Name = info['Name'],
-            Location = info['Location'],
-            Type = info['Type']
-        )
-        db.session.add(current_attraction)
-        db.session.commit()
+# def update_attraction():
+#     for attraction_link in wikipedia_attraction_links:
+#         info = extract_info_attraction(attraction_link)
+#         current_attraction = Attraction(
+#             Name = info['Name'],
+#             Location = info['Location'],
+#             Type = info['Type']
+#         )
+#         db.session.add(current_attraction)
+#         db.session.commit()
 
 @app.route("/Historical_Sites",methods=['POST','GET'])
 def Historical_sites(): 
     update_hotels()
     update_museums()
-    update_attraction()
+    # update_attraction()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')
         hotel = Hotels.query.filter_by(Name=hotel_name).first()

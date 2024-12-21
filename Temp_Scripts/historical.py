@@ -1,42 +1,37 @@
-import requests
-from bs4 import BeautifulSoup
-import mysql.connector
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
-conn = mysql.connector.connect(
-    host='localhost', 
-    user='root', 
-    password='', 
-    database='tl_traveller'
-)
-cursor = conn.cursor()
+# Set up Chrome in headless mode
+options = Options()
+options.headless = True  # Enable headless mode
 
-def insert_place(location, name, type_):
-    cursor.execute("""
-        INSERT INTO historical (location,name, type_)
-        VALUES (%s, %s, %s)
-    """, (location,name,type_))
-    conn.commit()
+# Set the path to your ChromeDriver executable
+driver_path = "/path/to/chromedriver"  # Adjust this path
 
-def scrape_places():
-    search_query = "Cairo historical places"
-    base_url = "https://www.google.com/"  # Replace with an actual URL that lists places
-    response = requests.get(base_url + search_query)
-    soup = BeautifulSoup(response.content, 'html.parser')
+# Initialize WebDriver
+driver = webdriver.Chrome(executable_path=driver_path, options=options)
 
-    # Example: Extract place details (update with correct tags based on the website's structure)
-    for place in soup.find_all('div', class_='place-item'):
-        name = place.find('h2').get_text()
-        type_ = place.find('span', class_='place-type').get_text()
-        location = place.find('span', class_='location').get_text()
-      
-        insert_place(location, name, type_)
-        print(name)
-        print(location)
-        print(type_)
+# Open the TripAdvisor page
+url = 'https://www.tripadvisor.com/Hotels-g294201-a_trating.50-Cairo_Cairo_Governorate-Hotels.html'
+driver.get(url)
 
-# Run the scraper
-scrape_places()
+# Wait for the page to load and find the hotel name elements
+try:
+    # Wait until the hotel names are loaded (this may need adjustment based on actual content)
+    hotels = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div._1jp6a0pT'))  # CSS selector for hotel names
+    )
 
-# Close the connection
-cursor.close()
-conn.close()
+    # Extract hotel names from the found elements
+    for hotel in hotels:
+        hotel_name = hotel.text
+        print(hotel_name)
+
+finally:
+    # Close the browser
+    driver.quit()

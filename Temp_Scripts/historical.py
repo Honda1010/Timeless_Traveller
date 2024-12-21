@@ -1,37 +1,57 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+import requests
+from bs4 import BeautifulSoup
 
-# Set up Chrome in headless mode
-options = Options()
-options.headless = True  # Enable headless mode
+Hotels=["Fairmont_Nile_City","Grand_Nile_Tower_Hotel","Mena_House_Hotel","Semiramis_InterContinental_Hotel"
+"Shepheard%27s_Hotel","Sofitel_Cairo_Nile_El_Gezirah_Hotel","Windsor_Hotel_(Cairo)","Cairo_Marriott_Hotel"]
+# URL of the Wikipedia page
 
-# Set the path to your ChromeDriver executable
-driver_path = "/path/to/chromedriver"  # Adjust this path
+data=input("please enter the hotel ")
 
-# Initialize WebDriver
-driver = webdriver.Chrome(executable_path=driver_path, options=options)
 
-# Open the TripAdvisor page
-url = 'https://www.tripadvisor.com/Hotels-g294201-a_trating.50-Cairo_Cairo_Governorate-Hotels.html'
-driver.get(url)
+url = f"https://en.wikipedia.org/wiki/{data}"
 
-# Wait for the page to load and find the hotel name elements
-try:
-    # Wait until the hotel names are loaded (this may need adjustment based on actual content)
-    hotels = WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div._1jp6a0pT'))  # CSS selector for hotel names
-    )
+# Send a GET request to the page
+response = requests.get(url)
+soup = BeautifulSoup(response.content, "html.parser")
 
-    # Extract hotel names from the found elements
-    for hotel in hotels:
-        hotel_name = hotel.text
-        print(hotel_name)
+# Extracting the required information
+def extract_info():
+    # Page title as the hotel name
+    name = soup.find("h1", {"id": "firstHeading"}).text.strip()
 
-finally:
-    # Close the browser
-    driver.quit()
+    # Location, opening, owner, and number of rooms from the infobox
+    infobox = soup.find("table", {"class": "infobox"})
+    rows = infobox.find_all("tr") if infobox else []
+
+    location, opening, owner, rooms = None, None, None, None
+
+    for row in rows:
+        header = row.find("th")
+        data = row.find("td")
+
+        if header and data:
+            header_text = header.text.strip().lower()
+
+            if "location" in header_text:
+                location = data.text.strip()
+            elif "opening" in header_text:
+                opening = data.text.strip()
+            elif "owner" in header_text:
+                owner = data.text.strip()
+            elif "number of rooms" in header_text:
+                rooms = data.text.strip()
+
+    return {
+        "Name": name,
+        "Location": location,
+        "Opening": opening,
+        "Owner": owner,
+        "Number of Rooms": rooms,
+    }
+
+# Get the extracted data
+info = extract_info()
+
+# Print the result
+for key, value in info.items():
+    print(f"{key}: {value}")

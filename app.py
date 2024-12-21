@@ -651,7 +651,7 @@ def update_attraction():
             Location = info['Location'],
             Type = info['Type']
         )
-        db.session.add(current_museum)
+        db.session.add(current_attraction)
         db.session.commit()
 
 @app.route("/Historical_Sites",methods=['POST','GET'])

@@ -768,8 +768,11 @@ def resturants():
                                     )
 
 @app.route("/museums",methods=['POST','GET'])
-def museums(): 
+def museums():
+    update_museums()
     if request.method == 'POST':
+        museum_name = request.form.get('museum_name')
+        museum = Museums.query.filter_by(Name=museum_name).first()
         return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
@@ -816,7 +819,6 @@ def museums():
 @app.route("/hotels",methods=['POST','GET'])
 def hotels(): 
     update_hotels()
-    update_museums()
     # update_attraction()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')

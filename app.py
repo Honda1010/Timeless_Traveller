@@ -815,7 +815,6 @@ def museums():
 @app.route("/hotels",methods=['POST','GET'])
 def hotels(): 
     update_hotels()
-    update_museums()
     # update_attraction()
     if request.method == 'POST':
         hotel_name = request.form.get('hotel_name')

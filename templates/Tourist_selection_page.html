@@ -26,7 +26,7 @@
                 onclick="toggle_tourist_page(2)">Profile</a>
             <a class="text-sm font-medium text-white hover:text-gray-800 cursor-pointer" id="Link_3"
                 onclick="toggle_tourist_page(3)">Booking</a>
-            <a href="" class="text-sm font-medium text-white hover:text-gray-800  cursor-pointer">Log Out</a>
+            <a href="/logout" class="text-sm font-medium text-white hover:text-gray-800  cursor-pointer">Log Out</a>
         </nav>
         <div class="flex items-center space-x-4">
             <!-- <a href="{{ url_for('login', next=request.path) }}"
@@ -129,23 +129,23 @@
             <div class="grid md:grid-cols-2 gap-5 mt-2">
                 <div>
                     <span class="font-bold">First Name:</span>
-                    <span>Mohanad</span>
+                    <span>{{tourist_id.first_name}}</span>
                 </div>
                 <div>
                     <span class="font-bold">Second Name:</span>
-                    <span>Mohanad</span>
+                    <span>{{tourist_id.second_name}}</span>
                 </div>
                 <div>
                     <span class="font-bold">Phone Number:</span>
-                    <span>01140014117</span>
+                    <span>{{tourist_id.phone}}</span>
                 </div>
                 <div>
                     <span class="font-bold">Passport Id:</span>
-                    <span>4654654</span>
+                    <span>{{tourist_id.passport}}</span>
                 </div>
                 <div>
                     <span class="font-bold">Nationality:</span>
-                    <span>Egypt</span>
+                    <span>{{tourist_id.nationality}}</span>
                 </div>
 
             </div>
@@ -164,7 +164,7 @@
         <!-- Account info card -->
         <div class="rounded-lg bg-black-dark p-6 shadow-md  md:col-span-2">
             <h2 class="font-bold text-xl text-gray-700 mb-4">Account Information</h2>
-            <form id="account-form" class="space-y-6">
+            <form action="/Tourist_selection_page" id="account-form" class="space-y-6" method="POST">
                 <!-- Email Field -->
                 <!-- Should be variable from database -->
                 <div>
@@ -187,7 +187,7 @@
                         class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                         Edit
                     </button>
-                    <button type="button" id="save-btn"
+                    <button type="submit" id="save-btn"
                         class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 hidden">
                         Save
                     </button>
@@ -199,7 +199,7 @@
     <main id="section_3" class="hidden px-10  mt-10">
         <!--Previous tours  -->
         <div class="w-full">
-            <h2 class="mb-3 font-bold text-xl">Previous Tours</h2>
+            <h2 class="mb-3 font-bold text-xl">Pending Tours</h2>
             <table
                 class="bg-black-dark w-full rounded-2xl p-8 text-center shadow-xl transition-all duration-700 ease-in-out hover:shadow-none">
                 <thead>
@@ -212,7 +212,7 @@
                     </tr>
                 </thead>
                 <tbody class="last:border-none">
-                    {% for request in requests %}
+                    {% for request in requests_pending %}
                     <tr class="h-11 border-b-2 border-white last:border-none">
                         <td>{{ request.tour_name }}</td>
                         <td>{{ request.date }}</td>
@@ -229,7 +229,7 @@
         <!--End of previous tours  -->
         <!-- Upcoming tours -->
         <div class="mt-8 w-full">
-            <h2 class="mb-3 font-bold text-xl">Upcoming Tours</h2>
+            <h2 class="mb-3 font-bold text-xl">Confirmed Tours</h2>
             <table
                 class="bg-black-dark w-full rounded-2xl p-8 text-center shadow-lg transition-all duration-700 ease-in-out hover:shadow-none">
                 <thead>
@@ -242,7 +242,7 @@
                     </tr>
                 </thead>
                 <tbody class="last:border-none">
-                    {% for request in requests %}
+                    {% for request in request_upcom %}
                     <tr class="h-11 border-b-2 border-white last:border-none">
                         <td>{{ request.tour_name }}</td>
                         <td>{{ request.date }}</td>

@@ -1,0 +1,91 @@
+[attraction]
+    *Attraction_id {label:"INTEGER"}
+    Builders {label:"VARCHAR(100)"}
+    Built {label:"VARCHAR(100)"}
+    Location {label:"VARCHAR(100)"}
+    Name {label:"VARCHAR(100)"}
+    Part_of {label:"VARCHAR(100)"}
+    Periods {label:"VARCHAR(100)"}
+    Type {label:"VARCHAR(100)"}
+    city_id {label:"INTEGER"}
+[cities_data]
+    *id {label:"INTEGER"}
+    city_id {label:"INTEGER"}
+    city_name {label:"VARCHAR(100)"}
+    latitude {label:"FLOAT"}
+    longitude {label:"FLOAT"}
+[historical]
+    *id {label:"INTEGER"}
+    location {label:"VARCHAR(1000)"}
+    name {label:"VARCHAR(200)"}
+    type_ {label:"VARCHAR(100)"}
+[hotels]
+    *Hotel_ID {label:"INTEGER"}
+    City_id {label:"INTEGER"}
+    Location {label:"VARCHAR(100)"}
+    Name {label:"VARCHAR(100)"}
+    Opening {label:"DATE"}
+    Owner {label:"VARCHAR(100)"}
+    Rooms {label:"INTEGER"}
+[museum]
+    *Museum_id {label:"INTEGER"}
+    Location {label:"VARCHAR(100)"}
+    Name {label:"VARCHAR(100)"}
+    Type {label:"VARCHAR(100)"}
+    city_id {label:"INTEGER"}
+[rejected_tours]
+    *id {label:"INTEGER"}
+    request_id {label:"INTEGER"}
+    tourguide_id_fk_rej {label:"BIGINT"}
+[restaurants]
+    *id {label:"INTEGER"}
+    city_id {label:"INTEGER"}
+    location {label:"VARCHAR(255)"}
+    name {label:"VARCHAR(100)"}
+[schedule]
+    *date {label:"DATE"}
+    *id {label:"INTEGER"}
+    reservation_id {label:"INTEGER"}
+    tourguide_id_fk {label:"BIGINT"}
+    tourist_id_fk {label:"BIGINT"}
+[tourguide]
+    *tourguide_id {label:"BIGINT"}
+    accepted_requests {label:"INTEGER"}
+    city {label:"VARCHAR(100)"}
+    company_name {label:"VARCHAR(100)"}
+    email {label:"VARCHAR(100)"}
+    first_lang {label:"VARCHAR(50)"}
+    first_name {label:"VARCHAR(50)"}
+    ignored_requests {label:"INTEGER"}
+    password {label:"VARCHAR(255)"}
+    phone {label:"VARCHAR(15)"}
+    rejected_requests {label:"INTEGER"}
+    second_lang {label:"VARCHAR(50)"}
+    second_name {label:"VARCHAR(50)"}
+    third_lang {label:"VARCHAR(50)"}
+    verification_token {label:"VARCHAR(64)"}
+    verified {label:"INTEGER"}
+[tourist]
+    *tourist_id {label:"BIGINT"}
+    email {label:"VARCHAR(100)"}
+    first_name {label:"VARCHAR(50)"}
+    nationality {label:"VARCHAR(50)"}
+    passport {label:"VARCHAR(50)"}
+    password {label:"VARCHAR(255)"}
+    phone {label:"VARCHAR(15)"}
+    second_name {label:"VARCHAR(50)"}
+    verification_token {label:"VARCHAR(64)"}
+    verified {label:"INTEGER"}
+[touristrequest]
+    *id {label:"INTEGER"}
+    date {label:"DATE"}
+    guide_id {label:"INTEGER"}
+    location {label:"VARCHAR(100)"}
+    meeting_point {label:"VARCHAR(100)"}
+    status {label:"VARCHAR(20)"}
+    tour_name {label:"VARCHAR(100)"}
+    tourist_id_fk_req {label:"INTEGER"}
+cities_data."city_id" ?--* attraction."city_id"
+cities_data."city_id" ?--* hotels."City_id"
+cities_data."city_id" ?--* museum."city_id"
+cities_data."city_id" 1--* restaurants."city_id"

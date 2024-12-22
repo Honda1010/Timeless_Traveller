@@ -29,6 +29,7 @@ from datetime import timedelta
 from bs4 import BeautifulSoup
 # import json
 ##
+
 ###############------------##################
 
 app = Flask(__name__)
@@ -132,7 +133,7 @@ class Hotels(db.Model):
     def get_id(self):
         return str(self.Hotel_ID)
 
-class Museums(db.Model):
+class Museum(db.Model):
     __tablename__='Museum'
     Museum_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     Name=db.Column(db.String(100),nullable=False)
@@ -141,7 +142,7 @@ class Museums(db.Model):
     city_id=db.Column(db.Integer,db.ForeignKey('cities_data.city_id'),nullable=True)
 
     #Relationships:
-    fk_city_museums = db.relationship('Cities_data', backref='Museums')
+    fk_city_museums = db.relationship('Cities_data', backref='Museum')
 
     def get_id(self):
         return str(self.Museum_id)
@@ -162,7 +163,7 @@ class Attraction(db.Model):
     fk_city_att = db.relationship('Cities_data', backref='Attraction')
 
     def get_id(self):
-        return str(self.Museum_id)    
+        return str(self.Attraction_id)    
 
 class Cities_data(db.Model):
     __tablename__ = 'cities_data'
@@ -208,7 +209,7 @@ class TouristRequest(db.Model):
     date = db.Column(db.Date, nullable=False)
     location = db.Column(db.String(100), nullable=False)
     meeting_point = db.Column(db.String(100), nullable=False)
-    status = db.Column(db.String(20), default='Pending')
+    status = db.Column(db.String(20), default='pending')
     tourist_id_fk_req = db.Column(db.Integer,db.ForeignKey('tourist.tourist_id'), nullable=True)
 
     #Relationships:
@@ -352,11 +353,34 @@ def Request_Tourguide():
         return redirect(url_for('Tourist_selection_page'))
     return render_template("Request_Tourguide.html",pagetitle="TimelessTraveller") 
 
-@app.route("/Tourist_selection_page")
+@app.route("/Tourist_selection_page", methods=['GET', 'POST'])
 def Tourist_selection_page(): 
     tourist_id=session.get('tourist_id')
+    # tourist_id=1
     current_tourist=Tourist.query.get(tourist_id)
-        #Pending Requests
+    
+    if request.method == 'POST':
+
+        email_edit=request.form['email']
+        password=request.form['password']
+        # Renwing The Email:
+        current_tourist.email=email_edit
+        current_tourist.password=password
+        db.session.commit()
+
+    request_upcom = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
+    .filter(and_(Schedule.tourist_id_fk == tourist_id, TouristRequest.status == 'confirmed'))\
+    .all()
+
+
+    requests_rejected = TouristRequest.query.join(Tourist, Tourist.tourist_id == TouristRequest.tourist_id_fk_req)\
+        .filter(TouristRequest.status == 'pending')\
+        .all()
+
+
+
+
+    #Pending Requests
     # pending_reuests = TouristRequest.query.filter_by(
     #     and_(
     #         TouristRequest.status == 'Pending',
@@ -371,7 +395,7 @@ def Tourist_selection_page():
     # flash("Tour Request Submitted Successfully!")
     # return redirect(url_for('Tourist_selection_page'))
 
-    return render_template("Tourist_selection_page.html", tourist_id=tourist_id, pagetitle="TimelessTraveller") 
+    return render_template("Tourist_selection_page.html", tourist_id=current_tourist,request_upcom=request_upcom,requests_pending=requests_rejected ,pagetitle="TimelessTraveller") 
 
 
 ## Tourguide:
@@ -379,6 +403,15 @@ def Tourist_selection_page():
 def tourguide_dashboard(): 
     current_tourguide_id = session.get('tourguide_id')
     current_tourguide=TourGuide.query.get(current_tourguide_id)
+
+    #Table Counts
+    count_ignored = TouristRequest.query.filter_by(status="pending").count()
+    count_confirmed= Schedule.query.filter_by(tourguide_id_fk=current_tourguide_id).count()
+    count_rejected= Rejected_Tours.query.filter_by(tourguide_id_fk_rej=current_tourguide_id).count()
+    total=count_ignored + count_confirmed + count_rejected
+    ignored_per=int(count_ignored*100/total)
+    conf_per=int(count_confirmed*100/total)
+    rej_per=int(count_rejected*100/total)
     # current_tourguide_id = 1
     print(current_tourguide_id, " hi")
     # current_tourguide_id = session['tourguide_id']
@@ -450,12 +483,12 @@ def tourguide_dashboard():
 ##
 
     requests_rejected = TouristRequest.query.join(Rejected_Tours, Rejected_Tours.request_id == TouristRequest.id)\
-        .filter(TouristRequest.status == 'Pending')\
+        .filter(TouristRequest.status == 'pending')\
         .all()
     
-    rejected_request_ids = [request.id for request in requests_rejected if request.tourguide_id_fk]
+    rejected_request_ids = [request.id for request in requests_rejected if request.tourguide_id_fk_rej]
 
-    requests_pending=TouristRequest.query.filter_by(status='Pending').all()
+    requests_pending=TouristRequest.query.filter_by(status='pending').all()
     
     final_pending_requests = [request for request in requests_pending if request.id not in rejected_request_ids]
 
@@ -463,6 +496,12 @@ def tourguide_dashboard():
     # requests = TouristRequest.query.filter_by(status='Pending').all()
     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
     return render_template("Tour_guide_dashboard.html",
+                            rej_per=rej_per,
+                            conf_per=conf_per,
+                            ignored_per=ignored_per,
+                            count_ignored=count_ignored,
+                            count_confirmed=count_confirmed,
+                            count_rejected=count_rejected,
                             current_tourguide=current_tourguide,
                             requests=requests_pending,
                             request_upcom=request_upcom,
@@ -534,7 +573,7 @@ wikipedia_museum_links = [
 def update_museums():
     for museum_link in wikipedia_museum_links:
         info = extract_info_museum(museum_link)
-        current_museum = Museums(
+        current_museum = Museum(
             Name = info['Name'],
             Location = info['Location'],
             Type = info['Type']
@@ -548,20 +587,13 @@ def extract_info_attraction(a_name):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
     name = soup.find("h1", {"id": "firstHeading"}).text.strip()
-
-    # Attributes to extract
-    attributes = {
-        "Location": None,
-        "Type": None,
-        "Built": None,
-        "Part of": None,
-        "Builders": None,
-        "Periods": None,
-    }
-
+    
     # Locate the infobox
     infobox = soup.find("table", {"class": "infobox"})
     rows = infobox.find_all("tr") if infobox else []
+
+    # Attributes to extract
+    Location ,Type ,Built ,Part_of ,Builders,Periods =None,None,None,None,None,None
 
     # Loop through rows to find attributes
     for row in rows:
@@ -572,56 +604,73 @@ def extract_info_attraction(a_name):
             header_text = header.text.strip().lower()
 
             if "location" in header_text:
-                attributes["Location"] = data.text.strip()
+                Location = data.text.strip()
             elif "type" in header_text:
-                attributes["Type"] = data.text.strip()
+                Type = data.text.strip()
             elif "built" in header_text or "founded" in header_text or "constructed" in header_text:
-                attributes["Built"] = data.text.strip()
+                Built = data.text.strip()
             elif "part of" in header_text:
-                attributes["Part of"] = data.text.strip()
+                Part_of = data.text.strip()
             elif "builder" in header_text:
-                attributes["Builders"] = data.text.strip()
+                Builders = data.text.strip()
             elif "period" in header_text:
-                attributes["Periods"] = data.text.strip()
+                Periods = data.text.strip()
 
-    # Add the name to the attributes
-    attributes["Name"] = name
-    return attributes
+    return {
+        "Name": name,
+        "Location": Location,
+        "Type": Type,
+        "Built":Built,
+        "Part_of":Part_of,
+        "Builders":Builders,
+        "periods":Periods,
+    }
 
 
 wikipedia_attraction_links = [
-    "Valley_of_the_Kings",
-    "Valley_of_the_Queens",
-    "Karnak",
-    "Great_Pyramid_of_Giza",
-    "Abu_Simbel",
-    "Saint_Catherine%27s_Monastery",
-    "Memphis,_Egypt",
     "Temple_of_Edfu",
-    "National_Museum_of_Egyptian_Civilization",
-    "Northern_coast_of_Egypt",
-    "Nuweiba",
-    "Ras_el-Hekma",
-    "Lake_Nasser",
-    "Sidi_Abdel_Rahman"
+    "Saqqara",
+    "Memphis,_Egypt",
+    "Saint_Catherine%27s_Monastery",
+    "Abu_Simbel",
+    "Great_Pyramid_of_Giza",
+    "Karnak",
+    "Valley_of_the_Queens",
+    "Valley_of_the_Kings",
+    "Northern_coast_of_Egypt"
 ]
 
 
-# def update_attraction():
-#     for attraction_link in wikipedia_attraction_links:
-#         info = extract_info_attraction(attraction_link)
-#         current_attraction = Attraction(
-#             Name = info['Name'],
-#             Location = info['Location'],
-#             Type = info['Type']
-#         )
-#         db.session.add(current_attraction)
-#         db.session.commit()
-#
-@app.route("/attraction",methods=['POST','GET'])
-def attraction(): 
+def update_attraction():
+    for attraction_link in wikipedia_attraction_links:
+        info = extract_info_attraction(attraction_link)
+        current_attraction = Attraction(
+            Name = info['Name'],
+            Location = info['Location'],
+            Type = info['Type'],
+            Built=info['Built'],
+            Part_of=info['Part_of'],
+            Builders=info['Builders'],
+            Periods=['Periods']
+        )
+        db.session.add(current_attraction)
+        db.session.commit()
+
+@app.route("/attraction", methods=['POST','GET'])
+def attraction():
+    # update_attraction() 
     if request.method == 'POST':
+        attraction_name = request.form.get('attraction_name')
+        attraction = Attraction.query.filter_by(Name=attraction_name).first()
         return render_template("Historical_Sites.html",
+                                    attraction_name=attraction_name,
+                                    location=attraction.Location,
+                                    type=attraction.Type,
+                                    build=attraction.Built,
+                                    part_of=attraction.Part_of,
+                                    builders=attraction.Builders,
+                                    periods=attraction.Periods,
+
                                     historical_panel = "",
                                     hotel_panel = "hidden",
                                     rest_panel = "hidden",
@@ -666,7 +715,17 @@ def attraction():
 @app.route("/resturants",methods=['POST','GET'])
 def resturants(): 
     if request.method == 'POST':
-        return render_template("Historical_Sites.html",
+        city_name = request.form.get('rest_name')  # Get city name from the form input
+
+        # Find the city by name
+        city = Cities_data.query.filter_by(city_name=city_name).first()
+        
+        if city:
+            # Get the restaurants by city_id
+            restaurants = Restaurants.query.filter_by(city_id=city.city_id).all()
+            print(restaurants)
+            # print("HIII")
+            return render_template('Historical_Sites.html', restaurants=restaurants, city_name=city_name,
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
                                     rest_panel = "",
@@ -686,7 +745,9 @@ def resturants():
                                     hotel_search = "hidden",
                                     resturant_search = "",
                                     museum_search = "hidden"
-                                    )
+
+            )
+       #home
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
@@ -709,34 +770,42 @@ def resturants():
                                     museum_search = "hidden"
                                     )
 
-
+##
 @app.route("/museums",methods=['POST','GET'])
 def museums():
-    update_museums()
+    # update_museums()
     if request.method == 'POST':
         museum_name = request.form.get('museum_name')
-        museum = Museums.query.filter_by(Name=museum_name).first()
-        return render_template("Historical_Sites.html",
-                                    historical_panel = "hidden",
-                                    hotel_panel = "hidden",
-                                    rest_panel = "hidden",
-                                    museum_panel = "", 
-                                    
-                                    activate_history = "",
-                                    activate_hotels = "",
-                                    activate_resturants = "",
-                                    activate_museums = "active",
+        museum1 = Museum.query.filter_by(Name=museum_name).first()
+        if museum1:
+            print(museum1.Location)
+            print(museum1.Name)
+            return render_template("Historical_Sites.html",museum_name = museum_name,
+                                        location = museum1.Location,
+                                        type = museum1.Type,
 
-                                    card_show_historical = "hidden",
-                                    card_show_hotels = "hidden",
-                                    card_show_resturants = "hidden",
-                                    card_show_museums = "",
+                                        historical_panel = "hidden",
+                                        hotel_panel = "hidden",
+                                        rest_panel = "hidden",
+                                        museum_panel = "", 
+                                        
+                                        activate_history = "",
+                                        activate_hotels = "",
+                                        activate_resturants = "",
+                                        activate_museums = "active",
 
-                                    attraction_search = "hidden",
-                                    hotel_search = "hidden",
-                                    resturant_search = "hidden",
-                                    museum_search = ""
-                                    )
+                                        card_show_historical = "hidden",
+                                        card_show_hotels = "hidden",
+                                        card_show_resturants = "hidden",
+                                        card_show_museums = "",
+
+                                        attraction_search = "hidden",
+                                        hotel_search = "hidden",
+                                        resturant_search = "hidden",
+                                        museum_search = ""
+                                        )
+        else:
+            print("Not found")
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",
@@ -758,7 +827,7 @@ def museums():
                                     resturant_search = "hidden",
                                     museum_search = ""
                                     )
-
+##
 @app.route("/hotels",methods=['POST','GET'])
 def hotels(): 
     if request.method == 'POST':
@@ -793,7 +862,27 @@ def hotels():
                                     museum_search = "hidden"
                                     )
         else:
-            return render_template("Historical_Sites.html", Hotel_name = hotel_name)
+            return render_template("Historical_Sites.html", Hotel_name = hotel_name,             
+                                    historical_panel = "hidden",
+                                    hotel_panel = "",
+                                    rest_panel = "hidden",
+                                    museum_panel = "hidden", 
+                                    
+                                    activate_history = "",
+                                    activate_hotels = "active",
+                                    activate_resturants = "",
+                                    activate_museums = "",
+
+                                    card_show_historical = "hidden",
+                                    card_show_hotels = "",
+                                    card_show_resturants = "hidden",
+                                    card_show_museums = "hidden",
+
+                                    attraction_search = "hidden",
+                                    hotel_search = "",
+                                    resturant_search = "hidden",
+                                    museum_search = "hidden"
+                                    )
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "",

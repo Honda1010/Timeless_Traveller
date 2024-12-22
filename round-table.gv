@@ -1,0 +1,8 @@
+// The Round Table
+digraph {
+	A [label="King Arthur"]
+	B [label="Sir Lancelot"]
+	L [label="Sir Galahad"]
+	A -> B
+	A -> L
+}

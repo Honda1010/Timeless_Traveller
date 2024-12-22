@@ -29,6 +29,7 @@ from datetime import timedelta
 from bs4 import BeautifulSoup
 # import json
 ##
+
 ###############------------##################
 
 app = Flask(__name__)
@@ -208,7 +209,7 @@ class TouristRequest(db.Model):
     date = db.Column(db.Date, nullable=False)
     location = db.Column(db.String(100), nullable=False)
     meeting_point = db.Column(db.String(100), nullable=False)
-    status = db.Column(db.String(20), default='Pending')
+    status = db.Column(db.String(20), default='pending')
     tourist_id_fk_req = db.Column(db.Integer,db.ForeignKey('tourist.tourist_id'), nullable=True)
 
     #Relationships:
@@ -352,11 +353,34 @@ def Request_Tourguide():
         return redirect(url_for('Tourist_selection_page'))
     return render_template("Request_Tourguide.html",pagetitle="TimelessTraveller") 
 
-@app.route("/Tourist_selection_page")
+@app.route("/Tourist_selection_page", methods=['GET', 'POST'])
 def Tourist_selection_page(): 
     tourist_id=session.get('tourist_id')
+    # tourist_id=1
     current_tourist=Tourist.query.get(tourist_id)
-        #Pending Requests
+    
+    if request.method == 'POST':
+
+        email_edit=request.form['email']
+        password=request.form['password']
+        # Renwing The Email:
+        current_tourist.email=email_edit
+        current_tourist.password=password
+        db.session.commit()
+
+    request_upcom = TouristRequest.query.join(Schedule, Schedule.reservation_id == TouristRequest.id)\
+    .filter(and_(Schedule.tourist_id_fk == tourist_id, TouristRequest.status == 'confirmed'))\
+    .all()
+
+
+    requests_rejected = TouristRequest.query.join(Tourist, Tourist.tourist_id == TouristRequest.tourist_id_fk_req)\
+        .filter(TouristRequest.status == 'pending')\
+        .all()
+
+
+
+
+    #Pending Requests
     # pending_reuests = TouristRequest.query.filter_by(
     #     and_(
     #         TouristRequest.status == 'Pending',
@@ -371,7 +395,7 @@ def Tourist_selection_page():
     # flash("Tour Request Submitted Successfully!")
     # return redirect(url_for('Tourist_selection_page'))
 
-    return render_template("Tourist_selection_page.html", tourist_id=tourist_id, pagetitle="TimelessTraveller") 
+    return render_template("Tourist_selection_page.html", tourist_id=current_tourist,request_upcom=request_upcom,requests_pending=requests_rejected ,pagetitle="TimelessTraveller") 
 
 
 ## Tourguide:
@@ -379,6 +403,15 @@ def Tourist_selection_page():
 def tourguide_dashboard(): 
     current_tourguide_id = session.get('tourguide_id')
     current_tourguide=TourGuide.query.get(current_tourguide_id)
+
+    #Table Counts
+    count_ignored = TouristRequest.query.filter_by(status="pending").count()
+    count_confirmed= Schedule.query.filter_by(tourguide_id_fk=current_tourguide_id).count()
+    count_rejected= Rejected_Tours.query.filter_by(tourguide_id_fk_rej=current_tourguide_id).count()
+    total=count_ignored + count_confirmed + count_rejected
+    ignored_per=int(count_ignored*100/total)
+    conf_per=int(count_confirmed*100/total)
+    rej_per=int(count_rejected*100/total)
     # current_tourguide_id = 1
     print(current_tourguide_id, " hi")
     # current_tourguide_id = session['tourguide_id']
@@ -450,12 +483,12 @@ def tourguide_dashboard():
 ##
 
     requests_rejected = TouristRequest.query.join(Rejected_Tours, Rejected_Tours.request_id == TouristRequest.id)\
-        .filter(TouristRequest.status == 'Pending')\
+        .filter(TouristRequest.status == 'pending')\
         .all()
     
-    rejected_request_ids = [request.id for request in requests_rejected if request.tourguide_id_fk]
+    rejected_request_ids = [request.id for request in requests_rejected if request.tourguide_id_fk_rej]
 
-    requests_pending=TouristRequest.query.filter_by(status='Pending').all()
+    requests_pending=TouristRequest.query.filter_by(status='pending').all()
     
     final_pending_requests = [request for request in requests_pending if request.id not in rejected_request_ids]
 
@@ -463,6 +496,12 @@ def tourguide_dashboard():
     # requests = TouristRequest.query.filter_by(status='Pending').all()
     # return render_template('guides.html', requests=requests) ##byb3t dictionary b kol al requests w t4t8l b for loop fy jinja
     return render_template("Tour_guide_dashboard.html",
+                            rej_per=rej_per,
+                            conf_per=conf_per,
+                            ignored_per=ignored_per,
+                            count_ignored=count_ignored,
+                            count_confirmed=count_confirmed,
+                            count_rejected=count_rejected,
                             current_tourguide=current_tourguide,
                             requests=requests_pending,
                             request_upcom=request_upcom,
@@ -619,7 +658,7 @@ def update_attraction():
 
 @app.route("/attraction", methods=['POST','GET'])
 def attraction():
-    update_attraction() 
+    # update_attraction() 
     if request.method == 'POST':
         attraction_name = request.form.get('attraction_name')
         attraction = Attraction.query.filter_by(Name=attraction_name).first()
@@ -731,8 +770,7 @@ def resturants():
                                     museum_search = "hidden"
                                     )
 
-
-
+##
 @app.route("/museums",methods=['POST','GET'])
 def museums():
     # update_museums()

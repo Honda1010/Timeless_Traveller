@@ -69,14 +69,14 @@
                 href="#">
                 <span class="material-symbols-outlined">request_page</span>
                 <h3 class="text-sm">Requests</h3>
-                <span class="bg-black text-red-600 py-0.5 px-2.5 text-xs rounded-md" id="request count">10</span>
+                <span class="bg-black text-red-600 py-0.5 px-2.5 text-xs rounded-md" id="request count">{{count_ignored}}</span>
             </a>
-            <a id="Option_4" onclick="toggle_dashboard(4)"
+            <!-- <a id="Option_4" onclick="toggle_dashboard(4)"
                 class="flex ml-8 gap-4 items-center relative h-14 transition-all duration-300 ease-in-out text-red-600 hover:ml-11"
                 href="#">
                 <span class="material-symbols-outlined">settings</span>
                 <h3 class="text-sm">Settings</h3>
-            </a>
+            </a> -->
             <a id="Option_5" onclick="toggle_dashboard(5)"
                 class="flex ml-8 gap-4 items-center h-14 transition-all duration-300 ease-in-out text-red-600 hover:ml-11"
                 href="#">
@@ -107,20 +107,20 @@
                         <div class="mt-2">
                             <h3 class="font-semibold text-xl">Accepted requests</h3>
                             <!-- Should be a variable -->
-                            <h1 class="font-bold text-3xl mt-2">25</h1>
+                            <h1 class="font-bold text-3xl mt-2">{{count_confirmed}}</h1>
                         </div>
                         <!-- Right -->
                         <div class="relative w-24 h-24">
                             <svg class="w-24 h-24">
                                 <circle cx="38" cy="38" r="36" fill="none" stroke="#f97316" stroke-width="14"
                                     stroke-linecap="round" stroke-dasharray="226"
-                                    stroke-dashoffset="calc(226 - 0.9*226)"
+                                    stroke-dashoffset="calc(226 - {{conf_per/100}}*226)"
                                     class="translate-x-1.5 translate-y-1.5 origin-center transition-all duration-500 ease-in-out">
                                 </circle>
                             </svg>
                             <!-- number -->
                             <div class="absolute inset-0 flex justify-center items-center w-full font-bold text-lg">
-                                <p>90%</p>
+                                <p>{{conf_per}} %</p>
                             </div>
                         </div>
                     </div>
@@ -136,21 +136,21 @@
                         <div class="mt-2">
                             <h3 class="font-semibold text-xl ">Rejected requests</h3>
                             <!-- Should be a variable -->
-                            <h1 class="font-bold text-3xl mt-2">25</h1>
+                            <h1 class="font-bold text-3xl mt-2">{{count_rejected}}</h1>
                         </div>
                         <!-- Right -->
                         <div class="relative w-24 h-24">
                             <svg class="w-24 h-24">
                                 <circle cx="38" cy="38" r="36" fill="none" stroke="#f97316" stroke-width="14"
                                     stroke-linecap="round" stroke-dasharray="226"
-                                    stroke-dashoffset="calc(226 - 0.1*226)"
+                                    stroke-dashoffset="calc(226 - {{rej_per/100}}*226)"
                                     class="translate-x-1.5 translate-y-1.5 origin-center transition-all duration-500 ease-in-out">
                                 </circle>
                             </svg>
                             <!-- number -->
                             <div
                                 class="absolute top-8 left-0 flex justify-center items-center w-full font-bold text-lg">
-                                <p>10%</p>
+                                <p>{{rej_per}} %</p>
                             </div>
                         </div>
                     </div>
@@ -166,21 +166,21 @@
                         <div class="mt-2">
                             <h3 class="font-semibold text-xl ">Ignored requests</h3>
                             <!-- Should be a variable -->
-                            <h1 class="font-bold text-3xl mt-2">10</h1>
+                            <h1 class="font-bold text-3xl mt-2">{{count_ignored}}</h1>
                         </div>
                         <!-- Right -->
                         <div class="relative w-24 h-24">
                             <svg class="w-24 h-24">
                                 <circle cx="38" cy="38" r="36" fill="none" stroke="#f97316" stroke-width="14"
                                     stroke-linecap="round" stroke-dasharray="226"
-                                    stroke-dashoffset="calc(226 - 0.3*226)"
+                                    stroke-dashoffset="calc(226 - {{ignored_per/100}}*226)"
                                     class="translate-x-1.5 translate-y-1.5 origin-center transition-all duration-500 ease-in-out">
                                 </circle>
                             </svg>
                             <!-- number -->
                             <div
                                 class="absolute top-8 left-0 flex justify-center items-center w-full font-bold text-lg">
-                                <p>30%</p>
+                                <p>{{ignored_per}} %</p>
                             </div>
                         </div>
                     </div>
@@ -711,7 +711,7 @@
             </button>
             <div class="flex flex-row">
                 <div>
-                    <p>Hey, <b>TT</b></p>
+                    <p>Hey, <b>{{current_tourguide.first_name}} {{current_tourguide.second_name}}</b></p>
                     <small class="text-xs text-slate-500">Tour Guide</small>
                     <p class="text-sm font-semibold">Rating
                     <div class="flex">
@@ -762,7 +762,44 @@
                         <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
                     </div>
                     <div class="flex-col">
-                        <h4><b>Toursit1</b></h4>
+                        <h4><b>Mahmoud</b></h4>
+                        <div class="flex w-24 space-x-1">
+                            <!-- Full stars -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                         
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="profile_photo w-11 h-11 rounded-full overflow-hidden">
+                        <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
+                    </div>
+                    <div class="flex-col">
+                        <h4><b>Ammar</b></h4>
                         <div class="flex w-24 space-x-1">
                             <!-- Full stars -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
@@ -799,7 +836,7 @@
                         <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
                     </div>
                     <div class="flex-col">
-                        <h4><b>Toursit1</b></h4>
+                        <h4><b>Akram</b></h4>
                         <div class="flex w-24 space-x-1">
                             <!-- Full stars -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
@@ -817,47 +854,10 @@
                                 <path
                                     d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
                             </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
-                            </svg>
-                            <!-- Empty star -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-6 h-6 text-gray-300"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex">
-                    <div class="profile_photo w-11 h-11 rounded-full overflow-hidden">
-                        <img src="../static/Images/Pyramids.jpg" alt="Profile_photo">
-                    </div>
-                    <div class="flex-col">
-                        <h4><b>Toursit1</b></h4>
-                        <div class="flex w-24 space-x-1">
-                            <!-- Full stars -->
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ca8a04" class="w-6 h-6 text-yellow-500"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 17.27l5.18 3.73-1.64-6.81 5.46-4.73-6.9-.59L12 2l-2.1 7.87-6.9.59 5.46 4.73-1.64 6.81z" />
                             </svg>
                             <!-- Empty star -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="w-6 h-6 text-gray-300"

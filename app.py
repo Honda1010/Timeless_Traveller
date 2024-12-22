@@ -534,7 +534,7 @@ wikipedia_museum_links = [
 def update_museums():
     for museum_link in wikipedia_museum_links:
         info = extract_info_museum(museum_link)
-        current_museum = Museums(
+        current_museum = Museum(
             Name = info['Name'],
             Location = info['Location'],
             Type = info['Type']

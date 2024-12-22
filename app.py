@@ -732,6 +732,7 @@ def resturants():
                                     )
 
 
+
 @app.route("/museums",methods=['POST','GET'])
 def museums():
     # update_museums()

@@ -548,20 +548,13 @@ def extract_info_attraction(a_name):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
     name = soup.find("h1", {"id": "firstHeading"}).text.strip()
-
-    # Attributes to extract
-    attributes = {
-        "Location": None,
-        "Type": None,
-        "Built": None,
-        "Part of": None,
-        "Builders": None,
-        "Periods": None,
-    }
-
+    
     # Locate the infobox
     infobox = soup.find("table", {"class": "infobox"})
     rows = infobox.find_all("tr") if infobox else []
+
+    # Attributes to extract
+    Location ,Type ,Built ,Part_of ,Builders,Periods =None,None,None,None,None,None
 
     # Loop through rows to find attributes
     for row in rows:
@@ -572,57 +565,73 @@ def extract_info_attraction(a_name):
             header_text = header.text.strip().lower()
 
             if "location" in header_text:
-                attributes["Location"] = data.text.strip()
+                Location = data.text.strip()
             elif "type" in header_text:
-                attributes["Type"] = data.text.strip()
+                Type = data.text.strip()
             elif "built" in header_text or "founded" in header_text or "constructed" in header_text:
-                attributes["Built"] = data.text.strip()
+                Built = data.text.strip()
             elif "part of" in header_text:
-                attributes["Part of"] = data.text.strip()
+                Part_of = data.text.strip()
             elif "builder" in header_text:
-                attributes["Builders"] = data.text.strip()
+                Builders = data.text.strip()
             elif "period" in header_text:
-                attributes["Periods"] = data.text.strip()
+                Periods = data.text.strip()
 
-    # Add the name to the attributes
-    attributes["Name"] = name
-    return attributes
+    return {
+        "Name": name,
+        "Location": Location,
+        "Type": Type,
+        "Built":Built,
+        "Part_of":Part_of,
+        "Builders":Builders,
+        "periods":Periods,
+    }
 
 
 wikipedia_attraction_links = [
-    "Valley_of_the_Kings",
-    "Valley_of_the_Queens",
-    "Karnak",
-    "Great_Pyramid_of_Giza",
-    "Abu_Simbel",
-    "Saint_Catherine%27s_Monastery",
-    "Memphis,_Egypt",
     "Temple_of_Edfu",
-    "National_Museum_of_Egyptian_Civilization",
-    "Northern_coast_of_Egypt",
-    "Nuweiba",
-    "Ras_el-Hekma",
-    "Lake_Nasser",
-    "Sidi_Abdel_Rahman"
+    "Saqqara",
+    "Memphis,_Egypt",
+    "Saint_Catherine%27s_Monastery",
+    "Abu_Simbel",
+    "Great_Pyramid_of_Giza",
+    "Karnak",
+    "Valley_of_the_Queens",
+    "Valley_of_the_Kings",
+    "Northern_coast_of_Egypt"
 ]
 
 
-# def update_attraction():
-#     for attraction_link in wikipedia_attraction_links:
-#         info = extract_info_attraction(attraction_link)
-#         current_attraction = Attraction(
-#             Name = info['Name'],
-#             Location = info['Location'],
-#             Type = info['Type']
-#         )
-#         db.session.add(current_attraction)
-#         db.session.commit()
-#
-@app.route("/attraction", methods=['POST','GET'])
-def attraction(): 
-    if request.method == 'POST':
+def update_attraction():
+    for attraction_link in wikipedia_attraction_links:
+        info = extract_info_attraction(attraction_link)
+        current_attraction = Attraction(
+            Name = info['Name'],
+            Location = info['Location'],
+            Type = info['Type'],
+            Built=info['Built'],
+            Part_of=info['Part_of'],
+            Builders=info['Builders'],
+            Periods=['Periods']
+        )
+        db.session.add(current_attraction)
+        db.session.commit()
 
+@app.route("/attraction", methods=['POST','GET'])
+def attraction():
+    update_attraction() 
+    if request.method == 'POST':
+        attraction_name = request.form.get('attraction_name')
+        attraction = Attraction.query.filter_by(Name=attraction_name).first()
         return render_template("Historical_Sites.html",
+                                    attraction_name=attraction_name,
+                                    location=attraction.Location,
+                                    type=attraction.Type,
+                                    build=attraction.Built,
+                                    part_of=attraction.Part_of,
+                                    builders=attraction.Builders,
+                                    periods=attraction.Periods,
+
                                     historical_panel = "",
                                     hotel_panel = "hidden",
                                     rest_panel = "hidden",
@@ -728,7 +737,6 @@ def museums():
     # update_museums()
     if request.method == 'POST':
         museum_name = request.form.get('museum_name')
-        print(museum_name)
         museum1 = Museum.query.filter_by(Name=museum_name).first()
         if museum1:
             print(museum1.Location)

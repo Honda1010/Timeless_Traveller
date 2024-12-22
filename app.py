@@ -724,39 +724,40 @@ def resturants():
 
 @app.route("/museums",methods=['POST','GET'])
 def museums():
-    update_museums()
+    # update_museums()
     if request.method == 'POST':
         museum_name = request.form.get('museum_name')
         print(museum_name)
         museum1 = Museum.query.filter_by(Name=museum_name).first()
-        print(museum1.Location)
-        print(museum1.Name)
-        
+        if museum1:
+            print(museum1.Location)
+            print(museum1.Name)
+            return render_template("Historical_Sites.html",museum_name = museum_name,
+                                        location = museum1.Location,
+                                        type = museum1.Type,
 
-        return render_template("Historical_Sites.html",museum_name = museum_name,
-                                    location = museum1.Location,
-                                    type = museum1.Type,
+                                        historical_panel = "hidden",
+                                        hotel_panel = "hidden",
+                                        rest_panel = "hidden",
+                                        museum_panel = "", 
+                                        
+                                        activate_history = "",
+                                        activate_hotels = "",
+                                        activate_resturants = "",
+                                        activate_museums = "active",
 
-                                    historical_panel = "hidden",
-                                    hotel_panel = "hidden",
-                                    rest_panel = "hidden",
-                                    museum_panel = "", 
-                                    
-                                    activate_history = "",
-                                    activate_hotels = "",
-                                    activate_resturants = "",
-                                    activate_museums = "active",
+                                        card_show_historical = "hidden",
+                                        card_show_hotels = "hidden",
+                                        card_show_resturants = "hidden",
+                                        card_show_museums = "",
 
-                                    card_show_historical = "hidden",
-                                    card_show_hotels = "hidden",
-                                    card_show_resturants = "hidden",
-                                    card_show_museums = "",
-
-                                    attraction_search = "hidden",
-                                    hotel_search = "hidden",
-                                    resturant_search = "hidden",
-                                    museum_search = ""
-                                    )
+                                        attraction_search = "hidden",
+                                        hotel_search = "hidden",
+                                        resturant_search = "hidden",
+                                        museum_search = ""
+                                        )
+        else:
+            print("Not found")
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",

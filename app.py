@@ -621,7 +621,7 @@ wikipedia_attraction_links = [
 @app.route("/attraction", methods=['POST','GET'])
 def attraction(): 
     if request.method == 'POST':
-        
+
         return render_template("Historical_Sites.html",
                                     historical_panel = "",
                                     hotel_panel = "hidden",
@@ -699,7 +699,7 @@ def resturants():
                                     museum_search = "hidden"
 
             )
-       
+       #home
     return render_template("Historical_Sites.html",
                                     historical_panel = "hidden",
                                     hotel_panel = "hidden",

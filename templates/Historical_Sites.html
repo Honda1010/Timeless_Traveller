@@ -27,9 +27,9 @@
     <header
         class=" bg-gradient-to-r from-orange-700 via-desert to-orange-700 pb-2 mb-0 w-screen flex-col items-center px-10 space-y-2">
         <div class="flex items-center lg:ml-60">
-            <a href="home.html"><img src="../static/Images/Logo_no_bg.png" alt="logo"
+            <a href="/Tourist_selection_page"><img src="../static/Images/Logo_no_bg.png" alt="logo"
                     class="font-bold text-xl w-[75px]"></a>
-            <a href="home.html" class="text-xl text-white font-medium">Timeless Traveller</a>
+            <a href="/Tourist_selection_page" class="text-xl text-white font-medium">Timeless Traveller</a>
             <!-- <h1 class="font-bold text-xl text-sunset">Timeless Traveller</h1> -->
         </div>
         <nav class="hidden md:flex space-x-8 justify-start lg:ml-60">
@@ -45,7 +45,7 @@
                 class="{{activate_resturants}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">restaurant</span>
                 Restaurants</a>
-            <a id="Option_4" onclick="toggle_sites(4)" href="/musuems"
+            <a id="Option_4" onclick="toggle_sites(4)" href="/museums"
                 class="{{activate_museums}} flex items-center justify-center rounded-full p-3 text-white text-base font-medium hover:hover:bg-orange-700 transition">
                 <span class="material-symbols-outlined">museum</span>
                 Museums</a>
@@ -588,7 +588,7 @@
         </section>
     </main>
     <!----------------------------------------------------------- Museums --------------------------------------------------------------------------->
-    <main class="grid grid-flow-row hidden {{museum_panel}}"  id="main_4">
+    <main class="grid grid-flow-row {{museum_panel}}"  id="main_4">
         <!-- Cards Section -->
         <section class="grid grid-cols-1 mx-auto px-5 mt-16 mb-7">
             <div
@@ -622,7 +622,7 @@
         </section>
         <!-- Popular Restaurants in Egypt -->
         <section class="grid w-full justify-center items-center mx-auto mt-16">
-            <h2 class="text-black px-5 text-2xl font-bold">Popular Fancy Restaurants</h2>
+            <h2 class="text-black px-5 text-2xl font-bold">Popular Museums</h2>
             <div
                 class="grid sm:grid-cols-2 md:grid-cols-3 px-5 justify-center items-center grid-cols-1 w-full mx-auto gap-7 mt-5 mb-5">
                 <!-- Cards -->
